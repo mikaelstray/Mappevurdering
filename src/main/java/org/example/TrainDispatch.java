@@ -90,7 +90,7 @@ public class TrainDispatch {
      */
 
     public boolean registerDeparture(Departure departure){
-        if (compareTrainNumberWithObject(departure)){
+        if (findDuplicateWithObject(departure)){
             return false;
         } else {
             departureList.add(departure);
@@ -113,7 +113,7 @@ public class TrainDispatch {
                 .sorted(Comparator.comparing(Departure::getTimePlusDelay))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-    private boolean compareTrainNumberWithObject(Departure departure){
+    private boolean findDuplicateWithObject(Departure departure){
         for (Departure d: departureList){
             if (d.compareTo(departure) == 0){
                 return true;
@@ -121,7 +121,7 @@ public class TrainDispatch {
         }
         return false;
     }
-    public boolean compareTrainNumberWithOnlyNumber(int trainNumber){
+    public boolean findDuplicateWithNumber(int trainNumber){
         for (Departure d: departureList){
             if (Integer.valueOf(d.getTrainNumber()) == trainNumber){
                 return true;

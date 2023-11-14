@@ -68,8 +68,8 @@ public class UserInterface {
         scanner = new Scanner(System.in);
         System.out.println("Train number");
         int trainNumber = Integer.parseInt(scanner.nextLine());
-        System.out.println(trainDispatch.compareTrainNumberWithOnlyNumber(trainNumber));
-        if (trainDispatch.compareTrainNumberWithOnlyNumber(trainNumber)){
+        System.out.println(trainDispatch.findDuplicateWithNumber(trainNumber));
+        if (trainDispatch.findDuplicateWithNumber(trainNumber)){
             System.out.println("Train number already exists, type new:");
             trainNumber = Integer.parseInt(scanner.nextLine());
         }
