@@ -46,7 +46,7 @@ public class Departure {
         this.destination = destination;
         this.track = track;
         this.delay = delay;
-    }
+    } //Trenger flere konstruktører
 
      /**
      * Creates and returns a clone of the current Departure object.

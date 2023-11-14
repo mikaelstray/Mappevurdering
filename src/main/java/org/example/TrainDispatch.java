@@ -97,7 +97,7 @@ public class TrainDispatch {
             numberOfDepartures++;
             return true;
         }
-    }
+    } // Composition, lagre objektet et annet sted enn departureList
     /*
     public ArrayList<Departure> showAllDepartures() {
         ArrayList<Departure> sortedListOfDepartures = new ArrayList<>(departureList.size());
