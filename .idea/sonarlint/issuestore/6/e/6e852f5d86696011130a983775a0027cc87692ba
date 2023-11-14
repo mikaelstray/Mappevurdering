@@ -1,0 +1,19 @@
+
+Y
+java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8Äâé¼1
+Y
+java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8Åâé¼1
+Y
+java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8Æâé¼1
+_
+java:S2259'"BA "NullPointerException" could be thrown; "name" is nullable here.(‘¼ì³8Şâé¼1
+f
+java:S2259'"IA "NullPointerException" could be thrown; "destination" is nullable here.(‘¼ì³8Øâé¼1
+_
+java:S2259'"BA "NullPointerException" could be thrown; "line" is nullable here.(‘¼ì³8Óâé¼1
+s
+java:S1206Ì"PThis class overrides "equals()" and should therefore also override "hashCode()".(İ¢êÍıÿÿÿÿ8àâé¼1
+p
+java:S29759"SRemove this "clone" implementation; use a copy constructor or copy factory instead.(Ç±¼Á8åâé¼1
+e
+java:S11829"HUse super.clone() to create and seed the cloned instance to be returned.(Ç±¼Á8çâé¼1
