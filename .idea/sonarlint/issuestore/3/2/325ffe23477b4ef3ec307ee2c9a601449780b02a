@@ -1,9 +1,9 @@
 
 ’
-java:S1319;"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(¸ûİıÿÿÿÿ8ĞÑšì¼1
+java:S1319;"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(¸ûİıÿÿÿÿ8‹ÀÆı¼1
 ’
-java:S1319n"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(†ğµìûÿÿÿÿ8ÒÑšì¼1
+java:S1319n"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(†ğµìûÿÿÿÿ8ŒÀÆı¼1
 “
-java:S1319Š"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(æ‰›¸ûÿÿÿÿ8ÔÑšì¼1
-X	java:S125f"<This block of commented-out lines of code should be removed.(‰ã¬Ğ8êÑšì¼1
-^	java:S125™"<This block of commented-out lines of code should be removed.(ÚÎ™‰úÿÿÿÿ8ôÑšì¼1
+java:S1319†"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(æ‰›¸ûÿÿÿÿ8ŒÀÆı¼1
+X	java:S125f"<This block of commented-out lines of code should be removed.(‰ã¬Ğ8 ÀÆı¼1
+^	java:S125•"<This block of commented-out lines of code should be removed.(ÚÎ™‰úÿÿÿÿ8¨ÀÆı¼1

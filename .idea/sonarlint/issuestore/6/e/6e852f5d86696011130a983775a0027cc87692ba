@@ -1,19 +1,45 @@
 
+n
+java:S1192("LDefine a constant instead of duplicating this literal "Wrong input" 3 times.(Óà‹èûÿÿÿÿ8è Ğ÷¼1
 Y
-java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8ãí£ñ¼1
+java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8ê Ğ÷¼1
 Y
-java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8ãí£ñ¼1
+java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8ê Ğ÷¼1
 Y
-java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8äí£ñ¼1
+java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8ê Ğ÷¼1
+Y
+java:S49735"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8ê Ğ÷¼1
+Y
+java:S49735"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8ë Ğ÷¼1
+Y
+java:S49735"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8ë Ğ÷¼1
+Y
+java:S4973A"<Strings and Boxed types should be compared using "equals()".(û“œµ8ë Ğ÷¼1
+^
+java:S4973B"<Strings and Boxed types should be compared using "equals()".(©×„àşÿÿÿÿ8ë Ğ÷¼1
+Y
+java:S4973D"<Strings and Boxed types should be compared using "equals()".(¹ƒûé8ì Ğ÷¼1
+_
+java:S2259'"BA "NullPointerException" could be thrown; "line" is nullable here.(‘¼ì³8ƒ¡Ğ÷¼1
 f
-java:S2259'"IA "NullPointerException" could be thrown; "destination" is nullable here.(‘¼ì³8‚î£ñ¼1
+java:S2259D"IA "NullPointerException" could be thrown; "destination" is nullable here.(¹ƒûé8„¡Ğ÷¼1
+f
+java:S2259'"IA "NullPointerException" could be thrown; "destination" is nullable here.(‘¼ì³8„¡Ğ÷¼1
+d
+java:S2259B"BA "NullPointerException" could be thrown; "line" is nullable here.(©×„àşÿÿÿÿ8„¡Ğ÷¼1
 _
-java:S2259'"BA "NullPointerException" could be thrown; "name" is nullable here.(‘¼ì³8‚î£ñ¼1
+java:S2259A"BA "NullPointerException" could be thrown; "name" is nullable here.(û“œµ8„¡Ğ÷¼1
 _
-java:S2259'"BA "NullPointerException" could be thrown; "line" is nullable here.(‘¼ì³8‚î£ñ¼1
+java:S22595"BA "NullPointerException" could be thrown; "line" is nullable here.(‘¼ì³8„¡Ğ÷¼1
+_
+java:S2259'"BA "NullPointerException" could be thrown; "name" is nullable here.(‘¼ì³8„¡Ğ÷¼1
+_
+java:S22595"BA "NullPointerException" could be thrown; "name" is nullable here.(‘¼ì³8„¡Ğ÷¼1
+f
+java:S22595"IA "NullPointerException" could be thrown; "destination" is nullable here.(‘¼ì³8…¡Ğ÷¼1
 s
-java:S1206Ì"PThis class overrides "equals()" and should therefore also override "hashCode()".(İ¢êÍıÿÿÿÿ8„î£ñ¼1
+java:S1206ç"PThis class overrides "equals()" and should therefore also override "hashCode()".(İ¢êÍıÿÿÿÿ8†¡Ğ÷¼1
 p
-java:S29759"SRemove this "clone" implementation; use a copy constructor or copy factory instead.(Ç±¼Á8î£ñ¼1
+java:S2975T"SRemove this "clone" implementation; use a copy constructor or copy factory instead.(Ç±¼Á8¡Ğ÷¼1
 e
-java:S11829"HUse super.clone() to create and seed the cloned instance to be returned.(Ç±¼Á8”î£ñ¼1
+java:S1182T"HUse super.clone() to create and seed the cloned instance to be returned.(Ç±¼Á8’¡Ğ÷¼1

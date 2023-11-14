@@ -114,12 +114,8 @@ public class TrainDispatch {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
     private boolean findDuplicateWithObject(Departure departure){
-        for (Departure d: departureList){
-            if (d.compareTo(departure) == 0){
-                return true;
-            }
-        }
-        return false;
+        return departureList.stream()
+                .anyMatch(d -> d.getTrainNumber() == (departure.getTrainNumber()));
     }
     public boolean findDuplicateWithNumber(int trainNumber){
         for (Departure d: departureList){
