@@ -13,10 +13,10 @@ import java.util.Objects;
 
 public class Departure {
 
-        private String name;
+        private final String name;
         private LocalTime time;
-        private String line;
-        private int trainNumber;
+        private final String line;
+        private final int trainNumber;
         private String destination;
         private int delay;
         private int track;
@@ -77,15 +77,6 @@ public class Departure {
     }
 
     /**
-     * Sets the name of the departure.
-     *
-     * @param name The new name for the departure.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Gets the time of the departure.
      *
      * @return The time of the departure.
@@ -113,30 +104,12 @@ public class Departure {
     }
 
     /**
-     * Sets the line or route of the departure.
-     *
-     * @param line The new line or route for the departure.
-     */
-    public void setLine(String line) {
-        this.line = line;
-    }
-
-    /**
      * Gets the train number of the departure.
      *
      * @return The train number of the departure.
      */
     public int getTrainNumber() {
         return trainNumber;
-    }
-
-    /**
-     * Sets the train number of the departure.
-     *
-     * @param trainNumber The new train number for the departure.
-     */
-    public void setTrainNumber(int trainNumber) {
-        this.trainNumber = trainNumber;
     }
 
     /**
