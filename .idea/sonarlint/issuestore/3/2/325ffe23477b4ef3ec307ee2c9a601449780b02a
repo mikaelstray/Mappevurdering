@@ -1,9 +1,5 @@
 
-’
-java:S1319;"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(¸ûİıÿÿÿÿ8‹ÀÆı¼1
-’
-java:S1319n"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(†ğµìûÿÿÿÿ8ŒÀÆı¼1
-“
-java:S1319†"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(æ‰›¸ûÿÿÿÿ8ŒÀÆı¼1
-X	java:S125f"<This block of commented-out lines of code should be removed.(‰ã¬Ğ8 ÀÆı¼1
-^	java:S125•"<This block of commented-out lines of code should be removed.(ÚÎ™‰úÿÿÿÿ8¨ÀÆı¼1
+X	java:S125b"<This block of commented-out lines of code should be removed.(‰ã¬Ğ8ˆƒš½1
+^	java:S125"<This block of commented-out lines of code should be removed.(ÚÎ™‰úÿÿÿÿ8•ƒš½1
+^
+java:S1144s"<Remove this unused private "findDuplicateWithObject" method.(¬Ø‚úÿÿÿÿ8•ƒš½1
