@@ -3,6 +3,7 @@ package org.example;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -56,7 +57,7 @@ public class TrainDispatch {
      *
      * @return The list of train departures.
      */
-    public ArrayList<Departure> getDepartureList() {
+    public List<Departure> getDepartureList() {
         return departureList;
     }
 
@@ -89,14 +90,9 @@ public class TrainDispatch {
      * @return true if the departure is successfully registered, false if the train number is a duplicate.
      */
 
-    public boolean registerDeparture(Departure departure){
-        if (findDuplicateWithObject(departure)){
-            return false;
-        } else {
-            departureList.add(departure);
-            numberOfDepartures++;
-            return true;
-        }
+    public void registerDeparture(Departure departure){
+        departureList.add(departure);
+        numberOfDepartures++;
     } // Composition, lagre objektet et annet sted enn departureList
     /*
     public ArrayList<Departure> showAllDepartures() {
@@ -107,23 +103,22 @@ public class TrainDispatch {
         sortedListOfDepartures.sort(Comparator.comparing(Departure::getTidspunkt));
         return sortedListOfDepartures;
     }*/
-    public ArrayList<Departure> showAllDeparturesAfterTime(){
+    public List<Departure> showAllDeparturesAfterTime(){
         return departureList.stream()
                 .filter(departure -> departure.getTime().plusMinutes(departure.getDelay()).isAfter(time))
                 .sorted(Comparator.comparing(Departure::getTimePlusDelay))
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+    public boolean addedDepartureIsBeforeCurrentTime(Departure departure){
+        return departure.getTime().isBefore(time);
     }
     private boolean findDuplicateWithObject(Departure departure){
         return departureList.stream()
                 .anyMatch(d -> d.getTrainNumber() == (departure.getTrainNumber()));
     }
     public boolean findDuplicateWithNumber(int trainNumber){
-        for (Departure d: departureList){
-            if (Integer.valueOf(d.getTrainNumber()) == trainNumber){
-                return true;
-            }
-        }
-        return false;
+        return departureList.stream()
+                .anyMatch(d -> d.getTrainNumber() == trainNumber);
     }
     public Departure findDepartureByNumber(int number){
         return departureList.stream()
@@ -131,9 +126,9 @@ public class TrainDispatch {
                 .findFirst()
                 .orElse(null);
     }
-    public ArrayList<Departure> findDepartureByDestination(String destination){
+    public List<Departure> findDepartureByDestination(String destination){
         return departureList.stream()
-                .filter(d -> d.getDestination().equals(destination))
+                .filter(d -> d.getDestination().trim().equalsIgnoreCase(destination.trim()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
     public boolean setTrack(int number, int track){
