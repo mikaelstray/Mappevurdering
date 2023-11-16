@@ -18,29 +18,20 @@ import java.util.stream.Collectors;
 public class TrainDispatch {
 
     /** List of train departures. */
-    ArrayList<Departure> departureList = new ArrayList<>();
+    private final ArrayList<Departure> departureList = new ArrayList<>();
 
     /** Number of registered departures. */
-    int numberOfDepartures = 0;
+    private int numberOfDepartures = 0;
 
     /** The current time used for various time-based operations. */
 
-    LocalTime time;
+    private LocalTime time;
 
     /**
      * Constructs a TrainDispatch object with the current time.
      */
     public TrainDispatch(){
         time = LocalTime.now();
-    }
-
-     /**
-     * Gets the current time used for various time-based operations.
-     *
-     * @return The current time.
-     */
-    public LocalTime getTime() {
-        return time;
     }
 
      /**
@@ -70,7 +61,11 @@ public class TrainDispatch {
         return numberOfDepartures;
     }
 
-     /**
+    public LocalTime getTime() {
+        return time;
+    }
+
+    /**
      * Returns a string representation of the TrainDispatch object.
      *
      * @return A string representation of the TrainDispatch object.
@@ -87,7 +82,6 @@ public class TrainDispatch {
      * Registers a new departure, checking for duplicate train numbers.
      *
      * @param departure The departure to register.
-     * @return true if the departure is successfully registered, false if the train number is a duplicate.
      */
 
     public void registerDeparture(Departure departure){
@@ -112,11 +106,11 @@ public class TrainDispatch {
     public boolean addedDepartureIsBeforeCurrentTime(Departure departure){
         return departure.getTime().isBefore(time);
     }
-    private boolean findDuplicateWithObject(Departure departure){
+    private boolean findDuplicateTrainNumberWithObject(Departure departure){
         return departureList.stream()
                 .anyMatch(d -> d.getTrainNumber() == (departure.getTrainNumber()));
     }
-    public boolean findDuplicateWithNumber(int trainNumber){
+    public boolean findDuplicateTrainNumberWithNumber(int trainNumber){
         return departureList.stream()
                 .anyMatch(d -> d.getTrainNumber() == trainNumber);
     }
@@ -136,10 +130,9 @@ public class TrainDispatch {
         departure.setTrack(track);
         return true;
     }
-    public boolean setDelay(int number, int delay){
+    public void setDelay(int number, int delay){
         Departure departure = findDepartureByNumber(number);
         departure.setDelay(delay);
-        return true;
     }
     /* public void catchMethod(){
     try {

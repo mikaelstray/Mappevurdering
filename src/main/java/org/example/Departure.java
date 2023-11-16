@@ -36,8 +36,8 @@ public class Departure {
 
     public Departure(String name, LocalTime time, String line, int trainNumber, String destination, int track, int delay) throws IllegalArgumentException{
         // Validation for input parameters
-        if (name == null && name.trim() == "" || line == null && line.trim() == "" || trainNumber == 0 || destination == null && destination.trim() == ""){
-            throw new IllegalArgumentException("Wrong input");
+        if (1 == 2){ //TODO: remove this line
+      throw new NumberFormatException("Input parameters are invalid or missing");
         }
         this.name = name;
         this.time = time;
@@ -46,7 +46,14 @@ public class Departure {
         this.destination = destination;
         this.track = track;
         this.delay = delay;
-    } //Trenger flere konstruktører
+    } //Trenger flere konstruktører og nullpointerexception(fjern trim()), hvor skrives variablene inn?
+
+    public Departure(String name, LocalTime time, String line, int trainNumber, String destination, int delay){
+        this(name,time,line,trainNumber,destination,-1,delay);
+    }
+    public Departure(String name, LocalTime time, String line, int trainNumber, String destination){
+        this(name,time,line,trainNumber,destination,-1,0);
+    }
 
      /**
      * Creates and returns a clone of the current Departure object.
@@ -86,15 +93,6 @@ public class Departure {
     }
 
     /**
-     * Sets the time of the departure.
-     *
-     * @param time The new time for the departure.
-     */
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    /**
      * Gets the line or route of the departure.
      *
      * @return The line or route of the departure.
@@ -119,15 +117,6 @@ public class Departure {
      */
     public String getDestination() {
         return destination;
-    }
-
-    /**
-     * Sets the destination of the departure.
-     *
-     * @param destination The new destination for the departure.
-     */
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     /**

@@ -5,15 +5,8 @@ import java.util.Scanner;
 
 public class UserInterface {
 
-    private TrainDispatch trainDispatch = new TrainDispatch();
+    private final TrainDispatch trainDispatch = new TrainDispatch();
 
-    /**
-* Presents the menu for the user, and awaits input from the user. The menu
-* choice selected by the user is being returned.
-*
-* @return the menu choice by the user as a positive number starting from 1.
-* If 0 is returned, the user has entered a wrong value
-*/
 
 // Constants representing the different menu choices
 
@@ -38,6 +31,13 @@ public class UserInterface {
         System.out.println("8. Quit");
         System.out.println("\nPlease enter a number between 1 and 8:");
     }
+       /**
+* Presents the menu for the user, and awaits input from the user. The menu
+* choice selected by the user is being returned.
+*
+* @return the menu choice by the user as a positive number starting from 1.
+* If 0 is returned, the user has entered a wrong value
+*/
     private int userChoice(){
         Scanner sc = new Scanner(System.in);
         int menuChoice = 0;
@@ -57,7 +57,6 @@ public class UserInterface {
         }
     }
     private void findDepartureByNumber(){
-        boolean found = false;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Train number?");
         int trainNumber = scanner.nextInt();
@@ -71,7 +70,7 @@ public class UserInterface {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Destination?");
         String destination = scanner.nextLine();
-        if (trainDispatch.departureList.isEmpty()){
+        if (trainDispatch.getDepartureList().isEmpty()){
             System.out.println("Destination does not exist, try again");
         }
         else{
@@ -79,7 +78,7 @@ public class UserInterface {
         }
     }
     private boolean departureListIsEmpty(){
-        return trainDispatch.departureList.isEmpty();
+        return trainDispatch.getDepartureList().isEmpty();
     }
     private void setTrack(){
     if (departureListIsEmpty()) System.out.println("List is empty, add a new departure first");
@@ -121,7 +120,7 @@ public class UserInterface {
         System.out.println("New time? In format hh:mm");
         String time = scanner.nextLine();
         LocalTime localTime = LocalTime.parse(time);
-        if (localTime.isBefore(trainDispatch.time)){
+        if (localTime.isBefore(trainDispatch.getTime())){
             System.out.println("New time has to be after current time");
         }else {
             trainDispatch.setTime(localTime);
@@ -146,7 +145,7 @@ public class UserInterface {
         scanner = new Scanner(System.in);
         System.out.println("Train number");
         int trainNumber = Integer.parseInt(scanner.nextLine());
-        while (trainDispatch.findDuplicateWithNumber(trainNumber)){
+        while (trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)){
             System.out.println("\nTrain number already exists, type new:");
             trainNumber = Integer.parseInt(scanner.nextLine());
         }
@@ -176,7 +175,7 @@ public class UserInterface {
 // The while-loop will run as long as the user has not selected
 // to quit the application
         while (!finished) {
-            this.showMenu();
+            showMenu();
             int menuChoice = this.userChoice();
             switch (menuChoice){
                 case ADD_DEPARTURE:

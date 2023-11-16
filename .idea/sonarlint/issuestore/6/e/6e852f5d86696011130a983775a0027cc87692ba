@@ -1,19 +1,9 @@
 
-Y
-java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8·œ–½1
-Y
-java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8·œ–½1
-Y
-java:S4973'"<Strings and Boxed types should be compared using "equals()".(‘¼ì³8·œ–½1
-_
-java:S2259'"BA "NullPointerException" could be thrown; "name" is nullable here.(‘¼ì³8»·œ–½1
-_
-java:S2259'"BA "NullPointerException" could be thrown; "line" is nullable here.(‘¼ì³8»·œ–½1
-f
-java:S2259'"IA "NullPointerException" could be thrown; "destination" is nullable here.(‘¼ì³8º·œ–½1
 s
-java:S1206±"PThis class overrides "equals()" and should therefore also override "hashCode()".(İ¢êÍıÿÿÿÿ8¼·œ–½1
+java:S1206¦"PThis class overrides "equals()" and should therefore also override "hashCode()".(İ¢êÍıÿÿÿÿ8ÒÜ»½1
+N
+java:S1135'"2Complete the task associated to this TODO comment.(êæ"8©ƒá»½1
 p
-java:S29759"SRemove this "clone" implementation; use a copy constructor or copy factory instead.(Ç±¼Á8Ê·œ–½1
+java:S2975@"SRemove this "clone" implementation; use a copy constructor or copy factory instead.(Ç±¼Á8†ÒÜ»½1
 e
-java:S11829"HUse super.clone() to create and seed the cloned instance to be returned.(Ç±¼Á8Î·œ–½1
+java:S1182@"HUse super.clone() to create and seed the cloned instance to be returned.(Ç±¼Á8‡ÒÜ»½1
