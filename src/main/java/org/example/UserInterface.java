@@ -4,13 +4,9 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 public class UserInterface {
-    /**
-* Presents the menu for the user, and awaits input from the user. The menu
-* choice selected by the user is being returned.
-*
-* @return the menu choice by the user as a positive number starting from 1.
-* If 0 is returned, the user has entered a wrong value
-*/
+
+    private final TrainDispatch trainDispatch = new TrainDispatch();
+
 
 // Constants representing the different menu choices
 
@@ -35,6 +31,13 @@ public class UserInterface {
         System.out.println("8. Quit");
         System.out.println("\nPlease enter a number between 1 and 8:");
     }
+       /**
+* Presents the menu for the user, and awaits input from the user. The menu
+* choice selected by the user is being returned.
+*
+* @return the menu choice by the user as a positive number starting from 1.
+* If 0 is returned, the user has entered a wrong value
+*/
     private int userChoice(){
         Scanner sc = new Scanner(System.in);
         int menuChoice = 0;
@@ -46,11 +49,85 @@ public class UserInterface {
         return menuChoice;
     }
     private void addDeparture(){
-
+        Departure departure = typeInDepartureInfo();
+        trainDispatch.registerDeparture(departure);
+        System.out.print("n\"" + departure + " was added");
+        if (trainDispatch.addedDepartureIsBeforeCurrentTime(departure)){
+            System.out.println(", but the departure is before current time, and will not be shown");
+        }
+    }
+    private void findDepartureByNumber(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Train number?");
+        int trainNumber = scanner.nextInt();
+        if (trainDispatch.findDepartureByNumber(trainNumber) == null) {
+            System.out.println("Train number does not exist, try again");
+        } else {
+            System.out.println(trainDispatch.findDepartureByNumber(trainNumber));
+        }
+    }
+    private void findDepartureByDestination(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Destination?");
+        String destination = scanner.nextLine();
+        if (trainDispatch.getDepartureList().isEmpty()){
+            System.out.println("Destination does not exist, try again");
+        }
+        else{
+            System.out.println(trainDispatch.findDepartureByDestination(destination));
+        }
+    }
+    private boolean departureListIsEmpty(){
+        return trainDispatch.getDepartureList().isEmpty();
+    }
+    private void setTrack(){
+    if (departureListIsEmpty()) System.out.println("List is empty, add a new departure first");
+    else {
+      Scanner scanner = new Scanner(System.in);
+      System.out.println("Train number?");
+      int trainNumber2 = scanner.nextInt();
+      System.out.println("Track?");
+      int track = scanner.nextInt();
+      if (trainDispatch.findDepartureByNumber(trainNumber2) == null) {
+        System.out.println("Train number does not exist, try again");
+      } else {
+        trainDispatch.setTrack(trainNumber2, track);
+        System.out.println(
+            "\n Track for departure with train number " + trainNumber2 + " was set to " + track);
+      }
+        }
+    }
+    private void setDelay(){
+    if (departureListIsEmpty())
+      System.out.println("Departure list is empty, add a departure first");
+    else {
+      Scanner scanner = new Scanner(System.in);
+      System.out.println("Train number?");
+      int trainNumber3 = scanner.nextInt();
+      System.out.println("Delay?");
+      int delay = scanner.nextInt();
+      if (trainDispatch.findDepartureByNumber(trainNumber3) == null) {
+        System.out.println("Train number does not exist, try again");
+      } else {
+        trainDispatch.setDelay(trainNumber3, delay);
+        System.out.println(
+            "\n Delay for departure with train number " + trainNumber3 + " was set to " + delay);
+      }
+        }
+    }
+    private void updateTime(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("New time? In format hh:mm");
+        String time = scanner.nextLine();
+        LocalTime localTime = LocalTime.parse(time);
+        if (localTime.isBefore(trainDispatch.getTime())){
+            System.out.println("New time has to be after current time");
+        }else {
+            trainDispatch.setTime(localTime);
+            System.out.println("New time is " + localTime);
+        }
     }
     private Departure typeInDepartureInfo(){
-
-        TrainDispatch trainDispatch = new TrainDispatch();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Name");
@@ -68,9 +145,8 @@ public class UserInterface {
         scanner = new Scanner(System.in);
         System.out.println("Train number");
         int trainNumber = Integer.parseInt(scanner.nextLine());
-        System.out.println(trainDispatch.findDuplicateWithNumber(trainNumber));
-        if (trainDispatch.findDuplicateWithNumber(trainNumber)){
-            System.out.println("Train number already exists, type new:");
+        while (trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)){
+            System.out.println("\nTrain number already exists, type new:");
             trainNumber = Integer.parseInt(scanner.nextLine());
         }
 
@@ -81,9 +157,7 @@ public class UserInterface {
         scanner = new Scanner(System.in);
         System.out.println("Track, type 0 if not existing yet");
         int track = Integer.parseInt(scanner.nextLine());
-        if (track==0) {
-            track = -1;
-        }
+        if (track==0) track = -1;
 
         scanner = new Scanner(System.in);
         System.out.println("Delay");
@@ -97,100 +171,42 @@ public class UserInterface {
 * and executing the selected functionality.
 */
     public void start() {
-        TrainDispatch trainDispatch = new TrainDispatch();
         boolean finished = false;
 // The while-loop will run as long as the user has not selected
 // to quit the application
         while (!finished) {
-        this.showMenu();
-        int menuChoice = this.userChoice();
-        switch (menuChoice){
-            case ADD_DEPARTURE:
-                Departure departure = typeInDepartureInfo();
-                if (!(trainDispatch.registerDeparture(departure))){
-                    System.out.println("\nTrain number already exists, try again\n");
-                    continue;
-                }else {
-                    trainDispatch.registerDeparture(departure);
-                    System.out.println("n\"" +departure+" was added.");
+            showMenu();
+            int menuChoice = this.userChoice();
+            switch (menuChoice){
+                case ADD_DEPARTURE:
+                    addDeparture();
+                    break;
+                case LIST_ALL_DEPARTURES:
+                    System.out.println(trainDispatch.showAllDeparturesAfterTime().toString());
+                    break;
+                case FIND_DEPARTURE_BY_NUMBER:
+                    findDepartureByNumber();
+                    break;
+                case FIND_DEPARTURE_BY_DESTINATION:
+                    findDepartureByDestination();
+                    break;
+                case SET_SPOR:
+                    setTrack();
+                    break;
+                case SET_DELAY:
+                    setDelay();
+                    break;
+                case UPDATE_TIME:
+                    updateTime();
+                    break;
+                case EXIT:
+                    System.out.println("Thank you for using the Properties app!\n");
+                    finished = true;
+                    break;
+                default:
+                    System.out.println("Unrecognized menu selected...");
+                    break;
                 }
-                break;
-            case LIST_ALL_DEPARTURES:
-                System.out.println(trainDispatch.showAllDeparturesAfterTime().toString());
-                break;
-            case FIND_DEPARTURE_BY_NUMBER:
-                System.out.println("Train number?");
-                Scanner scanner = new Scanner(System.in);
-                int trainNumber = scanner.nextInt();
-                if (trainDispatch.findDepartureByNumber(trainNumber) == null){
-                    System.out.println("Train number does not exist, try again");
-                    continue;
-                }else {
-                    System.out.println(trainDispatch.findDepartureByNumber(trainNumber));
-                }
-                break;
-            case FIND_DEPARTURE_BY_DESTINATION:
-                System.out.println("Destination?");
-                scanner = new Scanner(System.in);
-                String destination = scanner.nextLine();
-                if (trainDispatch.findDepartureByDestination(destination.trim()) == null){
-                    System.out.println("Destination does not exist, try again");
-                    continue;
-                }else {
-                    System.out.println(trainDispatch.findDepartureByDestination(destination));
-                }
-                break;
-            case SET_SPOR:
-                System.out.println("Train number?");
-                scanner = new Scanner(System.in);
-                int trainNumber2 = scanner.nextInt();
-                System.out.println("Track?");
-                scanner = new Scanner(System.in);
-                int track = scanner.nextInt();
-                if (trainDispatch.findDepartureByNumber(trainNumber2) == null || !trainDispatch.setTrack(trainNumber2,track)){
-                    System.out.println("Train number does not exist, try again");
-                    continue;
-                }else {
-                    trainDispatch.setTrack(trainNumber2,track);
-                    System.out.println(trainDispatch.findDepartureByNumber(trainNumber2));
-                }
-                break;
-            case SET_DELAY:
-                System.out.println("Train number?");
-                scanner = new Scanner(System.in);
-                int trainNumber3 = scanner.nextInt();
-                System.out.println("Delay?");
-                scanner = new Scanner(System.in);
-                int delay = scanner.nextInt();
-                if (trainDispatch.findDepartureByNumber(trainNumber3) == null || !trainDispatch.setTrack(trainNumber3,delay)){
-                    System.out.println("Train number does not exist, try again");
-                    continue;
-                }else {
-                    trainDispatch.setDelay(trainNumber3,delay);
-                    System.out.println(trainDispatch.findDepartureByNumber(trainNumber3));
-                }
-                break;
-            case UPDATE_TIME:
-                System.out.println("New time? In format hh:mm");
-                scanner = new Scanner(System.in);
-                String time = scanner.nextLine();
-                LocalTime localTime = LocalTime.parse(time);
-                if (localTime.isBefore(trainDispatch.time)){
-                    System.out.println("New time has to be after current time");
-                    continue;
-                }else {
-                    trainDispatch.setTime(localTime);
-                    System.out.println("New time is " + localTime);
-                }
-                break;
-            case EXIT:
-                System.out.println("Thank you for using the Properties app!\n");
-                finished = true;
-                break;
-            default:
-                System.out.println("Unrecognized menu selected..");
-                break;
             }
         }
     }
-}

@@ -13,10 +13,10 @@ import java.util.Objects;
 
 public class Departure {
 
-        private String name;
+        private final String name;
         private LocalTime time;
-        private String line;
-        private int trainNumber;
+        private final String line;
+        private final int trainNumber;
         private String destination;
         private int delay;
         private int track;
@@ -36,8 +36,8 @@ public class Departure {
 
     public Departure(String name, LocalTime time, String line, int trainNumber, String destination, int track, int delay) throws IllegalArgumentException{
         // Validation for input parameters
-        if (name == null && name.trim() == "" || line == null && line.trim() == "" || trainNumber == 0 || destination == null && destination.trim() == ""){
-            throw new IllegalArgumentException("Wrong input");
+        if (1 == 2){ //TODO: remove this line
+      throw new NumberFormatException("Input parameters are invalid or missing");
         }
         this.name = name;
         this.time = time;
@@ -46,7 +46,14 @@ public class Departure {
         this.destination = destination;
         this.track = track;
         this.delay = delay;
-    } //Trenger flere konstruktører
+    } //Trenger flere konstruktører og nullpointerexception(fjern trim()), hvor skrives variablene inn?
+
+    public Departure(String name, LocalTime time, String line, int trainNumber, String destination, int delay){
+        this(name,time,line,trainNumber,destination,-1,delay);
+    }
+    public Departure(String name, LocalTime time, String line, int trainNumber, String destination){
+        this(name,time,line,trainNumber,destination,-1,0);
+    }
 
      /**
      * Creates and returns a clone of the current Departure object.
@@ -77,30 +84,12 @@ public class Departure {
     }
 
     /**
-     * Sets the name of the departure.
-     *
-     * @param name The new name for the departure.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Gets the time of the departure.
      *
      * @return The time of the departure.
      */
     public LocalTime getTime() {
         return time;
-    }
-
-    /**
-     * Sets the time of the departure.
-     *
-     * @param time The new time for the departure.
-     */
-    public void setTime(LocalTime time) {
-        this.time = time;
     }
 
     /**
@@ -113,15 +102,6 @@ public class Departure {
     }
 
     /**
-     * Sets the line or route of the departure.
-     *
-     * @param line The new line or route for the departure.
-     */
-    public void setLine(String line) {
-        this.line = line;
-    }
-
-    /**
      * Gets the train number of the departure.
      *
      * @return The train number of the departure.
@@ -131,30 +111,12 @@ public class Departure {
     }
 
     /**
-     * Sets the train number of the departure.
-     *
-     * @param trainNumber The new train number for the departure.
-     */
-    public void setTrainNumber(int trainNumber) {
-        this.trainNumber = trainNumber;
-    }
-
-    /**
      * Gets the destination of the departure.
      *
      * @return The destination of the departure.
      */
     public String getDestination() {
         return destination;
-    }
-
-    /**
-     * Sets the destination of the departure.
-     *
-     * @param destination The new destination for the departure.
-     */
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     /**
