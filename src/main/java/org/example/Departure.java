@@ -13,11 +13,11 @@ import java.util.Objects;
 
 public class Departure {
 
-        private final String name;
-        private LocalTime time;
+        private String name;
+        private final LocalTime time;
         private final String line;
         private final int trainNumber;
-        private String destination;
+        private final String destination;
         private int delay;
         private int track;
 
@@ -48,13 +48,6 @@ public class Departure {
         this.delay = delay;
     } //Trenger flere konstruktører og nullpointerexception(fjern trim()), hvor skrives variablene inn?
 
-    public Departure(String name, LocalTime time, String line, int trainNumber, String destination, int delay){
-        this(name,time,line,trainNumber,destination,-1,delay);
-    }
-    public Departure(String name, LocalTime time, String line, int trainNumber, String destination){
-        this(name,time,line,trainNumber,destination,-1,0);
-    }
-
      /**
      * Creates and returns a clone of the current Departure object.
      *
@@ -72,6 +65,15 @@ public class Departure {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Sets the name of the departure.
+     *
+     * @param name The new name for the departure.
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
