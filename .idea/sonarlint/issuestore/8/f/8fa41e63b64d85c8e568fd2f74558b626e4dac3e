@@ -1,94 +1,94 @@
 
 „
-java:S1192~"gDefine a constant instead of duplicating this literal "Train number does not exist, try again" 3 times.(œîí8äÕ†í¼1
+java:S1192~"gDefine a constant instead of duplicating this literal "Train number does not exist, try again" 3 times.(œîí8±÷ä½1
 k
-java:S1192z"NDefine a constant instead of duplicating this literal "Train number?" 3 times.(Í‘–ø8ìÕ†í¼1
-u	java:S135h"YReduce the total number of break and continue statements in this loop to use at most one.(Áí°Î8Ö†í¼1
-y	java:S116"XRename this field "ADD_DEPARTURE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ØÎğşÿÿÿÿ8…×†í¼1
-z	java:S116"^Rename this field "LIST_ALL_DEPARTURES" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ıÒ‹™8…×†í¼1
-„	java:S116"cRename this field "FIND_DEPARTURE_BY_NUMBER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ºì¡ãúÿÿÿÿ8…×†í¼1
-‰	java:S116"hRename this field "FIND_DEPARTURE_BY_DESTINATION" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥Û»Ëüÿÿÿÿ8…×†í¼1
-t	java:S116"SRename this field "SET_SPOR" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ê£ÿÿÿÿÿ8…×†í¼1
-u	java:S116"TRename this field "SET_DELAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸Ä¶šüÿÿÿÿ8…×†í¼1
-r	java:S116"VRename this field "UPDATE_TIME" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Çöç8†×†í¼1
-p	java:S116"ORename this field "EXIT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒÄÿ€ùÿÿÿÿ8†×†í¼1
+java:S1192z"NDefine a constant instead of duplicating this literal "Train number?" 3 times.(Í‘–ø8²÷ä½1
+u	java:S135h"YReduce the total number of break and continue statements in this loop to use at most one.(Áí°Î8³÷ä½1
+y	java:S116"XRename this field "ADD_DEPARTURE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ØÎğşÿÿÿÿ8ßúä½1
+z	java:S116"^Rename this field "LIST_ALL_DEPARTURES" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ıÒ‹™8ßúä½1
+„	java:S116"cRename this field "FIND_DEPARTURE_BY_NUMBER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ºì¡ãúÿÿÿÿ8ßúä½1
+‰	java:S116"hRename this field "FIND_DEPARTURE_BY_DESTINATION" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥Û»Ëüÿÿÿÿ8ßúä½1
+t	java:S116"SRename this field "SET_SPOR" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ê£ÿÿÿÿÿ8ßúä½1
+u	java:S116"TRename this field "SET_DELAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸Ä¶šüÿÿÿÿ8ßúä½1
+r	java:S116"VRename this field "UPDATE_TIME" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Çöç8ßúä½1
+p	java:S116"ORename this field "EXIT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒÄÿ€ùÿÿÿÿ8àúä½1
 C
-java:S1170"!Make this final field static too.(ØÎğşÿÿÿÿ8†×†í¼1
+java:S1170"!Make this final field static too.(ØÎğşÿÿÿÿ8àúä½1
 >
-java:S1170"!Make this final field static too.(ıÒ‹™8†×†í¼1
+java:S1170"!Make this final field static too.(ıÒ‹™8àúä½1
 C
-java:S1170"!Make this final field static too.(ºì¡ãúÿÿÿÿ8†×†í¼1
+java:S1170"!Make this final field static too.(ºì¡ãúÿÿÿÿ8àúä½1
 C
-java:S1170"!Make this final field static too.(¥Û»Ëüÿÿÿÿ8†×†í¼1
+java:S1170"!Make this final field static too.(¥Û»Ëüÿÿÿÿ8àúä½1
 C
-java:S1170"!Make this final field static too.(ê£ÿÿÿÿÿ8†×†í¼1
+java:S1170"!Make this final field static too.(ê£ÿÿÿÿÿ8àúä½1
 C
-java:S1170"!Make this final field static too.(¸Ä¶šüÿÿÿÿ8†×†í¼1
+java:S1170"!Make this final field static too.(¸Ä¶šüÿÿÿÿ8àúä½1
 >
-java:S1170"!Make this final field static too.(„Çöç8†×†í¼1
+java:S1170"!Make this final field static too.(„Çöç8àúä½1
 C
-java:S1170"!Make this final field static too.(ƒÄÿ€ùÿÿÿÿ8†×†í¼1
+java:S1170"!Make this final field static too.(ƒÄÿ€ùÿÿÿÿ8áúä½1
 
-java:S11860"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(çïü‚8†×†í¼1
-G	java:S106"+Replace this use of System.out by a logger.(òÉâ®8Š×†í¼1
-G	java:S106"+Replace this use of System.out by a logger.(Ÿü¢8‹×†í¼1
-L	java:S106"+Replace this use of System.out by a logger.(ª›÷ÿÿÿÿÿ8‹×†í¼1
-G	java:S106"+Replace this use of System.out by a logger.(ç†¹8‹×†í¼1
-G	java:S106"+Replace this use of System.out by a logger.(Ãà‹¸8‹×†í¼1
-L	java:S106 "+Replace this use of System.out by a logger.(ì±¼–ûÿÿÿÿ8‹×†í¼1
-G	java:S106!"+Replace this use of System.out by a logger.(¼‚ï’8‹×†í¼1
-L	java:S106""+Replace this use of System.out by a logger.(ÿÎ¼şÿÿÿÿ8‹×†í¼1
-G	java:S106#"+Replace this use of System.out by a logger.(›ÑÁÄ8‹×†í¼1
-L	java:S106$"+Replace this use of System.out by a logger.(º¬˜Ğüÿÿÿÿ8‹×†í¼1
-L	java:S106,"+Replace this use of System.out by a logger.(µ§üÉıÿÿÿÿ8×†í¼1
-L	java:S1068"+Replace this use of System.out by a logger.(ƒçøÜşÿÿÿÿ8×†í¼1
-G	java:S106<"+Replace this use of System.out by a logger.(ÍÅ„ö8×†í¼1
-L	java:S106A"+Replace this use of System.out by a logger.(²²•Áûÿÿÿÿ8×†í¼1
-G	java:S106E"+Replace this use of System.out by a logger.(ûÁ¿¾8×†í¼1
-G	java:S106G"+Replace this use of System.out by a logger.(ûîô8×†í¼1
-G	java:S106I"+Replace this use of System.out by a logger.(±Š°ı8×†í¼1
-L	java:S106N"+Replace this use of System.out by a logger.(ç§¡äúÿÿÿÿ8×†í¼1
-L	java:S106R"+Replace this use of System.out by a logger.(ÿìîúıÿÿÿÿ8×†í¼1
-L	java:S106Y"+Replace this use of System.out by a logger.(ë¨Õûÿÿÿÿ8×†í¼1
+java:S11860"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(çïü‚8âúä½1
+G	java:S106"+Replace this use of System.out by a logger.(òÉâ®8ğúä½1
+G	java:S106"+Replace this use of System.out by a logger.(Ÿü¢8ğúä½1
+L	java:S106"+Replace this use of System.out by a logger.(ª›÷ÿÿÿÿÿ8ñúä½1
+G	java:S106"+Replace this use of System.out by a logger.(ç†¹8ñúä½1
+G	java:S106"+Replace this use of System.out by a logger.(Ãà‹¸8òúä½1
+L	java:S106 "+Replace this use of System.out by a logger.(ì±¼–ûÿÿÿÿ8òúä½1
+G	java:S106!"+Replace this use of System.out by a logger.(¼‚ï’8óúä½1
+L	java:S106""+Replace this use of System.out by a logger.(ÿÎ¼şÿÿÿÿ8óúä½1
+G	java:S106#"+Replace this use of System.out by a logger.(›ÑÁÄ8ôúä½1
+L	java:S106$"+Replace this use of System.out by a logger.(º¬˜Ğüÿÿÿÿ8ôúä½1
+L	java:S106,"+Replace this use of System.out by a logger.(µ§üÉıÿÿÿÿ8úúä½1
+L	java:S1068"+Replace this use of System.out by a logger.(ƒçøÜşÿÿÿÿ8ÿúä½1
+G	java:S106<"+Replace this use of System.out by a logger.(ÍÅ„ö8€ûä½1
+L	java:S106A"+Replace this use of System.out by a logger.(²²•Áûÿÿÿÿ8‚ûä½1
+G	java:S106E"+Replace this use of System.out by a logger.(ûÁ¿¾8„ûä½1
+G	java:S106G"+Replace this use of System.out by a logger.(ûîô8†ûä½1
+G	java:S106I"+Replace this use of System.out by a logger.(±Š°ı8ˆûä½1
+L	java:S106N"+Replace this use of System.out by a logger.(ç§¡äúÿÿÿÿ8‰ûä½1
+L	java:S106R"+Replace this use of System.out by a logger.(ÿìîúıÿÿÿÿ8Šûä½1
+L	java:S106Y"+Replace this use of System.out by a logger.(ë¨Õûÿÿÿÿ8Œûä½1
 n
-java:S3776c"RRefactor this method to reduce its Cognitive Complexity from 29 to the 15 allowed.(ú¡­,8‘×†í¼1
+java:S3776c"RRefactor this method to reduce its Cognitive Complexity from 29 to the 15 allowed.(ú¡­,8—ûä½1
 8
-java:S3626p"Remove this redundant jump.(ÉŠ©ƒ8‘×†í¼1
+java:S3626p"Remove this redundant jump.(ÉŠ©ƒ8™ûä½1
 8
-java:S3626"Remove this redundant jump.(ÉŠ©ƒ8‘×†í¼1
+java:S3626"Remove this redundant jump.(ÉŠ©ƒ8™ûä½1
 9
-java:S3626Š"Remove this redundant jump.(ÉŠ©ƒ8‘×†í¼1
+java:S3626Š"Remove this redundant jump.(ÉŠ©ƒ8™ûä½1
 9
-java:S3626˜"Remove this redundant jump.(ÉŠ©ƒ8‘×†í¼1
+java:S3626˜"Remove this redundant jump.(ÉŠ©ƒ8šûä½1
 9
-java:S3626§"Remove this redundant jump.(ÉŠ©ƒ8‘×†í¼1
+java:S3626§"Remove this redundant jump.(ÉŠ©ƒ8šûä½1
 9
-java:S3626´"Remove this redundant jump.(ÉŠ©ƒ8‘×†í¼1
+java:S3626´"Remove this redundant jump.(ÉŠ©ƒ8šûä½1
 R
-java:S2209i"5Change this instance-reference to a static reference.(á«Ùš8’×†í¼1
-L	java:S106o"+Replace this use of System.out by a logger.(ô€Ûıüÿÿÿÿ8’×†í¼1
-G	java:S106s"+Replace this use of System.out by a logger.(½ñÚä8“×†í¼1
-L	java:S106w"+Replace this use of System.out by a logger.(¨òâêøÿÿÿÿ8“×†í¼1
-G	java:S106z"+Replace this use of System.out by a logger.(Í‘–ø8“×†í¼1
-G	java:S106~"+Replace this use of System.out by a logger.(œîí8“×†í¼1
-H	java:S106"+Replace this use of System.out by a logger.(…°—µ8”×†í¼1
-H	java:S106…"+Replace this use of System.out by a logger.(É¬š£8”×†í¼1
-M	java:S106‰"+Replace this use of System.out by a logger.(øÂè°ıÿÿÿÿ8”×†í¼1
-M	java:S106Œ"+Replace this use of System.out by a logger.(¯ã‚òşÿÿÿÿ8”×†í¼1
-H	java:S106"+Replace this use of System.out by a logger.(Í‘–ø8”×†í¼1
-M	java:S106“"+Replace this use of System.out by a logger.(ÛşÜıÿÿÿÿÿ8•×†í¼1
-H	java:S106—"+Replace this use of System.out by a logger.(œîí8•×†í¼1
-H	java:S106›"+Replace this use of System.out by a logger.(Äîîî8•×†í¼1
-H	java:S106Ÿ"+Replace this use of System.out by a logger.(Í‘–ø8•×†í¼1
-H	java:S106¢"+Replace this use of System.out by a logger.(Ä´íÙ8–×†í¼1
-H	java:S106¦"+Replace this use of System.out by a logger.(œîí8–×†í¼1
-M	java:S106ª"+Replace this use of System.out by a logger.(ì¿ãËûÿÿÿÿ8—×†í¼1
-H	java:S106®"+Replace this use of System.out by a logger.(½‰ÚÉ8—×†í¼1
-H	java:S106³"+Replace this use of System.out by a logger.(’«‰¯8—×†í¼1
-H	java:S106·"+Replace this use of System.out by a logger.(Û‡‚8—×†í¼1
-M	java:S106»"+Replace this use of System.out by a logger.(ÈÆÇùşÿÿÿÿ8—×†í¼1
-M	java:S106¿"+Replace this use of System.out by a logger.(É¨öûÿÿÿÿ8—×†í¼1
+java:S2209i"5Change this instance-reference to a static reference.(á«Ùš8Ÿûä½1
+L	java:S106o"+Replace this use of System.out by a logger.(ô€Ûıüÿÿÿÿ8¢ûä½1
+G	java:S106s"+Replace this use of System.out by a logger.(½ñÚä8£ûä½1
+L	java:S106w"+Replace this use of System.out by a logger.(¨òâêøÿÿÿÿ8£ûä½1
+G	java:S106z"+Replace this use of System.out by a logger.(Í‘–ø8¤ûä½1
+G	java:S106~"+Replace this use of System.out by a logger.(œîí8¦ûä½1
+H	java:S106"+Replace this use of System.out by a logger.(…°—µ8§ûä½1
+H	java:S106…"+Replace this use of System.out by a logger.(É¬š£8¨ûä½1
+M	java:S106‰"+Replace this use of System.out by a logger.(øÂè°ıÿÿÿÿ8ªûä½1
+M	java:S106Œ"+Replace this use of System.out by a logger.(¯ã‚òşÿÿÿÿ8ªûä½1
+H	java:S106"+Replace this use of System.out by a logger.(Í‘–ø8«ûä½1
+M	java:S106“"+Replace this use of System.out by a logger.(ÛşÜıÿÿÿÿÿ8¬ûä½1
+H	java:S106—"+Replace this use of System.out by a logger.(œîí8¯ûä½1
+H	java:S106›"+Replace this use of System.out by a logger.(Äîîî8°ûä½1
+H	java:S106Ÿ"+Replace this use of System.out by a logger.(Í‘–ø8±ûä½1
+H	java:S106¢"+Replace this use of System.out by a logger.(Ä´íÙ8²ûä½1
+H	java:S106¦"+Replace this use of System.out by a logger.(œîí8´ûä½1
+M	java:S106ª"+Replace this use of System.out by a logger.(ì¿ãËûÿÿÿÿ8µûä½1
+H	java:S106®"+Replace this use of System.out by a logger.(½‰ÚÉ8¶ûä½1
+H	java:S106³"+Replace this use of System.out by a logger.(’«‰¯8¸ûä½1
+H	java:S106·"+Replace this use of System.out by a logger.(Û‡‚8¹ûä½1
+M	java:S106»"+Replace this use of System.out by a logger.(ÈÆÇùşÿÿÿÿ8ºûä½1
+M	java:S106¿"+Replace this use of System.out by a logger.(É¨öûÿÿÿÿ8ºûä½1
 N
-java:S11440"1Remove this unused private "addDeparture" method.(çïü‚8˜×†í¼1
+java:S11440"1Remove this unused private "addDeparture" method.(çïü‚8»ûä½1
 â
-java:S6541c"ÅA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 95 to 64, Complexity from 18 to 14, Nesting Level from 3 to 2, Number of Variables from 13 to 6.(ú¡­,8˜×†í¼1
+java:S6541c"ÅA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 95 to 64, Complexity from 18 to 14, Nesting Level from 3 to 2, Number of Variables from 13 to 6.(ú¡­,8œüä½1
