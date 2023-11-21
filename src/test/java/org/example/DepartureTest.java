@@ -92,13 +92,43 @@ class DepartureTest {
     }
 
     @Test
-  void testEqualsWhenDifferentDestinationThenReturnFalse() {
-    Departure differentDeparture = new Departure("Test", LocalTime.now(), "Line1", 1, "Different", 1, 0);
-    assertFalse(departure.equals(differentDeparture));
-  }
+    void testEqualsWhenDifferentDestinationThenReturnFalse() {
+        Departure differentDeparture = new Departure("Test", LocalTime.now(), "Line1", 1, "Different", 1, 0);
+        assertFalse(departure.equals(differentDeparture));
+    }
 
-  @Test
-  void testEqualsWhenNullThenReturnFalse() {
-    assertFalse(departure.equals(null));
-  }
+    @Test
+    void testEqualsWhenNullThenReturnFalse() {
+        assertNotEquals(null, departure);
+    }
+
+    // Additional positive tests
+
+    @Test
+    void testEqualsWhenEqualDepartureWithNullTimeThenReturnTrue() {
+        Departure nullTimeDeparture = new Departure("Test", null, "Line1", 1, "Destination", 1, 0);
+        Departure equalDeparture = new Departure("Test", null, "Line1", 1, "Destination", 1, 0);
+        assertTrue(nullTimeDeparture.equals(equalDeparture));
+    }
+
+    @Test
+    void testEqualsWhenEqualDepartureWithNullDestinationThenReturnTrue() {
+        Departure nullDestinationDeparture = new Departure("Test", time, "Line1", 1, null, 1, 0);
+        Departure equalDeparture = new Departure("Test", time, "Line1", 1, null, 1, 0);
+        assertTrue(nullDestinationDeparture.equals(equalDeparture));
+    }
+
+    // Additional negative tests
+
+    @Test
+    void testEqualsWhenDifferentDepartureWithNullTimeThenReturnFalse() {
+        Departure nullTimeDeparture = new Departure("Test", null, "Line1", 1, "Destination", 1, 0);
+        assertFalse(departure.equals(nullTimeDeparture));
+    }
+
+    @Test
+    void testEqualsWhenDifferentDepartureWithNullDestinationThenReturnFalse() {
+        Departure nullDestinationDeparture = new Departure("Test", time, "Line1", 1, null, 1, 0);
+        assertFalse(departure.equals(nullDestinationDeparture));
+    }
 }
