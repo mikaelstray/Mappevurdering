@@ -119,6 +119,7 @@ public class Departure {
   /**
    * Gets the destination of the departure.
    * @return The destination of the departure.
+
    */
 
   public String getDestination() {
@@ -143,54 +144,63 @@ public class Departure {
     this.delay = delay;
   }
 
-    /**
-     * Gets the track or platform number of the departure.
-     *
-     * @return The track or platform number of the departure.
-     */
-    public int getTrack() {
-      return track;
-    }
+  /**
+   * Gets the track or platform number of the departure.
+   *
+   * @return The track or platform number of the departure.
+   */
+  public int getTrack() {
+    return track;
+  }
 
-    /**
-     * Sets the track or platform number of the departure.
-     *
-     * @param track The new track or platform number for the departure.
-     */
-    public void setTrack(int track) {
-        this.track = track;
-    }
+  /**
+   * Sets the track or platform number of the departure.
+   *
+   * @param track The new track or platform number for the departure.
+   */
+  public void setTrack(int track) {
+    this.track = track;
+  }
 
-     /**
-     * Checks if this Departure object is equal to another object.
-     *
-     * @param o The object to compare with.
-     * @return true if the objects are equal, false otherwise.
-     */
+  /**
+   * Checks if this Departure object is equal to another object.
+   *
+   * @param o The object to compare with.
+   * @return true if the objects are equal, false otherwise.
+   */
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Departure departure)) return false;
-        return getTime() == departure.getTime() && getTrainNumber() == departure.getTrainNumber() && getTrack() == departure.getTrack() && Objects.equals(getName(), departure.getName()) && Objects.equals(getLine(), departure.getLine()) && Objects.equals(getDestination(), departure.getDestination());
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (!(o instanceof Departure departure)) {
+      return false;
+    }
+    return getTime() == departure.getTime() && getTrainNumber() == departure.getTrainNumber() && getTrack() == departure.getTrack() && Objects.equals(getName(), departure.getName()) && Objects.equals(getLine(), departure.getLine()) && Objects.equals(getDestination(), departure.getDestination());
+  }
 
-    /**
-     * Compares this Departure object with another based on train numbers.
-     *
-     * @param otherDeparture The Departure object to compare with.
-     * @return A negative integer, zero, or a positive integer as this object is less than, equal to,
-     * or greater than the specified object.
-     */
-    public int compareTo(Departure otherDeparture){
-        return Integer.compare(this.getTrainNumber(), otherDeparture.getTrainNumber());
+  /**
+   * Compares this Departure object with another based on train numbers.
+   *
+   * @param otherDeparture The Departure object to compare with.
+   * @return A negative integer, zero, or a positive integer as this object is less than, equal to,
+   * or greater than the specified object.
+   */
+  public int compareTo(Departure otherDeparture) {
+    return Integer.compare(this.getTrainNumber(), otherDeparture.getTrainNumber());
+  }
+
+  @Override
+  public String toString() {
+    String output = "";
+    output += "- " + time + " | " + line + " | " + trainNumber + " | " + destination;
+    if (delay > 0) {
+      output += " | " + delay;
     }
-    @Override
-    public String toString() {
-        String output = "";
-        output += "- "+ time + " | " + line + " | " + trainNumber + " | " + destination;
-        if (delay > 0) output += " | " + delay;
-        if (track != -1) output += " | " + track;
-        return output;
+    if (track != -1) {
+      output += " | " + track;
     }
+    return output;
+  }
 }

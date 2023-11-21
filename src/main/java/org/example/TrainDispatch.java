@@ -17,77 +17,77 @@ import java.util.stream.Collectors;
  */
 public class TrainDispatch {
 
-    /** List of train departures. */
-    private final ArrayList<Departure> departureList = new ArrayList<>();
+  /** List of train departures. */
+  private final ArrayList<Departure> departureList = new ArrayList<>();
 
-    /** Number of registered departures. */
-    private int numberOfDepartures = 0;
+  /** Number of registered departures. */
+  private int numberOfDepartures = 0;
 
-    /** The current time used for various time-based operations. */
+  /** The current time used for various time-based operations. */
 
-    private LocalTime time;
+  private LocalTime time;
 
-    /**
-     * Constructs a TrainDispatch object with the current time.
-     */
-    public TrainDispatch(){
-        time = LocalTime.now();
-    }
+  /**
+   * Constructs a TrainDispatch object with the current time.
+   */
+  public TrainDispatch() {
+    time = LocalTime.now();
+  }
 
-     /**
-     * Sets the current time used for various time-based operations.
-     *
-     * @param time The new current time.
-     */
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
+  /**
+   * Sets the current time used for various time-based operations.
+   *
+   * @param time The new current time.
+   */
+  public void setTime(LocalTime time) {
+    this.time = time;
+  }
 
-    /**
-     * Gets the list of train departures.
-     *
-     * @return The list of train departures.
-     */
-    public List<Departure> getDepartureList(){
-        return departureList;
-    }
+  /**
+   * Gets the list of train departures.
+   *
+   * @return The list of train departures.
+   */
+  public List<Departure> getDepartureList() {
+    return departureList;
+  }
 
-    /**
-     * Gets the number of registered departures.
-     *
-     * @return The number of registered departures.
-     */
-    public int getNumberOfDepartures() {
-        return numberOfDepartures;
-    }
+  /**
+   * Gets the number of registered departures.
+   *
+   * @return The number of registered departures.
+   */
+  public int getNumberOfDepartures() {
+    return numberOfDepartures;
+  }
 
-    public LocalTime getTime() {
-        return time;
-    }
+  public LocalTime getTime() {
+    return time;
+  }
 
-    /**
-     * Returns a string representation of the TrainDispatch object.
-     *
-     * @return A string representation of the TrainDispatch object.
-     */
-    @Override
-    public String toString() {
-        return "TrainDispatch{" +
-                "departureList=" + departureList +
-                ", numberOfDepartures=" + numberOfDepartures +
-                '}';
-    }
+  /**
+   * Returns a string representation of the TrainDispatch object.
+   *
+   * @return A string representation of the TrainDispatch object.
+   */
+  @Override
+  public String toString() {
+    return "TrainDispatch{"
+            + "departureList=" + departureList
+            + ", numberOfDepartures=" + numberOfDepartures
+            + '}';
+  }
 
-     /**
-     * Registers a new departure, checking for duplicate train numbers.
-     *
-     * @param departure The departure to register.
-     */
+  /**
+   * Registers a new departure, checking for duplicate train numbers.
+   *
+   * @param departure The departure to register.
+   */
 
-    public void registerDeparture(Departure departure){
-        departureList.add(departure);
-        numberOfDepartures++;
-    } // Composition, lagre objektet et annet sted enn departureList
+  public void registerDeparture(Departure departure) {
+    departureList.add(departure);
+    numberOfDepartures++;
+  } // Composition, lagre objektet et annet sted enn departureList
 
 
     /*
@@ -99,42 +99,50 @@ public class TrainDispatch {
         sortedListOfDepartures.sort(Comparator.comparing(Departure::getTidspunkt));
         return sortedListOfDepartures;
     }*/
-    public List<Departure> showAllDeparturesAfterTime(){
-        return departureList.stream()
-                .filter(departure -> departure.getTime().plusMinutes(departure.getDelay()).isAfter(time))
-                .sorted(Comparator.comparing(Departure::getTimePlusDelay))
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
-    public boolean addedDepartureIsBeforeCurrentTime(Departure departure){
-        return departure.getTime().isBefore(time);
-    }
-    private boolean findDuplicateTrainNumberWithObject(Departure departure){
-        return departureList.stream()
-                .anyMatch(d -> d.getTrainNumber() == (departure.getTrainNumber()));
-    }
-    public boolean findDuplicateTrainNumberWithNumber(int trainNumber){
-        return departureList.stream()
-                .anyMatch(d -> d.getTrainNumber() == trainNumber);
-    }
-    public Departure findDepartureByNumber(int number){
-        return departureList.stream()
-                .filter(d -> d.getTrainNumber() == number)
-                .findFirst()
-                .orElse(null);
-    }
-    public List<Departure> findDepartureByDestination(String destination){
-        return departureList.stream()
-                .filter(d -> d.getDestination().trim().equalsIgnoreCase(destination.trim()))
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
-    public void setTrack(int number, int track){
-        Departure departure = findDepartureByNumber(number);
-        departure.setTrack(track);
-    }
-    public void setDelay(int number, int delay){
-        Departure departure = findDepartureByNumber(number);
-        departure.setDelay(delay);
-    }
+  public List<Departure> showAllDeparturesAfterTime() {
+    return departureList.stream()
+            .filter(departure -> departure.getTime().plusMinutes(departure.getDelay()).isAfter(time))
+            .sorted(Comparator.comparing(Departure::getTimePlusDelay))
+            .collect(Collectors.toCollection(ArrayList::new));
+  }
+
+  public boolean addedDepartureIsBeforeCurrentTime(Departure departure) {
+    return departure.getTime().isBefore(time);
+  }
+
+  private boolean findDuplicateTrainNumberWithObject(Departure departure) {
+    return departureList.stream()
+            .anyMatch(d -> d.getTrainNumber() == (departure.getTrainNumber()));
+  }
+
+  public boolean findDuplicateTrainNumberWithNumber(int trainNumber) {
+    return departureList.stream()
+            .anyMatch(d -> d.getTrainNumber() == trainNumber);
+  }
+
+  public Departure findDepartureByNumber(int number) {
+    return departureList.stream()
+            .filter(d -> d.getTrainNumber() == number)
+            .findFirst()
+            .orElse(null);
+  }
+
+  public List<Departure> findDepartureByDestination(String destination) {
+    return departureList.stream()
+          .filter(d -> d.getDestination().trim().equalsIgnoreCase(destination.trim()))
+          .collect(Collectors.toCollection(ArrayList::new));
+  }
+
+  public void setTrack(int number, int track) {
+    Departure departure = findDepartureByNumber(number);
+    departure.setTrack(track);
+  }
+
+  public void setDelay(int number, int delay) {
+    Departure departure = findDepartureByNumber(number);
+    departure.setDelay(delay);
+  }
+
     /* public void catchMethod(){
     try {
         setDelay(-1,34);
