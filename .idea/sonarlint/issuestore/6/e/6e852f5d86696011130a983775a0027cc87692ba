@@ -1,9 +1,7 @@
 
 s
-java:S1206¦"PThis class overrides "equals()" and should therefore also override "hashCode()".(İ¢êÍıÿÿÿÿ8ÒÜ»½1
-N
-java:S1135'"2Complete the task associated to this TODO comment.(êæ"8©ƒá»½1
+java:S1206¬"PThis class overrides "equals()" and should therefore also override "hashCode()".(İ¢êÍıÿÿÿÿ8£ÜŒ¿1
 p
-java:S2975@"SRemove this "clone" implementation; use a copy constructor or copy factory instead.(Ç±¼Á8†ÒÜ»½1
+java:S29756"SRemove this "clone" implementation; use a copy constructor or copy factory instead.(Ç±¼Á8Â³ÈŒ¿1
 e
-java:S1182@"HUse super.clone() to create and seed the cloned instance to be returned.(Ç±¼Á8‡ÒÜ»½1
+java:S11826"HUse super.clone() to create and seed the cloned instance to be returned.(Ç±¼Á8Ä³ÈŒ¿1

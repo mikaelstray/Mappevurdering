@@ -10,10 +10,15 @@ package org.example;
  */
 
 public class Main {
-    public static void main(String[] args) {
-        // Create an instance of the UserInterface
-        UserInterface userInterface = new UserInterface();
-        // Start the user interface
-        userInterface.start();
-    }
+  /**
+   * The main method initializes and starts the user interface.
+   *
+   * @param args Command line arguments.
+   */
+  public static void main(String[] args) {
+    // Create an instance of the UserInterface
+    UserInterface userInterface = new UserInterface();
+    // Start the user interface, the init method is in the UserInterface class
+    userInterface.start();
+  }
 }
