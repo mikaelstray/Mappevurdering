@@ -146,13 +146,4 @@ public class TrainDispatch {
     Departure departure = findDepartureByNumber(number);
     departure.setDelay(delay);
   }
-
-    /* public void catchMethod(){
-    try {
-        setDelay(-1,34);
-    }
-    catch (Exception e){
-
-    }
-    }*/
 }
