@@ -13,131 +13,135 @@ import java.util.Objects;
 
 public class Departure {
 
-        private String name;
-        private final LocalTime time;
-        private final String line;
-        private final int trainNumber;
-        private final String destination;
-        private int delay;
-        private int track;
+  private String name;
+  private final LocalTime time;
+  private final String line;
+  private final int trainNumber;
+  private final String destination;
+  private int delay;
+  private int track;
 
-    /**
-     * Constructs a Departure object with the specified information.
-     *
-     * @param name          Name of the departure.
-     * @param time          Time of the departure.
-     * @param line          Line or route of the departure.
-     * @param trainNumber   Train number of the departure.
-     * @param destination   Destination of the departure.
-     * @param track         Track or platform number of the departure.
-     * @param delay         Delay (in minutes) of the departure.
-     * @throws IllegalArgumentException if the input parameters are invalid or missing.
-     */
+  /**
+   * Constructs a Departure object with the specified information.
+   *
+   * @param name          Name of the departure.
+   * @param time          Time of the departure.
+   * @param line          Line or route of the departure.
+   * @param trainNumber   Train number of the departure.
+   * @param destination   Destination of the departure.
+   * @param track         Track or platform number of the departure.
+   * @param delay         Delay (in minutes) of the departure.
+   * @throws IllegalArgumentException if the input parameters are invalid or missing.
+   */
 
-    public Departure(String name, LocalTime time, String line, int trainNumber, String destination, int track, int delay) throws IllegalArgumentException{
-        // Validation for input parameters
-        if (1 == 2){ //TODO: remove this line
-      throw new NumberFormatException("Input parameters are invalid or missing");
-        }
-        this.name = name;
-        this.time = time;
-        this.line = line;
-        this.trainNumber = trainNumber;
-        this.destination = destination;
-        this.track = track;
-        this.delay = delay;
-    } //Trenger flere konstruktører og nullpointerexception(fjern trim()), hvor skrives variablene inn?
+  public Departure(String name, LocalTime time, String line, int trainNumber, String destination,
+                   int track, int delay) throws IllegalArgumentException {
+    this.name = name;
+    this.time = time;
+    this.line = line;
+    this.trainNumber = trainNumber;
+    this.destination = destination;
+    this.track = track;
+    this.delay = delay;
+  } //Trenger flere konstruktører og nullpointerexception(fjern trim()), hvor skrives variablene inn?
 
-     /**
-     * Creates and returns a clone of the current Departure object.
-     *
-     * @return A new Departure object with the same information as the current object.
-     */
+  /**
+   * Creates and returns a clone of the current Departure object.
+   *
+   * @return A new Departure object with the same information as the current object.
+   */
 
-    public Departure clone(){
-        return new Departure(this.getName(),this.getTime(),this.getLine(),this.getTrainNumber(),this.getDestination(),this.getTrack(),this.getDelay());
-    }
+  public Departure clone() {
+    return new Departure(
+    this.getName(),
+    this.getTime(),
+    this.getLine(),
+    this.getTrainNumber(),
+    this.getDestination(),
+    this.getTrack(),
+    this.getDelay());
+  }
 
- /**
-     * Gets the name of the departure.
-     *
-     * @return The name of the departure.
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * Gets the name of the departure.
+   *
+   * @return The name of the departure.
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * Sets the name of the departure.
-     *
-     * @param name The new name for the departure.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+  /**
+   * Sets the name of the departure.
+   *
+   * @param name The new name for the departure.
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    /**
-     * Gets the time of the departure plus the delay.
-     *
-     * @return The time of the departure plus the delay.
-     */
-    public LocalTime getTimePlusDelay() {
-        return time.plusMinutes(delay);
-    }
+  /**
+   * Gets the time of the departure plus the delay.
+   *
+   * @return The time of the departure plus the delay.
+   */
+  public LocalTime getTimePlusDelay() {
+    return time.plusMinutes(delay);
+  }
 
-    /**
-     * Gets the time of the departure.
-     *
-     * @return The time of the departure.
-     */
-    public LocalTime getTime() {
-        return time;
-    }
+  /**
+   * Gets the time of the departure.
+   *
+   * @return The time of the departure.
+   */
+  public LocalTime getTime() {
+    return time;
+  }
 
-    /**
-     * Gets the line or route of the departure.
-     *
-     * @return The line or route of the departure.
-     */
-    public String getLine() {
-        return line;
-    }
+  /**
+   * Gets the line or route of the departure.
+   *
+   * @return The line or route of the departure.
+   */
+  public String getLine() {
+    return line;
+  }
 
-    /**
-     * Gets the train number of the departure.
-     *
-     * @return The train number of the departure.
-     */
-    public int getTrainNumber() {
-        return trainNumber;
-    }
+  /**
+   * Gets the train number of the departure.
+   *
+   * @return The train number of the departure.
+   */
+  public int getTrainNumber() {
+    return trainNumber;
+  }
 
-    /**
-     * Gets the destination of the departure.
-     *
-     * @return The destination of the departure.
-     */
-    public String getDestination() {
-        return destination;
-    }
+  /**
+   * Gets the destination of the departure.
+   * @return The destination of the departure.
+   */
 
-    /**
-     * Gets the delay (in minutes) of the departure.
-     *
-     * @return The delay (in minutes) of the departure.
-     */
-    public int getDelay() {
-        return delay;
-    }
+  public String getDestination() {
+    return destination;
+  }
 
-    /**
-     * Sets the delay (in minutes) of the departure.
-     *
-     * @param delay The new delay (in minutes) for the departure.
-     */
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
+  /**
+   * Gets the delay (in minutes) of the departure.
+   *
+   * @return The delay (in minutes) of the departure.
+   */
+  public int getDelay() {
+    return delay;
+  }
+
+  /**
+   * Sets the delay (in minutes) of the departure.
+   *
+   * @param delay The new delay (in minutes) for the departure.
+   */
+  public void setDelay(int delay) {
+    this.delay = delay;
+  }
 
     /**
      * Gets the track or platform number of the departure.
@@ -145,7 +149,7 @@ public class Departure {
      * @return The track or platform number of the departure.
      */
     public int getTrack() {
-        return track;
+      return track;
     }
 
     /**

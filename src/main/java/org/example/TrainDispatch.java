@@ -48,7 +48,7 @@ public class TrainDispatch {
      *
      * @return The list of train departures.
      */
-    public List<Departure> getDepartureList() {
+    public List<Departure> getDepartureList(){
         return departureList;
     }
 
@@ -88,10 +88,12 @@ public class TrainDispatch {
         departureList.add(departure);
         numberOfDepartures++;
     } // Composition, lagre objektet et annet sted enn departureList
+
+
     /*
     public ArrayList<Departure> showAllDepartures() {
         ArrayList<Departure> sortedListOfDepartures = new ArrayList<>(departureList.size());
-        for (Departure d : departureList) {
+        for (Departure d: departureList) {
             sortedListOfDepartures.add(d.clone());
         }
         sortedListOfDepartures.sort(Comparator.comparing(Departure::getTidspunkt));
@@ -125,10 +127,9 @@ public class TrainDispatch {
                 .filter(d -> d.getDestination().trim().equalsIgnoreCase(destination.trim()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-    public boolean setTrack(int number, int track){
+    public void setTrack(int number, int track){
         Departure departure = findDepartureByNumber(number);
         departure.setTrack(track);
-        return true;
     }
     public void setDelay(int number, int delay){
         Departure departure = findDepartureByNumber(number);
