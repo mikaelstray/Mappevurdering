@@ -106,6 +106,10 @@ public class TrainDispatch {
             .collect(Collectors.toCollection(ArrayList::new));
   }
 
+  public boolean checkIfDepartureListAfterTimeIsEmpty() {
+    return showAllDeparturesAfterTime().isEmpty();
+  }
+
   public boolean addedDepartureIsBeforeCurrentTime(Departure departure) {
     return departure.getTime().isBefore(time);
   }

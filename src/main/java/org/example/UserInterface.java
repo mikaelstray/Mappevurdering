@@ -52,10 +52,14 @@ public class UserInterface {
 
   private void addDeparture() {
     Departure departure = typeInDepartureInfo();
-    trainDispatch.registerDeparture(departure);
-    System.out.print("n\"" + departure + " was added");
-    if (trainDispatch.addedDepartureIsBeforeCurrentTime(departure)) {
-      System.out.println(", but the departure is before current time, and will not be shown");
+    if (departure == null) {
+      System.out.println("Departure was not added, back to menu");
+    } else {
+      trainDispatch.registerDeparture(departure);
+      System.out.print("n\"" + departure + " was added");
+      if (trainDispatch.addedDepartureIsBeforeCurrentTime(departure)) {
+        System.out.println(", but the departure is before current time, and will not be shown");
+      }
     }
   }
 
@@ -81,12 +85,8 @@ public class UserInterface {
     }
   }
 
-  private boolean departureListIsEmpty() {
-    return trainDispatch.getDepartureList().isEmpty();
-  }
-
   private void setTrack() {
-    if (departureListIsEmpty()) {
+    if (trainDispatch.checkIfDepartureListAfterTimeIsEmpty()) {
       System.out.println("List is empty, add a new departure first");
     } else {
       Scanner scanner = new Scanner(System.in);
@@ -104,7 +104,7 @@ public class UserInterface {
   }
 
   private void setDelay() {
-    if (departureListIsEmpty()) {
+    if (trainDispatch.checkIfDepartureListAfterTimeIsEmpty()) {
       System.out.println("Departure list is empty, add a departure first");
     } else {
       Scanner scanner = new Scanner(System.in);
@@ -153,8 +153,11 @@ public class UserInterface {
     System.out.println("Train number");
     int trainNumber = Integer.parseInt(scanner.nextLine());
     while (trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)) {
-      System.out.println("\nTrain number already exists, type new:");
+      System.out.println("\nTrain number already exists, type new. 0 to cancel and go back to menu");
       trainNumber = Integer.parseInt(scanner.nextLine());
+      if (trainNumber == 0) {
+        return null;
+      }
     }
 
     scanner = new Scanner(System.in);
