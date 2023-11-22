@@ -89,16 +89,13 @@ public class TrainDispatch {
     numberOfDepartures++;
   } // Composition, lagre objektet et annet sted enn departureList
 
-
-    /*
-    public ArrayList<Departure> showAllDepartures() {
-        ArrayList<Departure> sortedListOfDepartures = new ArrayList<>(departureList.size());
-        for (Departure d: departureList) {
-            sortedListOfDepartures.add(d.clone());
-        }
-        sortedListOfDepartures.sort(Comparator.comparing(Departure::getTidspunkt));
-        return sortedListOfDepartures;
-    }*/
+  public Departure registerDeparture(String name, LocalTime time, String line, int trainNumber,
+                                String destination, int track, int delay) {
+    Departure departure = new Departure(name, time, line, trainNumber, destination, track, delay);
+    departureList.add(departure);
+    numberOfDepartures++;
+    return departure;
+  }
   public List<Departure> showAllDeparturesAfterTime() {
     return departureList.stream()
             .filter(departure -> departure.getTime().plusMinutes(departure.getDelay()).isAfter(time))
