@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * This class represents a departure.
-
+ *
  * @author Mikael Stray Froeyshov
  * @version 1.0
  * @since 2023-11-02
@@ -24,18 +24,18 @@ public class Departure {
   /**
    * Constructs a Departure object with the specified information.
    *
-   * @param name          Name of the departure.
-   * @param time          Time of the departure.
-   * @param line          Line or route of the departure.
-   * @param trainNumber   Train number of the departure.
-   * @param destination   Destination of the departure.
-   * @param track         Track or platform number of the departure.
-   * @param delay         Delay (in minutes) of the departure.
+   * @param name        Name of the departure.
+   * @param time        Time of the departure.
+   * @param line        Line or route of the departure.
+   * @param trainNumber Train number of the departure.
+   * @param destination Destination of the departure.
+   * @param track       Track or platform number of the departure.
+   * @param delay       Delay (in minutes) of the departure.
    * @throws IllegalArgumentException if the input parameters are invalid or missing.
    */
 
   public Departure(String name, LocalTime time, String line, int trainNumber, String destination,
-                   int track, int delay) throws IllegalArgumentException {
+                   int track, int delay) throws IllegalArgumentException, NullPointerException {
     this.name = name;
     this.time = time;
     this.line = line;
@@ -43,24 +43,7 @@ public class Departure {
     this.destination = destination;
     this.track = track;
     this.delay = delay;
-  } //Trenger flere konstruktører og nullpointerexception(fjern trim()), hvor skrives variablene inn?
-
-  /**
-   * Creates and returns a clone of the current Departure object.
-   *
-   * @return A new Departure object with the same information as the current object.
-   */
-
-  public Departure clone() {
-    return new Departure(
-    this.getName(),
-    this.getTime(),
-    this.getLine(),
-    this.getTrainNumber(),
-    this.getDestination(),
-    this.getTrack(),
-    this.getDelay());
-  }
+  } // nullpointerexception(fjern trim()), hvor skrives variablene inn?
 
   /**
    * Gets the name of the departure.
@@ -118,8 +101,8 @@ public class Departure {
 
   /**
    * Gets the destination of the departure.
+   *
    * @return The destination of the departure.
-
    */
 
   public String getDestination() {
@@ -177,7 +160,12 @@ public class Departure {
     if (!(o instanceof Departure departure)) {
       return false;
     }
-    return getTime() == departure.getTime() && getTrainNumber() == departure.getTrainNumber() && getTrack() == departure.getTrack() && Objects.equals(getName(), departure.getName()) && Objects.equals(getLine(), departure.getLine()) && Objects.equals(getDestination(), departure.getDestination());
+    return getTime() == departure.getTime()
+            && getTrainNumber() == departure.getTrainNumber()
+            && getTrack() == departure.getTrack()
+            && Objects.equals(getName(), departure.getName())
+            && Objects.equals(getLine(), departure.getLine())
+            && Objects.equals(getDestination(), departure.getDestination());
   }
 
   /**
