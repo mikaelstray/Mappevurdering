@@ -25,13 +25,13 @@ public class TrainDispatch {
   /**
    * Number of registered departures.
    */
-  private int numberOfDepartures = 0;
+  private static int numberOfDepartures = 0;
 
   /**
    * The current time used for various time-based operations.
    */
 
-  private LocalTime time;
+  private static LocalTime time;
 
   /**
    * Constructs a TrainDispatch object with the current time.
@@ -67,7 +67,7 @@ public class TrainDispatch {
     return numberOfDepartures;
   }
 
-  public LocalTime getTime() {
+  public static LocalTime getTime() {
     return time;
   }
 

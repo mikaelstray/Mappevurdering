@@ -3,12 +3,11 @@ package org.example;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class UserInterface {
-
-  private TrainDispatch trainDispatch;
-  private Scanner scanner;
-
+  private static TrainDispatch trainDispatch;
+  private static Scanner scanner;
 
   // Constants representing the different menu choices
 
@@ -22,7 +21,7 @@ public class UserInterface {
   private final int updateTime = 8;
   private final int exit = 9;
 
-  public void init() {
+  public static void init() {
     trainDispatch = new TrainDispatch();
     scanner = new Scanner(System.in);
 
@@ -161,7 +160,7 @@ public class UserInterface {
   }
 
   private void updateTime() {
-    LocalTime currentTime = trainDispatch.getTime();
+    LocalTime currentTime = TrainDispatch.getTime();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     System.out.println("New time? In format hh:mm. Has to be after current time: " + formatter.format(currentTime));
     String time = scanner.next();
