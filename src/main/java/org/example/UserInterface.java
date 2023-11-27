@@ -3,23 +3,23 @@ package org.example;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class UserInterface {
   private static TrainDispatch trainDispatch;
   private static Scanner scanner;
+  private static final String TRAIN_NUMBER_QUESTION = "Train number?";
+  private static final String TRAIN_NUMBER_NON_EXISTING = "Train number does not exist, try again";
 
   // Constants representing the different menu choices
-
-  private final int listAllDepartures = 1;
-  private final int addDeparture = 2;
-  private final int removeDeparture = 3;
-  private final int findDepartureByNumber = 4;
-  private final int findDepartureByDestination = 5;
-  private final int setTrack = 6;
-  private final int setDelay = 7;
-  private final int updateTime = 8;
-  private final int exit = 9;
+  private static final int LIST_ALL_DEPARTURES = 1;
+  private static final int ADD_DEPARTURE = 2;
+  private static final int REMOVE_DEPARTURE = 3;
+  private static final int FIND_DEPARTURE_BY_NUMBER = 4;
+  private static final int FIND_DEPARTURE_BY_DESTINATION = 5;
+  private static final int SET_TRACK = 6;
+  private static final int SET_DELAY = 7;
+  private static final int UPDATE_TIME = 8;
+  private static final int EXIT = 9;
 
   public static void init() {
     trainDispatch = new TrainDispatch();
@@ -94,10 +94,10 @@ public class UserInterface {
     if (this.departureListIsEmpty()) {
       System.out.println("List is empty, add a new departure first");
     } else {
-      System.out.println("Train number?");
+      System.out.println(TRAIN_NUMBER_QUESTION);
       int trainNumber = scanner.nextInt();
       if (this.trainNumberDoesNotExist(trainNumber)) {
-        System.out.println("Train number does not exist, try again");
+        System.out.println(TRAIN_NUMBER_NON_EXISTING);
       } else {
         trainDispatch.removeDeparture(trainDispatch.findDepartureByNumber(trainNumber));
         System.out.println("\n Departure with train number " + trainNumber + " was removed");
@@ -106,10 +106,10 @@ public class UserInterface {
   }
 
   private void findDepartureByNumber() {
-    System.out.println("Train number?");
+    System.out.println(TRAIN_NUMBER_QUESTION);
     int trainNumber = scanner.nextInt();
     if (this.trainNumberDoesNotExist(trainNumber)) {
-      System.out.println("Train number does not exist, try again");
+      System.out.println(TRAIN_NUMBER_NON_EXISTING);
     } else {
       System.out.println(trainDispatch.findDepartureByNumber(trainNumber));
     }
@@ -129,12 +129,12 @@ public class UserInterface {
     if (this.departureListIsEmpty()) {
       System.out.println("List is empty, add a new departure first");
     } else {
-      System.out.println("Train number?");
+      System.out.println(TRAIN_NUMBER_QUESTION);
       int trainNumber = scanner.nextInt();
       System.out.println("Track?");
       int track = scanner.nextInt();
       if (!trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)) {
-        System.out.println("Train number does not exist, try again");
+        System.out.println(TRAIN_NUMBER_NON_EXISTING);
       } else {
         trainDispatch.setTrack(trainNumber, track);
         System.out.println("\n Track for departure with train number " + trainNumber + " was set to " + track);
@@ -146,12 +146,12 @@ public class UserInterface {
     if (this.departureListIsEmpty()) {
       System.out.println("Departure list is empty, add a departure first");
     } else {
-      System.out.println("Train number?");
+      System.out.println(TRAIN_NUMBER_QUESTION);
       int trainNumber = scanner.nextInt();
       System.out.println("Delay?");
       int delay = scanner.nextInt();
       if (this.trainNumberDoesNotExist(trainNumber)) {
-        System.out.println("Train number does not exist, try again");
+        System.out.println(TRAIN_NUMBER_NON_EXISTING);
       } else {
         trainDispatch.setDelay(trainNumber, delay);
         System.out.println("\n Delay for departure with train number " + trainNumber + " was set to " + delay);
@@ -219,31 +219,31 @@ public class UserInterface {
       showMenu();
       int menuChoice = this.userChoice();
       switch (menuChoice) {
-        case listAllDepartures:
+        case LIST_ALL_DEPARTURES:
           System.out.println(trainDispatch.departureListAfterCurrentTime().toString());
           break;
-        case addDeparture:
+        case ADD_DEPARTURE:
           addDeparture();
           break;
-        case removeDeparture:
+        case REMOVE_DEPARTURE:
           removeDeparture();
           break;
-        case findDepartureByNumber:
+        case FIND_DEPARTURE_BY_NUMBER:
           findDepartureByNumber();
           break;
-        case findDepartureByDestination:
+        case FIND_DEPARTURE_BY_DESTINATION:
           findDepartureByDestination();
           break;
-        case setTrack:
+        case SET_TRACK:
           setTrack();
           break;
-        case setDelay:
+        case SET_DELAY:
           setDelay();
           break;
-        case updateTime:
+        case UPDATE_TIME:
           updateTime();
           break;
-        case exit:
+        case EXIT:
           System.out.println("Thank you for using the Properties app!\n");
           finished = true;
           break;
