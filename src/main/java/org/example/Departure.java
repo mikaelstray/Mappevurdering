@@ -52,19 +52,23 @@ public class Departure {
     this.destination = destination.trim();
     this.track = track;
     this.delay = delay;
+
+    if (track == 0) {
+      this.track = -1;
+    }
   } // nullpointerexception(fjern trim()), hvor skrives variablene inn?
 
   /**
-   * Checks if the input number is negative.
+   * Checks if the value of the input parameter is negative.
    *
-   * @param number    The number to check.
-   * @param parameter The name of the parameter.
-   * @throws IllegalArgumentException if the input number is negative.
+   * @param parameter    The parameter to check.
+   * @param parameterName The name of the parameter.
+   * @throws IllegalArgumentException if the input parameter is negative.
    */
 
-  private void checkNegativeNumbers(int number, String parameter) throws IllegalArgumentException {
-    if (number < 0) {
-      throw new IllegalArgumentException(parameter + " cannot be negative");
+  private void checkNegativeNumbers(int parameter, String parameterName) throws IllegalArgumentException {
+    if (parameter < 0) {
+      throw new IllegalArgumentException(parameterName + " cannot be negative");
     }
   }
 

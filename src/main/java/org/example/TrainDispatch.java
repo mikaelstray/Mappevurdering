@@ -96,6 +96,11 @@ public class TrainDispatch {
     numberOfDepartures++;
   } // Composition, lagre objektet et annet sted enn departureList
 
+  public void removeDeparture(Departure departure) {
+    departureList.remove(departure);
+    numberOfDepartures--;
+  }
+
   /**
    * Shows all departures after the current time.
    *

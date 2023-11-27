@@ -12,14 +12,15 @@ public class UserInterface {
 
   // Constants representing the different menu choices
 
-  private final int addDeparture = 1;
-  private final int listAllDepartures = 2;
-  private final int findDepartureByNumber = 3;
-  private final int findDepartureByDestination = 4;
-  private final int setTrack = 5;
-  private final int setDelay = 6;
-  private final int updateTime = 7;
-  private final int exit = 8;
+  private final int listAllDepartures = 1;
+  private final int addDeparture = 2;
+  private final int removeDeparture = 3;
+  private final int findDepartureByNumber = 4;
+  private final int findDepartureByDestination = 5;
+  private final int setTrack = 6;
+  private final int setDelay = 7;
+  private final int updateTime = 8;
+  private final int exit = 9;
 
   public void init() {
     trainDispatch = new TrainDispatch();
@@ -34,17 +35,22 @@ public class UserInterface {
     trainDispatch.registerDeparture(departure3);
   }
 
+  /**
+   * Prints the menu choices to the console.
+   */
+
   private static void showMenu() {
     System.out.println("\n***** Property Register Application v0.1 *****\n");
-    System.out.println("1. Add departure                         ++      +------");
-    System.out.println("2. List all departures                   ||      |+-+ | ");
-    System.out.println("3. Find departure by number            /---------|| | | ");
-    System.out.println("4. Find departure by destination      + ========  +-+ | ");
-    System.out.println("5. Set track                       _|--/~\\------/~\\-+ ");
-    System.out.println("6. Set delay                       //// \\_/      \\_/  ");
-    System.out.println("7. Update time");
-    System.out.println("8. Quit");
-    System.out.println("\nPlease enter a number between 1 and 8:");
+    System.out.println("1. List all departures                   ++      +------");
+    System.out.println("2. Add departure                         ||      |+-+ | ");
+    System.out.println("3. Remove departure                      ||      || | | ");
+    System.out.println("4. Find departure by number            /---------|| | | ");
+    System.out.println("5. Find departure by destination      + ========  +-+ | ");
+    System.out.println("6. Set track                       _|--/~\\------/~\\-+ ");
+    System.out.println("7. Set delay                       //// \\_/      \\_/  ");
+    System.out.println("8. Update time");
+    System.out.println("9. Quit");
+    System.out.println("\nPlease enter a number between 1 and 9:");
   }
   /**
    * Presents the menu for the user, and awaits input from the user. The menu
@@ -75,12 +81,27 @@ public class UserInterface {
   private void addDeparture() {
     Departure departure = typeInDepartureInfo();
     if (departure == null) {
-      System.out.println("Something when wrong, departure was not added");
+      System.out.println("Departure was not added, sending back to menu");
     } else {
       trainDispatch.registerDeparture(departure);
       System.out.print("n\"" + departure + " was added");
       if (trainDispatch.addedDepartureIsBeforeCurrentTime(departure)) {
         System.out.println(", but the departure is before current time, and will not be shown");
+      }
+    }
+  }
+
+  private void removeDeparture() {
+    if (this.departureListIsEmpty()) {
+      System.out.println("List is empty, add a new departure first");
+    } else {
+      System.out.println("Train number?");
+      int trainNumber = scanner.nextInt();
+      if (this.trainNumberDoesNotExist(trainNumber)) {
+        System.out.println("Train number does not exist, try again");
+      } else {
+        trainDispatch.removeDeparture(trainDispatch.findDepartureByNumber(trainNumber));
+        System.out.println("\n Departure with train number " + trainNumber + " was removed");
       }
     }
   }
@@ -180,9 +201,6 @@ public class UserInterface {
 
     System.out.println("Track, type 0 if not existing yet");
     int track = Integer.parseInt(scanner.next());
-    if (track == 0) {
-      track = -1;
-    }
 
     System.out.println("Delay");
     int delay = Integer.parseInt(scanner.next());
@@ -202,11 +220,14 @@ public class UserInterface {
       showMenu();
       int menuChoice = this.userChoice();
       switch (menuChoice) {
+        case listAllDepartures:
+          System.out.println(trainDispatch.departureListAfterCurrentTime().toString());
+          break;
         case addDeparture:
           addDeparture();
           break;
-        case listAllDepartures:
-          System.out.println(trainDispatch.departureListAfterCurrentTime().toString());
+        case removeDeparture:
+          removeDeparture();
           break;
         case findDepartureByNumber:
           findDepartureByNumber();
