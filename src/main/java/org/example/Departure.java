@@ -32,18 +32,47 @@ public class Departure {
    * @param track       Track or platform number of the departure.
    * @param delay       Delay (in minutes) of the departure.
    * @throws IllegalArgumentException if the input parameters are invalid or missing.
+   * @throws NullPointerException     if the input parameters are null.
    */
 
   public Departure(String name, LocalTime time, String line, int trainNumber, String destination,
                    int track, int delay) throws IllegalArgumentException, NullPointerException {
-    this.name = name;
+    checkNull(name, "Name");
+    checkNull(line, "Line");
+    checkNull(line, "Line");
+    checkNegativeNumbers(trainNumber, "Train number");
+    checkNull(destination, "Destination");
+    checkNegativeNumbers(track, "Track");
+    checkNegativeNumbers(delay, "Delay");
+
+    this.name = name.trim();
     this.time = time;
-    this.line = line;
+    this.line = line.trim();
     this.trainNumber = trainNumber;
-    this.destination = destination;
+    this.destination = destination.trim();
     this.track = track;
     this.delay = delay;
   } // nullpointerexception(fjern trim()), hvor skrives variablene inn?
+
+  /**
+   * Checks if the input number is negative.
+   *
+   * @param number    The number to check.
+   * @param parameter The name of the parameter.
+   * @throws IllegalArgumentException if the input number is negative.
+   */
+
+  private void checkNegativeNumbers(int number, String parameter) throws IllegalArgumentException {
+    if (number < 0) {
+      throw new IllegalArgumentException(parameter + " cannot be negative");
+    }
+  }
+
+  private void checkNull(String parameter, String parameterName) throws NullPointerException {
+    if (parameter == null || parameter.trim().isEmpty()) {
+      throw new NullPointerException(parameterName + " cannot be null");
+    }
+  }
 
   /**
    * Gets the name of the departure.
@@ -166,6 +195,11 @@ public class Departure {
             && Objects.equals(getName(), departure.getName())
             && Objects.equals(getLine(), departure.getLine())
             && Objects.equals(getDestination(), departure.getDestination());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getName(), getTime(), getLine(), getTrainNumber(), getDestination(), getDelay(), getTrack());
   }
 
   /**
