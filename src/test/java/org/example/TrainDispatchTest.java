@@ -26,7 +26,7 @@ void testRegisterDeparture() {
 @Test
 void testShowAllDeparturesAfterTime() {
     Departure departure1 = new Departure("Train 1", LocalTime.of(9, 0), "Line A", 123, "Destination A", 1, 0);
-    Departure departure2 = new Departure("Train 2", LocalTime.of(10, 0), "Line B", 456, "Destination B", 2, 0);
+    Departure departure2 = new Departure("Train 2", LocalTime.of(10, 0), "Line B", 456, "Destination B", 2, 31);
     Departure departure3 = new Departure("Train 3", LocalTime.of(11, 0), "Line C", 789, "Destination C", 3, 0);
 
     trainDispatch.registerDeparture(departure1);
@@ -35,7 +35,7 @@ void testShowAllDeparturesAfterTime() {
 
     trainDispatch.setTime(LocalTime.of(10, 30));
 
-    List<Departure> departuresAfterTime = trainDispatch.showAllDeparturesAfterTime();
+    List<Departure> departuresAfterTime = trainDispatch.departureListAfterCurrentTime();
     assertEquals(2, departuresAfterTime.size());
     assertTrue(departuresAfterTime.contains(departure2));
     assertTrue(departuresAfterTime.contains(departure3));

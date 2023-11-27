@@ -19,6 +19,8 @@ public class Main {
   public static void main(String[] args) {
     // Create an instance of the UserInterface
     UserInterface userInterface = new UserInterface();
+    // Initialize the user interface
+    userInterface.init();
     // Start the user interface
     userInterface.start();
   }
