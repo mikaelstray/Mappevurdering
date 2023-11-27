@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class Departure {
 
-  private String name;
+  private final String name;
   private final LocalTime time;
   private final String line;
   private final int trainNumber;
@@ -31,6 +31,7 @@ public class Departure {
    * @param destination Destination of the departure.
    * @param track       Track or platform number of the departure.
    * @param delay       Delay (in minutes) of the departure.
+   *
    * @throws IllegalArgumentException if the input parameters are invalid or missing.
    * @throws NullPointerException     if the input parameters are null.
    */
@@ -56,7 +57,7 @@ public class Departure {
     if (track == 0) {
       this.track = -1;
     }
-  } // nullpointerexception(fjern trim()), hvor skrives variablene inn?
+  }
 
   /**
    * Checks if the value of the input parameter is negative.
@@ -72,6 +73,14 @@ public class Departure {
     }
   }
 
+  /**
+   * Checks if the value of the input parameter is null or empty.
+   *
+   * @param parameter    The parameter to check.
+   * @param parameterName The name of the parameter.
+   * @throws NullPointerException if the input parameter is null or empty.
+   */
+
   private void checkNull(String parameter, String parameterName) throws NullPointerException {
     if (parameter == null || parameter.trim().isEmpty()) {
       throw new NullPointerException(parameterName + " cannot be null");
@@ -85,15 +94,6 @@ public class Departure {
    */
   public String getName() {
     return name;
-  }
-
-  /**
-   * Sets the name of the departure.
-   *
-   * @param name The new name for the departure.
-   */
-  public void setName(String name) {
-    this.name = name;
   }
 
   /**
@@ -201,6 +201,12 @@ public class Departure {
             && Objects.equals(getDestination(), departure.getDestination());
   }
 
+  /**
+   * Returns the hash code of this Departure object.
+   *
+   * @return The hash code of this Departure object.
+   */
+
   @Override
   public int hashCode() {
     return Objects.hash(getName(), getTime(), getLine(), getTrainNumber(), getDestination(), getDelay(), getTrack());
@@ -216,6 +222,12 @@ public class Departure {
   public int compareTo(Departure otherDeparture) {
     return Integer.compare(this.getTrainNumber(), otherDeparture.getTrainNumber());
   }
+
+  /**
+   * Returns a string representation of this Departure object.
+   *
+   * @return A string representation of this Departure object.
+   */
 
   @Override
   public String toString() {
