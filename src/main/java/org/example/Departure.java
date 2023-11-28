@@ -222,23 +222,4 @@ public class Departure {
   public int compareTo(Departure otherDeparture) {
     return Integer.compare(this.getTrainNumber(), otherDeparture.getTrainNumber());
   }
-
-  /**
-   * Returns a string representation of this Departure object.
-   *
-   * @return A string representation of this Departure object.
-   */
-
-  @Override
-  public String toString() {
-    String output = "";
-    output += "-  " + name + " | " + time + " | " + line + " | " + trainNumber + " | " + destination;
-    if (delay > 0) {
-      output += " | " + delay;
-    }
-    if (track != -1) {
-      output += " | " + track;
-    }
-    return output;
-  }
 }

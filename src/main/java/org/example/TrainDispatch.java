@@ -31,15 +31,15 @@ public class TrainDispatch {
    * The current time used for various time-based operations.
    */
 
-  private static LocalTime time = LocalTime.now();
+  private LocalTime time = LocalTime.now();
 
   /**
    * Sets the current time used for various time-based operations.
    *
    * @param time The new current time.
    */
-  public static void setTime(LocalTime time) {
-    TrainDispatch.time = time;
+  public void setTime(LocalTime time) {
+    this.time = time;
   }
 
   /**
@@ -60,21 +60,8 @@ public class TrainDispatch {
     return numberOfDepartures;
   }
 
-  public static LocalTime getTime() {
+  public LocalTime getTime() {
     return time;
-  }
-
-  /**
-   * Returns a string representation of the TrainDispatch object.
-   *
-   * @return A string representation of the TrainDispatch object.
-   */
-  @Override
-  public String toString() {
-    return "TrainDispatch{"
-            + "departureList=" + departureList
-            + ", numberOfDepartures=" + numberOfDepartures
-            + '}';
   }
 
   /**

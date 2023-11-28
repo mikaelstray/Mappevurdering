@@ -17,3 +17,5 @@ S
 0src/test/java/org/example/TrainDispatchTest.java,5\e\5e70e16c4ba640a299d1718a657f921793f5387b
 ;
 qodana.yaml,8\5\85c3a901608a6b9adf48d245fa84828b66304e51
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
