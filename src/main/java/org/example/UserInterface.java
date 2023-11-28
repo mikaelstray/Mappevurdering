@@ -163,62 +163,61 @@ public class UserInterface {
   private void updateTime() {
     LocalTime currentTime = trainDispatch.getTime();
     System.out.println("New time? In format hh:mm. Has to be after current time: " + formatter.format(currentTime));
-    String time = scanner.next();
-    if (!time.matches("\\d{2}:\\d{2}")) {
-      System.out.println("Wrong format, try again");
-    } else {
-      LocalTime newTime = LocalTime.parse(time);
-      if (newTime.isBefore(currentTime)) {
-        System.out.println("New time has to be after current time");
-      } else {
-        trainDispatch.setTime(newTime);
-        System.out.println("New time is " + newTime);
-      }
-    }
-  }
+    LocalTime newTime = LocalTime.parse(ensureRightTimeFormat());
+    trainDispatch.setTime(newTime);
+    System.out.println("New time is " + newTime);
+}
 
   private String ensureNotNullAndGetInput() {
-    try {
-      String input = scanner.nextLine();
-      if (input.isEmpty()) {
-        throw new IllegalArgumentException("Input cannot be empty.");
+    boolean validInput = false;
+    String input = scanner.nextLine();
+    while (!validInput) {
+      try {
+        if (input.isEmpty()) {
+          throw new IllegalArgumentException("Input cannot be empty.");
+        }
+        validInput = true;
+      } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + (PLEASE_TRY_AGAIN));
+        input = scanner.nextLine();
       }
-      return input;
-    } catch (IllegalArgumentException e) {
-      System.out.print(e.getMessage() + (PLEASE_TRY_AGAIN));
-      return ensureNotNullAndGetInput();
     }
+    return input;
   }
 
   private String ensureRightTimeFormat() {
-    try {
-      String time = scanner.nextLine();
-      if (time.isEmpty()) {
-        throw new IllegalArgumentException("Input cannot be empty.");
-      }
-      String[] timeArray = time.split(":");
-      int hours = Integer.parseInt(timeArray[0]);
-      int minutes = Integer.parseInt(timeArray[1]);
+    String time = scanner.nextLine();
+    boolean validInput = false;
+    while (!validInput) {
+      try {
+        if (time.isEmpty()) {
+          throw new IllegalArgumentException("Input cannot be empty.");
+        }
+        String[] timeArray = time.split(":");
+        int hours = Integer.parseInt(timeArray[0]);
+        int minutes = Integer.parseInt(timeArray[1]);
 
-      boolean hoursCorrectRange = hours >= 0 && hours <= 23;
-      boolean minutesCorrectRange = minutes >= 0 && minutes <= 59;
+        boolean hoursCorrectRange = hours >= 0 && hours <= 23;
+        boolean minutesCorrectRange = minutes >= 0 && minutes <= 59;
 
-      if (!hoursCorrectRange || !minutesCorrectRange) {
-        throw new IllegalArgumentException("Wrong format. Hours has to be between 00-23 and minutes 00-59.");
-      } else if (LocalTime.parse(time).isBefore(trainDispatch.getTime())) {
+        if (!hoursCorrectRange || !minutesCorrectRange) {
+          throw new IllegalArgumentException("Wrong format. Hours has to be between 00-23 and minutes 00-59.");
+        } else if (LocalTime.parse(time).isBefore(trainDispatch.getTime())) {
           throw new IllegalArgumentException("Time cannot be before current time.");
-      }
-      return time;
-    } catch (NumberFormatException e) {
+        }
+        validInput = true;
+      } catch (NumberFormatException e) {
         System.out.print("Wrong format. Has to be a number. Please try again: ");
-        return ensureRightTimeFormat();
-    } catch (IllegalArgumentException e) {
-        System.out.print(e.getMessage() +PLEASE_TRY_AGAIN);
-        return ensureRightTimeFormat();
-    } catch (Exception e) {
+        time = scanner.nextLine();
+      } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
+        time = scanner.nextLine();
+      } catch (Exception e) {
         System.out.print("Invalid time format. Please try again: ");
-        return ensureRightTimeFormat();
+        time = scanner.nextLine();
+      }
     }
+    return time;
   }
 
   private String ensureRightLineFormat() {
@@ -241,41 +240,49 @@ public class UserInterface {
   }
 
   private int ensureRightTrainNumberFormat() {
-    try {
-      int trainNumber = scanner.nextInt();
-      if (trainNumber <= 0 || String.valueOf(trainNumber).isEmpty()) {
-        throw new IllegalArgumentException("Train number cannot be empty, 0 or negative.");
-      } else if (trainNumber > 9999) {
-        throw new IllegalArgumentException("Train number cannot be longer than 4 digits.");
-      } else if (trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)) {
-        throw new IllegalArgumentException("Train number already exists.");
+    int trainNumber = scanner.nextInt();
+    boolean validInput = false;
+    while (!validInput) {
+      try {
+        if (trainNumber <= 0 || String.valueOf(trainNumber).isEmpty()) {
+          throw new IllegalArgumentException("Train number cannot be empty, 0 or negative.");
+        } else if (trainNumber > 9999) {
+          throw new IllegalArgumentException("Train number cannot be longer than 4 digits.");
+        } else if (trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)) {
+          throw new IllegalArgumentException("Train number already exists.");
+        }
+        validInput = true;
+      } catch (NumberFormatException e) {
+        System.out.print("Wrong format. Has to be a number. Please try again: ");
+        trainNumber = scanner.nextInt();
+      } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
+        trainNumber = scanner.nextInt();
       }
-      return trainNumber;
-    } catch (NumberFormatException e) {
-      System.out.print("Wrong format. Has to be a number. Please try again: ");
-      return ensureRightTrainNumberFormat();
-    } catch (IllegalArgumentException e) {
-      System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
-      return ensureRightTrainNumberFormat();
     }
+    return trainNumber;
   }
 
   private int ensureRightTrackAndDelayFormat() {
-    try {
-      int trackOrDelay = scanner.nextInt();
-      if (trackOrDelay < 0) {
-        throw new IllegalArgumentException("Track or delay cannot be negative.");
-      } else if (trackOrDelay > 999) {
-        throw new IllegalArgumentException("Track or delay cannot be longer than 3 digits.");
+    boolean validInput = false;
+    int trackOrDelay = scanner.nextInt();
+    while (!validInput) {
+      try {
+        if (trackOrDelay < 0) {
+          throw new IllegalArgumentException("Track or delay cannot be negative.");
+        } else if (trackOrDelay > 999) {
+          throw new IllegalArgumentException("Track or delay cannot be longer than 3 digits.");
+        }
+        validInput = true;
+      } catch (NumberFormatException e) {
+        System.out.print("Wrong format. Has to be a number. Please try again: ");
+        trackOrDelay = scanner.nextInt();
+      } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
+        trackOrDelay = scanner.nextInt();
       }
-      return trackOrDelay;
-    } catch (NumberFormatException e) {
-      System.out.print("Wrong format. Has to be a number. Please try again: ");
-      return ensureRightTrackAndDelayFormat();
-    } catch (IllegalArgumentException e) {
-      System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
-      return ensureRightTrackAndDelayFormat();
     }
+    return trackOrDelay;
   }
 
   private Departure typeInDepartureInfo() { //TODO: null validation and change input method?
