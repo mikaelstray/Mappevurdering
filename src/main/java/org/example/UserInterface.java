@@ -60,13 +60,19 @@ public class UserInterface {
    */
 
   private int userChoice() {
-    int menuChoice = 0;
     if (scanner.hasNextInt()) {
-      menuChoice = scanner.nextInt();
+      int choice = scanner.nextInt();
+      if (choice >= 1 && choice <= 9) {
+        return choice;
+      } else {
+        System.out.print("Has to be a number between 1 and 9");
+        return 0;
+      }
     } else {
-      System.out.println("You must enter a number, not text");
+      System.out.print("Unrecognized input");
+      scanner.next();
+      return 0;
     }
-    return menuChoice;
   }
 
   private boolean departureListIsEmpty() {
@@ -79,15 +85,8 @@ public class UserInterface {
 
   private void addDeparture() {
     Departure departure = typeInDepartureInfo();
-    if (departure == null) {
-      System.out.println("Departure was not added, sending back to menu");
-    } else {
-      trainDispatch.registerDeparture(departure);
-      System.out.print("n\"" + departure + " was added");
-      if (trainDispatch.addedDepartureIsBeforeCurrentTime(departure)) {
-        System.out.println(", but the departure is before current time, and will not be shown");
-      }
-    }
+    trainDispatch.registerDeparture(departure);
+    System.out.print("\n " + departure + " was added");
   }
 
   private void removeDeparture() {
@@ -177,37 +176,131 @@ public class UserInterface {
     }
   }
 
-  private Departure typeInDepartureInfo() { //TODO: null validation and change input method?
-    System.out.println("Name");
-    String name = scanner.next();
+  private String ensureNotNullAndGetInput() {
+    try {
+      String input = scanner.nextLine();
+      if (input.isEmpty()) {
+        throw new IllegalArgumentException("Input cannot be empty.");
+      }
+      return input;
+    } catch (IllegalArgumentException e) {
+      System.out.print(e.getMessage() + " Please try again: ");
+      return ensureNotNullAndGetInput();
+    }
+  }
 
-    System.out.println("Time, hh:mm");
-    String time = scanner.next();
-    LocalTime localTime = LocalTime.parse(time);
+  private String ensureRightTimeFormat() {
+    try {
+      String time = scanner.nextLine();
+      if (time.isEmpty()) {
+        throw new IllegalArgumentException("Input cannot be empty.");
+      }
+      String[] timeArray = time.split(":");
+      int hours = Integer.parseInt(timeArray[0]);
+      int minutes = Integer.parseInt(timeArray[1]);
 
-    System.out.println("Line");
-    String line = scanner.next();
+      boolean hoursCorrectRange = hours >= 0 && hours <= 23;
+      boolean minutesCorrectRange = minutes >= 0 && minutes <= 59;
 
-    System.out.println("Train number");
-    int trainNumber = Integer.parseInt(scanner.next());
-    while (trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)) {
-      System.out.println("\nTrain number already exists, type new. 0 to cancel and go back to menu");
-      trainNumber = Integer.parseInt(scanner.next());
-      if (trainNumber == 0) {
-        return null;
+      if (!hoursCorrectRange || !minutesCorrectRange) {
+        throw new IllegalArgumentException("Wrong format. Hours has to be between 00-23 and minutes 00-59.");
+      } else if (LocalTime.parse(time).isBefore(TrainDispatch.getTime())) {
+          throw new IllegalArgumentException("Time cannot be before current time.");
+      }
+      return time;
+    } catch (NumberFormatException e) {
+        System.out.print("Wrong format. Has to be a number. Please try again: ");
+        return ensureRightTimeFormat();
+    } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + " Please try again: ");
+        return ensureRightTimeFormat();
+    } catch (Exception e) {
+        System.out.print("Invalid time format. Please try again: ");
+        return ensureRightTimeFormat();
+    }
+  }
+
+  private String ensureRightLineFormat() {
+    String line = scanner.nextLine();
+    while (true) {
+      try {
+        if (line.isEmpty() || line.equals("0")) {
+          throw new IllegalArgumentException("Input cannot be empty.");
+        } else if (line.length() > 5) {
+          throw new IllegalArgumentException("Line cannot be longer than 5 characters.");
+        }
+        break;
+      } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + " Please try again: ");
+        line = scanner.nextLine();
       }
     }
+    return line;
+  }
 
-    System.out.println("Destination");
-    String destination = scanner.next();
+  private int ensureRightTrainNumberFormat() {
+    try {
+      int trainNumber = scanner.nextInt();
+      if (trainNumber <= 0 || String.valueOf(trainNumber).isEmpty()) {
+        throw new IllegalArgumentException("Train number cannot be empty, 0 or negative.");
+      } else if (trainNumber > 9999) {
+        throw new IllegalArgumentException("Train number cannot be longer than 4 digits.");
+      } else if (trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)) {
+        throw new IllegalArgumentException("Train number already exists.");
+      }
+      return trainNumber;
+    } catch (NumberFormatException e) {
+      System.out.print("Wrong format. Has to be a number. Please try again: ");
+      return ensureRightTrainNumberFormat();
+    } catch (IllegalArgumentException e) {
+      System.out.print(e.getMessage() + " Please try again: ");
+      return ensureRightTrainNumberFormat();
+    }
+  }
 
-    System.out.println("Track, type 0 if not existing yet");
-    int track = Integer.parseInt(scanner.next());
+  private int ensureRightTrackAndDelayFormat() {
+    try {
+      int trackOrDelay = scanner.nextInt();
+      if (trackOrDelay < 0) {
+        throw new IllegalArgumentException("Track or delay cannot be negative.");
+      } else if (trackOrDelay > 999) {
+        throw new IllegalArgumentException("Track or delay cannot be longer than 3 digits.");
+      }
+      return trackOrDelay;
+    } catch (NumberFormatException e) {
+      System.out.print("Wrong format. Has to be a number. Please try again: ");
+      return ensureRightTrackAndDelayFormat();
+    } catch (IllegalArgumentException e) {
+      System.out.print(e.getMessage() + " Please try again: ");
+      return ensureRightTrackAndDelayFormat();
+    }
+  }
 
-    System.out.println("Delay");
-    int delay = Integer.parseInt(scanner.next());
+  private Departure typeInDepartureInfo() { //TODO: null validation and change input method?
+      System.out.print("Name: ");
+      scanner.nextLine();
+      String name = ensureNotNullAndGetInput();
 
-    return new Departure(name, localTime, line, trainNumber, destination, track, delay);
+      System.out.print("\nTime in format (hh:mm): ");
+      String time = ensureRightTimeFormat();
+      LocalTime localTime = LocalTime.parse(time);
+
+      System.out.print("\nLine: ");
+      String line = ensureRightLineFormat();
+
+      System.out.print("\nTrain number (0 to exit to menu): ");
+      int trainNumber = ensureRightTrainNumberFormat();
+
+      System.out.print("\nDestination: ");
+      String destination = ensureNotNullAndGetInput();
+
+      System.out.print("\nTrack, type 0 if not existing yet: ");
+      int track = ensureRightTrackAndDelayFormat();
+
+      System.out.print("\nDelay: ");
+      int delay = ensureRightTrackAndDelayFormat();
+
+      return new Departure(name, localTime, line, trainNumber, destination, track, delay);
   }
   /**
    * Starts the application. This is the main loop of the application,
@@ -249,9 +342,6 @@ public class UserInterface {
         case EXIT:
           System.out.println("Thank you for using the Properties app!\n");
           finished = true;
-          break;
-        default:
-          System.out.println("Unrecognized menu selected...");
           break;
       }
     }

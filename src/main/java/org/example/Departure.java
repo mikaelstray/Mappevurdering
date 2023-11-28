@@ -232,7 +232,7 @@ public class Departure {
   @Override
   public String toString() {
     String output = "";
-    output += "- " + time + " | " + line + " | " + trainNumber + " | " + destination;
+    output += "-  " + name + " | " + time + " | " + line + " | " + trainNumber + " | " + destination;
     if (delay > 0) {
       output += " | " + delay;
     }
