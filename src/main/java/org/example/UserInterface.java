@@ -112,7 +112,10 @@ public class UserInterface {
     if (this.trainNumberDoesNotExist(trainNumber)) {
       System.out.println(TRAIN_NUMBER_NON_EXISTING);
     } else {
-      System.out.println(trainDispatch.findDepartureByNumber(trainNumber));
+      System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
+                "| Time", "Line", "Train Number", "Destination", "Delay", "Track      |");
+      System.out.println("-".repeat(80));
+      printDepartureInfo(trainDispatch.findDepartureByNumber(trainNumber));
     }
   }
 
@@ -122,7 +125,12 @@ public class UserInterface {
     if (trainDispatch.findDepartureByDestination(destination).isEmpty()) {
       System.out.println("Destination does not exist, try again");
     } else {
-      System.out.println(trainDispatch.findDepartureByDestination(destination));
+      System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
+                "| Time", "Line", "Train Number", "Destination", "Delay", "Track      |");
+      System.out.println("-".repeat(80));
+      for (Departure departure : trainDispatch.findDepartureByDestination(destination)) {
+        printDepartureInfo(departure);
+      }
     }
   }
 
@@ -346,6 +354,10 @@ public class UserInterface {
     }
 
   private static void printTrainDispatch() {
+    if (trainDispatch.checkIfDepartureListAfterTimeIsEmpty()) {
+      System.out.println("List is empty, add a new departure first");
+      return;
+    }
     System.out.println("\n");
     System.out.println("-".repeat(80));
     centerText("Train Dispatch", 80);
@@ -356,7 +368,7 @@ public class UserInterface {
     System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
                 "| Time", "Line", "Train Number", "Destination", "Delay", "Track      |");
     System.out.println("-".repeat(80));
-    for (Departure departure : trainDispatch.getDepartureList()) {
+    for (Departure departure : trainDispatch.departureListAfterCurrentTime()) {
             printDepartureInfo(departure);
     }
     System.out.println("-".repeat(80));

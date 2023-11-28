@@ -72,12 +72,10 @@ public class TrainDispatch {
 
   public void registerDeparture(Departure departure) {
     departureList.add(departure);
-    numberOfDepartures++;
   }
 
   public void removeDeparture(Departure departure) {
     departureList.remove(departure);
-    numberOfDepartures--;
   }
 
   /**
@@ -87,10 +85,12 @@ public class TrainDispatch {
    */
 
   public List<Departure> departureListAfterCurrentTime() {
-    return departureList.stream()
+    ArrayList<Departure> newList = departureList.stream()
             .filter(departure -> departure.getTime().plusMinutes(departure.getDelay()).isAfter(time))
             .sorted(Comparator.comparing(Departure::getTimePlusDelay))
             .collect(Collectors.toCollection(ArrayList::new));
+    numberOfDepartures = newList.size();
+    return newList;
   }
 
   /**
