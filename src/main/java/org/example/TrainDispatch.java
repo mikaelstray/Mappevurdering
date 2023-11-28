@@ -25,28 +25,21 @@ public class TrainDispatch {
   /**
    * Number of registered departures.
    */
-  private static int numberOfDepartures = 0;
+  private int numberOfDepartures = 0;
 
   /**
    * The current time used for various time-based operations.
    */
 
-  private static LocalTime time;
-
-  /**
-   * Constructs a TrainDispatch object with the current time.
-   */
-  public TrainDispatch() {
-    time = LocalTime.now();
-  }
+  private static LocalTime time = LocalTime.now();
 
   /**
    * Sets the current time used for various time-based operations.
    *
    * @param time The new current time.
    */
-  public void setTime(LocalTime time) {
-    this.time = time;
+  public static void setTime(LocalTime time) {
+    TrainDispatch.time = time;
   }
 
   /**
@@ -90,11 +83,10 @@ public class TrainDispatch {
    * @param departure The departure to register.
    */
 
-  public void registerDeparture(Departure departure) { // Make method with all parameters &
-    // change way of user input?
+  public void registerDeparture(Departure departure) {
     departureList.add(departure);
     numberOfDepartures++;
-  } // Composition, lagre objektet et annet sted enn departureList
+  }
 
   public void removeDeparture(Departure departure) {
     departureList.remove(departure);

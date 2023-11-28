@@ -40,7 +40,7 @@ public class Departure {
                    int track, int delay) throws IllegalArgumentException, NullPointerException {
     checkNull(name, "Name");
     checkNull(line, "Line");
-    checkNull(line, "Line");
+    checkNull(time.toString(), "Time");
     checkNegativeNumbers(trainNumber, "Train number");
     checkNull(destination, "Destination");
     checkNegativeNumbers(track, "Track");

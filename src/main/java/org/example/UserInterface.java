@@ -164,19 +164,22 @@ public class UserInterface {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     System.out.println("New time? In format hh:mm. Has to be after current time: " + formatter.format(currentTime));
     String time = scanner.next();
-    LocalTime newTime = LocalTime.parse(time);
-    if (newTime.isBefore(currentTime)) {
-      System.out.println("New time has to be after current time");
+    if (!time.matches("\\d{2}:\\d{2}")) {
+      System.out.println("Wrong format, try again");
     } else {
-      trainDispatch.setTime(newTime);
-      System.out.println("New time is " + newTime);
+      LocalTime newTime = LocalTime.parse(time);
+      if (newTime.isBefore(currentTime)) {
+        System.out.println("New time has to be after current time");
+      } else {
+        TrainDispatch.setTime(newTime);
+        System.out.println("New time is " + newTime);
+      }
     }
   }
 
-  private Departure typeInDepartureInfo() {
+  private Departure typeInDepartureInfo() { //TODO: null validation and change input method?
     System.out.println("Name");
-    String name;
-    name = scanner.next();
+    String name = scanner.next();
 
     System.out.println("Time, hh:mm");
     String time = scanner.next();
