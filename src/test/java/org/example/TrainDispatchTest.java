@@ -62,9 +62,9 @@ void testFindDepartureByDestination() {
     trainDispatch.registerDeparture(departure2);
     trainDispatch.registerDeparture(departure3);
 
-    List<Departure> departuresToDestinationB = trainDispatch.findDepartureByDestination("Destination B");
-    assertEquals(1, departuresToDestinationB.size());
-    assertEquals(departure2, departuresToDestinationB.get(0));
+    Departure[] departuresToDestinationB = trainDispatch.findDeparturesByDestination("Destination B");
+    assertEquals(1, departuresToDestinationB.length);
+    assertEquals(departure2, departuresToDestinationB[0]);
 }
 
 @Test

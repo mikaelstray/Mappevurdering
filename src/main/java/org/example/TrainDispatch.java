@@ -4,7 +4,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The TrainDispatch class manages the dispatch of train departures, including registration,
@@ -158,7 +157,7 @@ public class TrainDispatch {
    * @return A list of departures with the specified destination, or an empty list if not found.
    */
 
-  public Departure[] findDepartureByDestination(String destination) {
+  public Departure[] findDeparturesByDestination(String destination) {
     return departureList.stream()
             .filter(d -> d.getDestination().trim().equalsIgnoreCase(destination.trim()))
             .toArray(Departure[]::new);

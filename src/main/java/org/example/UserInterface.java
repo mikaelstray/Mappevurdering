@@ -11,7 +11,6 @@ public class UserInterface {
   private static final String TRAIN_NUMBER_QUESTION = "Train number?";
   private static final String TRAIN_NUMBER_NON_EXISTING = "Train number does not exist, try again";
   private static final String PLEASE_TRY_AGAIN = "Please try again: ";
-
   // Constants representing the different menu choices
   private static final int LIST_ALL_DEPARTURES = 1;
   private static final int ADD_DEPARTURE = 2;
@@ -94,42 +93,48 @@ public class UserInterface {
     if (listIsEmpty()) {
       return;
     }
-    int trainNumber = ensureRightTrainNumberFormat();
+    int trainNumber = ensureRightTrainNumberToFindDeparture();
+    if (trainNumber == 0) {
+      return;
+    }
     trainDispatch.removeDeparture(trainDispatch.findDepartureByNumber(trainNumber));
     System.out.println("\nDeparture with train number " + trainNumber + " was removed");
   }
 
 
   private void findDepartureByNumber() {
-    System.out.println(TRAIN_NUMBER_QUESTION);
-    int trainNumber = Integer.parseInt(scanner.nextLine());
-    if (!trainDispatch.findDuplicateTrainNumber(trainNumber)) {
-      System.out.println(TRAIN_NUMBER_NON_EXISTING);
-    } else {
-      printTrainDispatch();
+    int trainNumber = ensureRightTrainNumberToFindDeparture();
+    if (trainNumber == 0) {
+      return;
+    }
+    System.out.printf("\n%-12s %-7s %-18s %-15s %-12s %-10s%n",
+              "| Time", "Line", "Train Number", "Destination", "Delay", "Track      |");
+    System.out.println("-".repeat(80));
+    printDepartureInfo(trainDispatch.findDepartureByNumber(trainNumber));
+    }
+
+  private void findDeparturesByDestination() {
+    String destination = ensureRightDestinationToFindDeparture();
+    if (destination == null) {
+      return;
+    }
+    System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
+              "| Time", "Line", "Train Number", "Destination", "Delay", "Track      |");
+    System.out.println("-".repeat(80));
+    for (Departure departure : trainDispatch.findDeparturesByDestination(destination)) {
+      printDepartureInfo(departure);
     }
   }
 
-  private void findDepartureByDestination() {
-    System.out.println("Destination?");
-    String destination = scanner.nextLine();
-    if (trainDispatch.findDepartureByDestination(destination).length == 0) {
-      System.out.println("Destination does not exist, try again");
-    } else {
-      System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
-                "| Time", "Line", "Train Number", "Destination", "Delay", "Track      |");
-      System.out.println("-".repeat(80));
-      for (Departure departure : trainDispatch.findDepartureByDestination(destination)) {
-        printDepartureInfo(departure);
-      }
-    }
-  }
 
   private void setTrack() {
     if (listIsEmpty()) {
       return;
     }
-    int trainNumber = ensureRightTrainNumberFormat();
+    int trainNumber = ensureRightTrainNumberToFindDeparture();
+    if (trainNumber == 0) {
+      return;
+    }
     System.out.println("Track?");
     int track = ensureRightTrackAndDelayFormat();
     trainDispatch.setDelay(trainNumber, track);
@@ -140,7 +145,10 @@ public class UserInterface {
     if (listIsEmpty()) {
       return;
     }
-    int trainNumber = ensureRightTrainNumberFormat();
+    int trainNumber = ensureRightTrainNumberToFindDeparture();
+    if (trainNumber == 0) {
+      return;
+    }
     System.out.println("Delay?");
     int delay = ensureRightTrackAndDelayFormat();
     trainDispatch.setDelay(trainNumber, delay);
@@ -207,7 +215,7 @@ public class UserInterface {
   }
 
   private String ensureRightLineFormat() {
-    System.out.print("\nLine, range [1,5]: ");
+    System.out.print("\nLine, range [1,99999]: ");
     String line = scanner.nextLine();
     boolean validInput = false;
     while (!validInput) {
@@ -254,6 +262,61 @@ public class UserInterface {
     return Integer.parseInt(trainNumber);
   }
 
+  private int ensureRightTrainNumberToFindDeparture() {
+    System.out.print("\nTrain number, range [1,9999]. Press 0 to exit: ");
+    String trainNumber = scanner.nextLine();
+    int trainNumberInt;
+    boolean validInput = false;
+    while (!validInput) {
+      if (trainNumber.equals("0")) {
+        return 0;
+      }
+      try {
+        if (trainNumber.isEmpty()) {
+        throw new IllegalArgumentException("Input cannot be empty. ");
+        }
+        trainNumberInt = Integer.parseInt(trainNumber);
+        if (trainNumberInt <= 0 || trainNumberInt > 9999) {
+          throw new IllegalArgumentException("Train number has to be in range [1,9999]. ");
+        } else if (!trainDispatch.findDuplicateTrainNumber(trainNumberInt)) {
+          throw new IllegalArgumentException("Train number does not exist. ");
+        }
+        validInput = true;
+      } catch (NumberFormatException e) {
+        System.out.print("Wrong format. Has to be a number. Please try again (0 to exit): ");
+        trainNumber = scanner.nextLine();
+      } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + PLEASE_TRY_AGAIN + " (0 to exit): ");
+        trainNumber = scanner.nextLine();
+      }
+    }
+    return Integer.parseInt(trainNumber);
+  }
+
+  private String ensureRightDestinationToFindDeparture() {
+    System.out.print("\nDestination: ");
+    String destination = scanner.nextLine();
+    boolean validInput = false;
+    while (!validInput) {
+      if (destination.equals("0")) {
+        return null;
+      }
+      try {
+        if (destination.isEmpty()) {
+        throw new IllegalArgumentException("Input cannot be empty. ");
+        }
+        if (trainDispatch.findDeparturesByDestination(destination).length == 0) {
+          throw new IllegalArgumentException("Destination does not exist. ");
+        }
+        validInput = true;
+      } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + PLEASE_TRY_AGAIN + " (0 to exit): ");
+        destination = scanner.nextLine();
+      }
+    }
+    return destination;
+  }
+
   private int ensureRightTrackAndDelayFormat() {
     boolean validInput = false;
     int value = Integer.parseInt(scanner.nextLine());
@@ -290,10 +353,10 @@ public class UserInterface {
     System.out.print("\nDestination: ");
     String destination = ensureNotNullAndGetInput();
 
-    System.out.print("\nTrack (type 0 if not existing yet), range [0,3]: ");
+    System.out.print("\nTrack (type 0 if not existing yet), range [0,999]: ");
     int track = ensureRightTrackAndDelayFormat();
 
-    System.out.print("\nDelay, range [0,3]: ");
+    System.out.print("\nDelay, range [0,999]: ");
     int delay = ensureRightTrackAndDelayFormat();
 
     return new Departure(name, time, line, trainNumber, destination, track, delay);
@@ -374,7 +437,7 @@ public class UserInterface {
           findDepartureByNumber();
           break;
         case FIND_DEPARTURE_BY_DESTINATION:
-          findDepartureByDestination();
+          findDeparturesByDestination();
           break;
         case SET_TRACK:
           setTrack();
