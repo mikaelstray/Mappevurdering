@@ -85,12 +85,11 @@ public class TrainDispatch {
    */
 
   public List<Departure> departureListAfterCurrentTimeAndDelay() {
-    ArrayList<Departure> newList = departureList.stream()
-            .filter(departure -> departure.getTime().plusMinutes(departure.getDelay()).isAfter(time))
+    departureList.removeIf(departure -> departure.getTime().plusMinutes(departure.getDelay()).isBefore(time));
+    numberOfDepartures = departureList.size();
+    return departureList.stream()
             .sorted(Comparator.comparing(Departure::getTimePlusDelay))
             .collect(Collectors.toCollection(ArrayList::new));
-    numberOfDepartures = newList.size();
-    return newList;
   }
 
   /**
@@ -99,7 +98,7 @@ public class TrainDispatch {
    * @return True if the list of departures after the current time is empty, false otherwise.
    */
 
-  public boolean checkIfDepartureListAfterTimeIsEmpty() {
+  public boolean checkIfListIsEmpty() {
     return departureListAfterCurrentTimeAndDelay().isEmpty();
   }
 
@@ -133,7 +132,7 @@ public class TrainDispatch {
    * @return True if the train number is a duplicate, false otherwise.
    */
 
-  public boolean findDuplicateTrainNumberWithNumber(int trainNumber) {
+  public boolean findDuplicateTrainNumber(int trainNumber) {
     return departureList.stream()
             .anyMatch(d -> d.getTrainNumber() == trainNumber);
   }

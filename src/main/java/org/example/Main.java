@@ -5,7 +5,7 @@ package org.example;
  * It initializes and starts the user interface.
 
  * @author Mikael Stray Froeyshov
- * @version 1.0
+ * @version 1.02
  * @since 2023-11-02
  */
 
