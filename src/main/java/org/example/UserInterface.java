@@ -76,6 +76,14 @@ public class UserInterface {
     }
   }
 
+  private boolean listIsEmpty() {
+    if (trainDispatch.checkIfListIsEmpty()) {
+      System.out.println("List is empty, add a new departure first");
+      return true;
+    }
+    return false;
+  }
+
   private void addDeparture() {
     Departure departure = typeInDepartureInfo();
     trainDispatch.registerDeparture(departure);
@@ -83,19 +91,14 @@ public class UserInterface {
   }
 
   private void removeDeparture() {
-    if (trainDispatch.checkIfListIsEmpty()) {
-      System.out.println("List is empty, add a new departure first");
-    } else {
-      System.out.println(TRAIN_NUMBER_QUESTION);
-      int trainNumber = Integer.parseInt(scanner.nextLine());
-      if (!trainDispatch.findDuplicateTrainNumber(trainNumber)) {
-        System.out.println(TRAIN_NUMBER_NON_EXISTING);
-      } else {
-        trainDispatch.removeDeparture(trainDispatch.findDepartureByNumber(trainNumber));
-        System.out.println("\n Departure with train number " + trainNumber + " was removed");
-      }
+    if (listIsEmpty()) {
+      return;
     }
+    int trainNumber = ensureRightTrainNumberFormat();
+    trainDispatch.removeDeparture(trainDispatch.findDepartureByNumber(trainNumber));
+    System.out.println("\nDeparture with train number " + trainNumber + " was removed");
   }
+
 
   private void findDepartureByNumber() {
     System.out.println(TRAIN_NUMBER_QUESTION);
@@ -126,39 +129,23 @@ public class UserInterface {
   }
 
   private void setTrack() {
-    boolean validInput = false;
+    if (listIsEmpty()) {
+      return;
+    }
     int trainNumber = ensureRightTrainNumberFormat();
     System.out.println("Track?");
     int track = ensureRightTrackAndDelayFormat();
-    while (!validInput) {
-      try {
-        if (trainDispatch.checkIfListIsEmpty()) {
-          throw new IllegalArgumentException("List is empty, add a new departure first");
-        }
-        validInput = true;
-      } catch (IllegalArgumentException e) {
-        System.out.print(e + PLEASE_TRY_AGAIN);
-      }
-    }
     trainDispatch.setDelay(trainNumber, track);
     System.out.println("\n Delay for departure with train number " + trainNumber + " was set to " + track);
   }
 
     private void setDelay() {
-    boolean validInput = false;
+    if (listIsEmpty()) {
+      return;
+    }
     int trainNumber = ensureRightTrainNumberFormat();
     System.out.println("Delay?");
     int delay = ensureRightTrackAndDelayFormat();
-    while (!validInput) {
-      try {
-        if (trainDispatch.checkIfListIsEmpty()) {
-          throw new IllegalArgumentException("List is empty, add a new departure first");
-        }
-        validInput = true;
-      } catch (IllegalArgumentException e) {
-        System.out.print(e + PLEASE_TRY_AGAIN);
-      }
-    }
     trainDispatch.setDelay(trainNumber, delay);
     System.out.println("\n Delay for departure with train number " + trainNumber + " was set to " + delay);
   }
@@ -204,7 +191,8 @@ public class UserInterface {
         if (!hoursCorrectRange || !minutesCorrectRange) {
           throw new IllegalArgumentException("Wrong format. Hours has to be between 00-23 and minutes 00-59.");
         } else if (LocalTime.parse(time).isBefore(trainDispatch.getTime())) {
-          throw new IllegalArgumentException("Time cannot be before current time.");
+          throw new IllegalArgumentException("Time cannot be before current time: "
+                  + formatter.format(trainDispatch.getTime()) + ". ");
         }
         validInput = true;
       } catch (NumberFormatException e) {
