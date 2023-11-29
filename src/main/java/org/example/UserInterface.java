@@ -171,10 +171,8 @@ public class UserInterface {
   private void updateTime() {
     LocalTime currentTime = trainDispatch.getTime();
     System.out.println("New time? In format hh:mm. Has to be after current time: " + formatter.format(currentTime));
-    LocalTime newTime = LocalTime.parse(ensureRightTimeFormat());
-    trainDispatch.setTime(newTime);
-    System.out.println("New time is " + newTime);
-}
+    String time = scanner.nextLine();
+  }
 
   private String ensureNotNullAndGetInput() {
     boolean validInput = false;
@@ -252,7 +250,7 @@ public class UserInterface {
     boolean validInput = false;
     while (!validInput) {
       try {
-        if (trainNumber <= 0 || String.valueOf(trainNumber).isEmpty()) {
+        if (trainNumber < 0 || String.valueOf(trainNumber).isEmpty()) {
           throw new IllegalArgumentException("Train number cannot be empty, 0 or negative.");
         } else if (trainNumber > 9999) {
           throw new IllegalArgumentException("Train number cannot be longer than 4 digits.");
@@ -302,19 +300,19 @@ public class UserInterface {
       String time = ensureRightTimeFormat();
       LocalTime localTime = LocalTime.parse(time);
 
-      System.out.print("\nLine: ");
+      System.out.print("\nLine, range [1,5]: ");
       String line = ensureRightLineFormat();
 
-      System.out.print("\nTrain number (0 to exit to menu): ");
+      System.out.print("\nTrain number, range [1,4]: ");
       int trainNumber = ensureRightTrainNumberFormat();
 
       System.out.print("\nDestination: ");
       String destination = ensureNotNullAndGetInput();
 
-      System.out.print("\nTrack, type 0 if not existing yet: ");
+      System.out.print("\nTrack (type 0 if not existing yet), range [0,3]: ");
       int track = ensureRightTrackAndDelayFormat();
 
-      System.out.print("\nDelay: ");
+      System.out.print("\nDelay, range [0,3]: ");
       int delay = ensureRightTrackAndDelayFormat();
 
       return new Departure(name, localTime, line, trainNumber, destination, track, delay);
@@ -368,7 +366,7 @@ public class UserInterface {
     System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
                 "| Time", "Line", "Train Number", "Destination", "Delay", "Track      |");
     System.out.println("-".repeat(80));
-    for (Departure departure : trainDispatch.departureListAfterCurrentTime()) {
+    for (Departure departure : trainDispatch.departureListAfterCurrentTimeAndDelay()) {
             printDepartureInfo(departure);
     }
     System.out.println("-".repeat(80));

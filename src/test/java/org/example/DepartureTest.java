@@ -17,24 +17,99 @@ class DepartureTest {
         departure = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
     }
 
-    /* @Test // TODO: make test for constructor instead
-    void testCloneWhenCalledThenReturnClonedDepartureObject() {
-        Departure clonedDeparture = departure.clone();
-        assertNotSame(departure, clonedDeparture);
-        assertEquals(departure.getName(), clonedDeparture.getName());
-        assertEquals(departure.getTime(), clonedDeparture.getTime());
-        assertEquals(departure.getLine(), clonedDeparture.getLine());
-        assertEquals(departure.getTrainNumber(), clonedDeparture.getTrainNumber());
-        assertEquals(departure.getDestination(), clonedDeparture.getDestination());
-        assertEquals(departure.getTrack(), clonedDeparture.getTrack());
-        assertEquals(departure.getDelay(), clonedDeparture.getDelay());
-    } */
+    @Test
+    void createValidDeparture() {
+        // Arrange
+        LocalTime time = LocalTime.of(12, 30);
+        Departure departure = new Departure("Name", time, "Line", 123, "Destination", 1, 0);
+
+        // Act & Assert
+        assertEquals("Name", departure.getName());
+        assertEquals(time, departure.getTime());
+        assertEquals("Line", departure.getLine());
+        assertEquals(123, departure.getTrainNumber());
+        assertEquals("Destination", departure.getDestination());
+        assertEquals(0, departure.getDelay());
+        assertEquals(1, departure.getTrack());
+    }
 
     @Test
-    void testSetNameWhenCalledThenNameIsUpdated() {
-        String newName = "New Name";
-        departure.setName(newName);
-        assertEquals(newName, departure.getName());
+    void createDepartureWithZeroTrack() {
+        // Arrange
+        LocalTime time = LocalTime.of(12, 30);
+        Departure departure = new Departure("Name", time, "Line", 123, "Destination", 0, 0);
+
+        // Act & Assert
+        assertEquals(-1, departure.getTrack());
+    }
+
+    @Test
+    void createDepartureWithDelay() {
+        // Arrange
+        LocalTime time = LocalTime.of(12, 30);
+        Departure departure = new Departure("Name", time, "Line", 123, "Destination", 1, 15);
+
+        // Act & Assert
+        assertEquals(15, departure.getDelay());
+        assertEquals(LocalTime.of(12, 45), departure.getTimePlusDelay());
+    }
+
+    // Negative tests
+
+    @Test
+    void createDepartureWithNegativeTrainNumber() {
+        // Arrange & Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new Departure("Name", LocalTime.of(12, 30), "Line", -1, "Destination", 1, 0)
+        );
+    }
+
+    @Test
+    void createDepartureWithNegativeTrack() {
+        // Arrange & Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new Departure("Name", LocalTime.of(12, 30), "Line", 123, "Destination", -1, 0)
+        );
+    }
+
+    @Test
+    void createDepartureWithNegativeDelay() {
+        // Arrange & Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new Departure("Name", LocalTime.of(12, 30), "Line", 123, "Destination", 1, -15)
+        );
+    }
+
+    @Test
+    void createDepartureWithNullName() {
+        // Arrange & Act & Assert
+        assertThrows(NullPointerException.class, () ->
+                new Departure(null, LocalTime.of(12, 30), "Line", 123, "Destination", 1, 0)
+        );
+    }
+
+    @Test
+    void createDepartureWithEmptyLine() {
+        // Arrange & Act & Assert
+        assertThrows(NullPointerException.class, () ->
+                new Departure("Name", LocalTime.of(12, 30), "", 123, "Destination", 1, 0)
+        );
+    }
+
+    @Test
+    void createDepartureWithNullTime() {
+        // Arrange & Act & Assert
+        assertThrows(NullPointerException.class, () ->
+                new Departure("Name", null, "Line", 123, "Destination", 1, 0)
+        );
+    }
+
+    @Test
+    void createDepartureWithNullDestination() {
+        // Arrange & Act & Assert
+        assertThrows(NullPointerException.class, () ->
+                new Departure("Name", LocalTime.of(12, 30), "Line", 123, null, 1, 0)
+        );
     }
 
     @Test
@@ -51,84 +126,60 @@ class DepartureTest {
         assertEquals(newTrack, departure.getTrack());
     }
 
-    @Test
-    void testEqualsWhenSameObjectThenReturnTrue() {
-        assertTrue(departure.equals(departure));
-    }
-
-    @Test
-    void testEqualsWhenDifferentClassThenReturnFalse() {
-        assertFalse(departure.equals("Test"));
-    }
 
     @Test
     void testEqualsWhenEqualDepartureThenReturnTrue() {
         Departure equalDeparture = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
-        assertTrue(departure.equals(equalDeparture));
+        assertEquals(departure, equalDeparture);
     }
 
     @Test
-    void testEqualsWhenDifferentNameThenReturnFalse() {
-        Departure differentDeparture = new Departure("Different", LocalTime.now(), "Line1", 1, "Destination", 1, 0);
-        assertFalse(departure.equals(differentDeparture));
+    void testEqualsWhenDifferentDepartureThenReturnFalse() {
+        Departure differentDeparture = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
+        differentDeparture.setDelay(10);
+        assertNotEquals(departure, differentDeparture);
     }
 
     @Test
-    void testEqualsWhenDifferentTimeThenReturnFalse() {
-        Departure differentDeparture = new Departure("Test", LocalTime.now().plusMinutes(1), "Line1", 1, "Destination", 1, 0);
-        assertFalse(departure.equals(differentDeparture));
+    void testEqualsWhenDifferentObjectThenReturnFalse() {
+        assertNotEquals(departure, new Object());
     }
 
-    @Test
-    void testEqualsWhenDifferentTrainNumberThenReturnFalse() {
-        Departure differentDeparture = new Departure("Test", LocalTime.now(), "Line1", 2, "Destination", 1, 0);
-        assertFalse(departure.equals(differentDeparture));
-    }
-
-    @Test
-    void testEqualsWhenDifferentTrackThenReturnFalse() {
-        Departure differentDeparture = new Departure("Test", LocalTime.now(), "Line1", 1, "Destination", 2, 0);
-        assertFalse(departure.equals(differentDeparture));
-    }
-
-    @Test
-    void testEqualsWhenDifferentDestinationThenReturnFalse() {
-        Departure differentDeparture = new Departure("Test", LocalTime.now(), "Line1", 1, "Different", 1, 0);
-        assertFalse(departure.equals(differentDeparture));
-    }
-
-    @Test
+@Test
     void testEqualsWhenNullThenReturnFalse() {
-        assertNotEquals(null, departure);
-    }
-
-    // Additional positive tests
-
-    @Test
-    void testEqualsWhenEqualDepartureWithNullTimeThenReturnTrue() {
-        Departure nullTimeDeparture = new Departure("Test", null, "Line1", 1, "Destination", 1, 0);
-        Departure equalDeparture = new Departure("Test", null, "Line1", 1, "Destination", 1, 0);
-        assertTrue(nullTimeDeparture.equals(equalDeparture));
+        assertNotEquals(departure, null);
     }
 
     @Test
-    void testEqualsWhenEqualDepartureWithNullDestinationThenReturnTrue() {
-        Departure nullDestinationDeparture = new Departure("Test", time, "Line1", 1, null, 1, 0);
-        Departure equalDeparture = new Departure("Test", time, "Line1", 1, null, 1, 0);
-        assertTrue(nullDestinationDeparture.equals(equalDeparture));
-    }
-
-    // Additional negative tests
-
-    @Test
-    void testEqualsWhenDifferentDepartureWithNullTimeThenReturnFalse() {
-        Departure nullTimeDeparture = new Departure("Test", null, "Line1", 1, "Destination", 1, 0);
-        assertFalse(departure.equals(nullTimeDeparture));
+    void testHashCodeWhenEqualDepartureThenReturnTrue() {
+        Departure equalDeparture = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
+        assertEquals(departure.hashCode(), equalDeparture.hashCode());
     }
 
     @Test
-    void testEqualsWhenDifferentDepartureWithNullDestinationThenReturnFalse() {
-        Departure nullDestinationDeparture = new Departure("Test", time, "Line1", 1, null, 1, 0);
-        assertFalse(departure.equals(nullDestinationDeparture));
+    void testHashCodeWhenDifferentDepartureThenReturnFalse() {
+        Departure differentDeparture = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
+        differentDeparture.setDelay(10);
+        assertNotEquals(departure.hashCode(), differentDeparture.hashCode());
     }
+
+    @Test
+    void testHashCodeWhenDifferentObjectThenReturnFalse() {
+        assertNotEquals(departure.hashCode(), new Object().hashCode());
+    }
+
+    @Test
+    void testToStringWhenCalledThenReturnString() {
+        String expected = "Test, 12:24, Line1, 1, Destination, 1, 0";
+        assertEquals(expected, departure.toString());
+    }
+
+    @Test
+void testToStringWhenCalledThenReturnStringWithDelay() {
+        departure.setDelay(10);
+        String expected = "Test, 12:24, Line1, 1, Destination, 1, 10";
+        assertEquals(expected, departure.toString());
+    }
+
+
 }

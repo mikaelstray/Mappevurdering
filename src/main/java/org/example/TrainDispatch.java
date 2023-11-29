@@ -84,7 +84,7 @@ public class TrainDispatch {
    * @return A list of departures after the current time.
    */
 
-  public List<Departure> departureListAfterCurrentTime() {
+  public List<Departure> departureListAfterCurrentTimeAndDelay() {
     ArrayList<Departure> newList = departureList.stream()
             .filter(departure -> departure.getTime().plusMinutes(departure.getDelay()).isAfter(time))
             .sorted(Comparator.comparing(Departure::getTimePlusDelay))
@@ -100,7 +100,7 @@ public class TrainDispatch {
    */
 
   public boolean checkIfDepartureListAfterTimeIsEmpty() {
-    return departureListAfterCurrentTime().isEmpty();
+    return departureListAfterCurrentTimeAndDelay().isEmpty();
   }
 
   /**

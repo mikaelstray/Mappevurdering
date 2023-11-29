@@ -1,26 +1,30 @@
 
 h
-java:S1192t"FDefine a constant instead of duplicating this literal "Delay" 3 times.(°Ø…³øÿÿÿÿ8¼í´¹Á1
+java:S1192t"FDefine a constant instead of duplicating this literal "Delay" 3 times.(°Ø…³øÿÿÿÿ8Äî‡¿Á1
 i
-java:S1192t"GDefine a constant instead of duplicating this literal "| Time" 3 times.(°Ø…³øÿÿÿÿ8Âí´¹Á1
+java:S1192t"GDefine a constant instead of duplicating this literal "| Time" 3 times.(°Ø…³øÿÿÿÿ8Éî‡¿Á1
 n
-java:S1192t"LDefine a constant instead of duplicating this literal "Destination" 3 times.(°Ø…³øÿÿÿÿ8Èí´¹Á1
+java:S1192t"LDefine a constant instead of duplicating this literal "Destination" 3 times.(°Ø…³øÿÿÿÿ8Íî‡¿Á1
 ˜
-java:S1192Ú"uDefine a constant instead of duplicating this literal "Wrong format. Has to be a number. Please try again: " 3 times.(óğÇÅùÿÿÿÿ8ŞĞ©¹Á1
+java:S1192Ø"uDefine a constant instead of duplicating this literal "Wrong format. Has to be a number. Please try again: " 3 times.(óğÇÅùÿÿÿÿ8ûÔ’¿Á1
 o
-java:S1192t"MDefine a constant instead of duplicating this literal "Track      |" 3 times.(°Ø…³øÿÿÿÿ8Õí´¹Á1
+java:S1192t"MDefine a constant instead of duplicating this literal "Track      |" 3 times.(°Ø…³øÿÿÿÿ8Øî‡¿Á1
 …
-java:S1192`"iDefine a constant instead of duplicating this literal "List is empty, add a new departure first" 3 times.(Üæ¼8ãĞ©¹Á1
+java:S1192`"iDefine a constant instead of duplicating this literal "List is empty, add a new departure first" 3 times.(Üæ¼8Øî‡¿Á1
 o
-java:S1192t"MDefine a constant instead of duplicating this literal "Train Number" 3 times.(°Ø…³øÿÿÿÿ8àí´¹Á1
+java:S1192t"MDefine a constant instead of duplicating this literal "Train Number" 3 times.(°Ø…³øÿÿÿÿ8Øî‡¿Á1
 u
-java:S1192¹"WDefine a constant instead of duplicating this literal "Input cannot be empty." 3 times.(Ìüİ8éĞ©¹Á1
+java:S1192·"WDefine a constant instead of duplicating this literal "Input cannot be empty." 3 times.(Ìüİ8Øî‡¿Á1
 
-java:S1192s"eDefine a constant instead of duplicating this literal "%-12s %-7s %-18s %-15s %-12s %-10s%n" 3 times.(œã…k8ìí´¹Á1
+java:S1192s"eDefine a constant instead of duplicating this literal "%-12s %-7s %-18s %-15s %-12s %-10s%n" 3 times.(œã…k8Øî‡¿Á1
+[
+java:S1854®"8Remove this useless assignment to local variable "time".(ÊÙœ¥ÿÿÿÿÿ8¹ª“¿Á1
+L
+java:S1481®")Remove this unused "time" local variable.(ÊÙœ¥ÿÿÿÿÿ8ºª“¿Á1
 U
-java:S1135¨"2Complete the task associated to this TODO comment.(şÊ±¨ùÿÿÿÿ8Øî©¹Á1
+java:S1135¦"2Complete the task associated to this TODO comment.(şÊ±¨ùÿÿÿÿ8á˜¿Á1
 d
-java:S3457Ì"AFormat specifiers should be used instead of string concatenation.(öî›âşÿÿÿÿ8Üî©¹Á1
+java:S3457Ê"AFormat specifiers should be used instead of string concatenation.(öî›âşÿÿÿÿ8â˜¿Á1
 _
-java:S3457Ó"AFormat specifiers should be used instead of string concatenation.(Š Â8İî©¹Á1
-?	java:S131€""Add a default case to this switch.(¬ Ï§8çî©¹Á1
+java:S3457Ñ"AFormat specifiers should be used instead of string concatenation.(Š Â8ã˜¿Á1
+?	java:S131ş""Add a default case to this switch.(¬ Ï§8å˜¿Á1
