@@ -27,13 +27,12 @@ public class UserInterface {
     trainDispatch = new TrainDispatch();
     scanner = new Scanner(System.in);
 
-    Departure departure1 = new Departure("Lillestrom", LocalTime.of(17,45), "F4", 123, "Lillestrom", 1, 0);
-    Departure departure2 = new Departure("Oslo S", LocalTime.of(19, 0), "L1", 456, "Oslo S", 2, 31);
-    Departure departure3 = new Departure("Trondheim", LocalTime.of(16, 12), "E5", 789, "Trondheim", 0, 0);
-
-    trainDispatch.registerDeparture(departure1);
-    trainDispatch.registerDeparture(departure2);
-    trainDispatch.registerDeparture(departure3);
+    trainDispatch.registerDeparture(new Departure("Lillestrom", LocalTime.of(17,45), "F4",
+            123, "Lillestrom", 1, 0));
+    trainDispatch.registerDeparture(new Departure("Oslo S", LocalTime.of(19, 0), "L1",
+            456, "Oslo S", 2, 31));
+    trainDispatch.registerDeparture(new Departure("Trondheim", LocalTime.of(16, 12), "E5",
+            789, "Trondheim", 0, 0));
   }
 
   /**
@@ -63,7 +62,7 @@ public class UserInterface {
 
   private int userChoice() {
     if (scanner.hasNextInt()) {
-      int choice = scanner.nextInt();
+      int choice = Integer.parseInt(scanner.nextLine());
       if (choice >= 1 && choice <= 9) {
         return choice;
       } else {
@@ -72,17 +71,9 @@ public class UserInterface {
       }
     } else {
       System.out.print("Unrecognized input");
-      scanner.next();
+      scanner.nextLine();
       return 0;
     }
-  }
-
-  private boolean departureListIsEmpty() {
-    return trainDispatch.checkIfDepartureListAfterTimeIsEmpty();
-  }
-
-  private boolean trainNumberDoesNotExist(int trainNumber) {
-    return trainDispatch.findDepartureByNumber(trainNumber) == null;
   }
 
   private void addDeparture() {
@@ -92,12 +83,12 @@ public class UserInterface {
   }
 
   private void removeDeparture() {
-    if (this.departureListIsEmpty()) {
+    if (trainDispatch.checkIfListIsEmpty()) {
       System.out.println("List is empty, add a new departure first");
     } else {
       System.out.println(TRAIN_NUMBER_QUESTION);
-      int trainNumber = scanner.nextInt();
-      if (this.trainNumberDoesNotExist(trainNumber)) {
+      int trainNumber = Integer.parseInt(scanner.nextLine());
+      if (!trainDispatch.findDuplicateTrainNumber(trainNumber)) {
         System.out.println(TRAIN_NUMBER_NON_EXISTING);
       } else {
         trainDispatch.removeDeparture(trainDispatch.findDepartureByNumber(trainNumber));
@@ -108,8 +99,8 @@ public class UserInterface {
 
   private void findDepartureByNumber() {
     System.out.println(TRAIN_NUMBER_QUESTION);
-    int trainNumber = scanner.nextInt();
-    if (this.trainNumberDoesNotExist(trainNumber)) {
+    int trainNumber = Integer.parseInt(scanner.nextLine());
+    if (!trainDispatch.findDuplicateTrainNumber(trainNumber)) {
       System.out.println(TRAIN_NUMBER_NON_EXISTING);
     } else {
       System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
@@ -121,7 +112,7 @@ public class UserInterface {
 
   private void findDepartureByDestination() {
     System.out.println("Destination?");
-    String destination = scanner.next();
+    String destination = scanner.nextLine();
     if (trainDispatch.findDepartureByDestination(destination).isEmpty()) {
       System.out.println("Destination does not exist, try again");
     } else {
@@ -135,43 +126,47 @@ public class UserInterface {
   }
 
   private void setTrack() {
-    if (this.departureListIsEmpty()) {
-      System.out.println("List is empty, add a new departure first");
-    } else {
-      System.out.println(TRAIN_NUMBER_QUESTION);
-      int trainNumber = scanner.nextInt();
-      System.out.println("Track?");
-      int track = scanner.nextInt();
-      if (!trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)) {
-        System.out.println(TRAIN_NUMBER_NON_EXISTING);
-      } else {
-        trainDispatch.setTrack(trainNumber, track);
-        System.out.println("\n Track for departure with train number " + trainNumber + " was set to " + track);
+    boolean validInput = false;
+    int trainNumber = ensureRightTrainNumberFormat();
+    System.out.println("Track?");
+    int track = ensureRightTrackAndDelayFormat();
+    while (!validInput) {
+      try {
+        if (trainDispatch.checkIfListIsEmpty()) {
+          throw new IllegalArgumentException("List is empty, add a new departure first");
+        }
+        validInput = true;
+      } catch (IllegalArgumentException e) {
+        System.out.print(e + PLEASE_TRY_AGAIN);
       }
     }
+    trainDispatch.setDelay(trainNumber, track);
+    System.out.println("\n Delay for departure with train number " + trainNumber + " was set to " + track);
   }
 
-  private void setDelay() {
-    if (this.departureListIsEmpty()) {
-      System.out.println("Departure list is empty, add a departure first");
-    } else {
-      System.out.println(TRAIN_NUMBER_QUESTION);
-      int trainNumber = scanner.nextInt();
-      System.out.println("Delay?");
-      int delay = scanner.nextInt();
-      if (this.trainNumberDoesNotExist(trainNumber)) {
-        System.out.println(TRAIN_NUMBER_NON_EXISTING);
-      } else {
-        trainDispatch.setDelay(trainNumber, delay);
-        System.out.println("\n Delay for departure with train number " + trainNumber + " was set to " + delay);
+    private void setDelay() {
+    boolean validInput = false;
+    int trainNumber = ensureRightTrainNumberFormat();
+    System.out.println("Delay?");
+    int delay = ensureRightTrackAndDelayFormat();
+    while (!validInput) {
+      try {
+        if (trainDispatch.checkIfListIsEmpty()) {
+          throw new IllegalArgumentException("List is empty, add a new departure first");
+        }
+        validInput = true;
+      } catch (IllegalArgumentException e) {
+        System.out.print(e + PLEASE_TRY_AGAIN);
       }
     }
+    trainDispatch.setDelay(trainNumber, delay);
+    System.out.println("\n Delay for departure with train number " + trainNumber + " was set to " + delay);
   }
 
   private void updateTime() {
-    LocalTime currentTime = trainDispatch.getTime();
-    System.out.println("New time? In format hh:mm. Has to be after current time: " + formatter.format(currentTime));
-    String time = scanner.nextLine();
+    LocalTime newTime = ensureRightTimeFormat();
+    trainDispatch.setTime(newTime);
+    System.out.println("\n Time was updated to " + formatter.format(newTime));
   }
 
   private String ensureNotNullAndGetInput() {
@@ -180,7 +175,7 @@ public class UserInterface {
     while (!validInput) {
       try {
         if (input.isEmpty()) {
-          throw new IllegalArgumentException("Input cannot be empty.");
+          throw new IllegalArgumentException("Input cannot be empty. ");
         }
         validInput = true;
       } catch (IllegalArgumentException e) {
@@ -191,7 +186,8 @@ public class UserInterface {
     return input;
   }
 
-  private String ensureRightTimeFormat() {
+  private LocalTime ensureRightTimeFormat() {
+    System.out.println("Time? In format (hh:mm): ");
     String time = scanner.nextLine();
     boolean validInput = false;
     while (!validInput) {
@@ -202,7 +198,6 @@ public class UserInterface {
         String[] timeArray = time.split(":");
         int hours = Integer.parseInt(timeArray[0]);
         int minutes = Integer.parseInt(timeArray[1]);
-
         boolean hoursCorrectRange = hours >= 0 && hours <= 23;
         boolean minutesCorrectRange = minutes >= 0 && minutes <= 59;
 
@@ -223,10 +218,11 @@ public class UserInterface {
         time = scanner.nextLine();
       }
     }
-    return time;
+    return LocalTime.parse(time);
   }
 
   private String ensureRightLineFormat() {
+    System.out.print("\nLine, range [1,5]: ");
     String line = scanner.nextLine();
     boolean validInput = false;
     while (!validInput) {
@@ -246,76 +242,76 @@ public class UserInterface {
   }
 
   private int ensureRightTrainNumberFormat() {
-    int trainNumber = scanner.nextInt();
+    System.out.print("\nTrain number, range [1,9999]: ");
+    String trainNumber = scanner.nextLine();
+    int trainNumberInt;
     boolean validInput = false;
     while (!validInput) {
       try {
-        if (trainNumber < 0 || String.valueOf(trainNumber).isEmpty()) {
-          throw new IllegalArgumentException("Train number cannot be empty, 0 or negative.");
-        } else if (trainNumber > 9999) {
-          throw new IllegalArgumentException("Train number cannot be longer than 4 digits.");
-        } else if (trainDispatch.findDuplicateTrainNumberWithNumber(trainNumber)) {
+        if (trainNumber.isEmpty()) {
+        throw new IllegalArgumentException("Input cannot be empty.");
+        }
+        trainNumberInt = Integer.parseInt(trainNumber);
+        if (trainNumberInt <= 0 || trainNumberInt > 9999) {
+          throw new IllegalArgumentException("Train number has to be in range [1,9999].");
+        } else if (trainDispatch.findDuplicateTrainNumber(trainNumberInt)) {
           throw new IllegalArgumentException("Train number already exists.");
         }
         validInput = true;
       } catch (NumberFormatException e) {
         System.out.print("Wrong format. Has to be a number. Please try again: ");
-        trainNumber = scanner.nextInt();
+        trainNumber = scanner.nextLine();
       } catch (IllegalArgumentException e) {
         System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
-        trainNumber = scanner.nextInt();
+        trainNumber = scanner.nextLine();
       }
     }
-    return trainNumber;
+    return Integer.parseInt(trainNumber);
   }
 
   private int ensureRightTrackAndDelayFormat() {
     boolean validInput = false;
-    int trackOrDelay = scanner.nextInt();
+    int value = Integer.parseInt(scanner.nextLine());
     while (!validInput) {
       try {
-        if (trackOrDelay < 0) {
+        if (value < 0) {
           throw new IllegalArgumentException("Track or delay cannot be negative.");
-        } else if (trackOrDelay > 999) {
+        } else if (value > 999) {
           throw new IllegalArgumentException("Track or delay cannot be longer than 3 digits.");
         }
         validInput = true;
       } catch (NumberFormatException e) {
         System.out.print("Wrong format. Has to be a number. Please try again: ");
-        trackOrDelay = scanner.nextInt();
+        value = Integer.parseInt(scanner.nextLine());
       } catch (IllegalArgumentException e) {
         System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
-        trackOrDelay = scanner.nextInt();
+        value = Integer.parseInt(scanner.nextLine());
       }
     }
-    return trackOrDelay;
+    return value;
   }
 
   private Departure typeInDepartureInfo() { //TODO: null validation and change input method?
-      System.out.print("Name: ");
-      scanner.nextLine();
-      String name = ensureNotNullAndGetInput();
 
-      System.out.print("\nTime in format (hh:mm): ");
-      String time = ensureRightTimeFormat();
-      LocalTime localTime = LocalTime.parse(time);
+    System.out.print("Name: ");
+    String name = ensureNotNullAndGetInput();
 
-      System.out.print("\nLine, range [1,5]: ");
-      String line = ensureRightLineFormat();
+    LocalTime time = ensureRightTimeFormat();
 
-      System.out.print("\nTrain number, range [1,4]: ");
-      int trainNumber = ensureRightTrainNumberFormat();
+    String line = ensureRightLineFormat();
 
-      System.out.print("\nDestination: ");
-      String destination = ensureNotNullAndGetInput();
+    int trainNumber = ensureRightTrainNumberFormat();
 
-      System.out.print("\nTrack (type 0 if not existing yet), range [0,3]: ");
-      int track = ensureRightTrackAndDelayFormat();
+    System.out.print("\nDestination: ");
+    String destination = ensureNotNullAndGetInput();
 
-      System.out.print("\nDelay, range [0,3]: ");
-      int delay = ensureRightTrackAndDelayFormat();
+    System.out.print("\nTrack (type 0 if not existing yet), range [0,3]: ");
+    int track = ensureRightTrackAndDelayFormat();
 
-      return new Departure(name, localTime, line, trainNumber, destination, track, delay);
+    System.out.print("\nDelay, range [0,3]: ");
+    int delay = ensureRightTrackAndDelayFormat();
+
+    return new Departure(name, time, line, trainNumber, destination, track, delay);
   }
   /**
    * Starts the application. This is the main loop of the application,
@@ -352,7 +348,7 @@ public class UserInterface {
     }
 
   private static void printTrainDispatch() {
-    if (trainDispatch.checkIfDepartureListAfterTimeIsEmpty()) {
+    if (trainDispatch.checkIfListIsEmpty()) {
       System.out.println("List is empty, add a new departure first");
       return;
     }
