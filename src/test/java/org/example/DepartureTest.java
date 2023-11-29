@@ -14,17 +14,16 @@ class DepartureTest {
 
     @BeforeEach
     void setUp() {
-        departure = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
+        departure = new Departure(time, "Line1", 1, "Destination", 1, 0);
     }
 
     @Test
     void createValidDeparture() {
         // Arrange
         LocalTime time = LocalTime.of(12, 30);
-        Departure departure = new Departure("Name", time, "Line", 123, "Destination", 1, 0);
+        Departure departure = new Departure(time, "Line", 123, "Destination", 1, 0);
 
         // Act & Assert
-        assertEquals("Name", departure.getName());
         assertEquals(time, departure.getTime());
         assertEquals("Line", departure.getLine());
         assertEquals(123, departure.getTrainNumber());
@@ -47,7 +46,7 @@ class DepartureTest {
     void createDepartureWithDelay() {
         // Arrange
         LocalTime time = LocalTime.of(12, 30);
-        Departure departure = new Departure("Name", time, "Line", 123, "Destination", 1, 15);
+        Departure departure = new Departure(time, "Line", 123, "Destination", 1, 15);
 
         // Act & Assert
         assertEquals(15, departure.getDelay());
@@ -60,7 +59,7 @@ class DepartureTest {
     void createDepartureWithNegativeTrainNumber() {
         // Arrange & Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new Departure("Name", LocalTime.of(12, 30), "Line", -1, "Destination", 1, 0)
+                new Departure(LocalTime.of(12, 30), "Line", -1, "Destination", 1, 0)
         );
     }
 
@@ -68,7 +67,7 @@ class DepartureTest {
     void createDepartureWithNegativeTrack() {
         // Arrange & Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new Departure("Name", LocalTime.of(12, 30), "Line", 123, "Destination", -1, 0)
+                new Departure(LocalTime.of(12, 30), "Line", 123, "Destination", -1, 0)
         );
     }
 
@@ -76,7 +75,7 @@ class DepartureTest {
     void createDepartureWithNegativeDelay() {
         // Arrange & Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new Departure("Name", LocalTime.of(12, 30), "Line", 123, "Destination", 1, -15)
+                new Departure(LocalTime.of(12, 30), "Line", 123, "Destination", 1, -15)
         );
     }
 
@@ -84,7 +83,7 @@ class DepartureTest {
     void createDepartureWithNullName() {
         // Arrange & Act & Assert
         assertThrows(NullPointerException.class, () ->
-                new Departure(null, LocalTime.of(12, 30), "Line", 123, "Destination", 1, 0)
+                new Departure(LocalTime.of(12, 30), "Line", 123, "Destination", 1, 0)
         );
     }
 
@@ -92,7 +91,7 @@ class DepartureTest {
     void createDepartureWithEmptyLine() {
         // Arrange & Act & Assert
         assertThrows(NullPointerException.class, () ->
-                new Departure("Name", LocalTime.of(12, 30), "", 123, "Destination", 1, 0)
+                new Departure(LocalTime.of(12, 30), "", 123, "Destination", 1, 0)
         );
     }
 
@@ -100,7 +99,7 @@ class DepartureTest {
     void createDepartureWithNullTime() {
         // Arrange & Act & Assert
         assertThrows(NullPointerException.class, () ->
-                new Departure("Name", null, "Line", 123, "Destination", 1, 0)
+                new Departure(null, "Line", 123, "Destination", 1, 0)
         );
     }
 
@@ -108,7 +107,7 @@ class DepartureTest {
     void createDepartureWithNullDestination() {
         // Arrange & Act & Assert
         assertThrows(NullPointerException.class, () ->
-                new Departure("Name", LocalTime.of(12, 30), "Line", 123, null, 1, 0)
+                new Departure(LocalTime.of(12, 30), "Line", 123, null, 1, 0)
         );
     }
 
@@ -129,13 +128,13 @@ class DepartureTest {
 
     @Test
     void testEqualsWhenEqualDepartureThenReturnTrue() {
-        Departure equalDeparture = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
+        Departure equalDeparture = new Departure(time, "Line1", 1, "Destination", 1, 0);
         assertEquals(departure, equalDeparture);
     }
 
     @Test
     void testEqualsWhenDifferentDepartureThenReturnFalse() {
-        Departure differentDeparture = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
+        Departure differentDeparture = new Departure(time, "Line1", 1, "Destination", 1, 0);
         differentDeparture.setDelay(10);
         assertNotEquals(departure, differentDeparture);
     }
@@ -152,13 +151,13 @@ class DepartureTest {
 
     @Test
     void testHashCodeWhenEqualDepartureThenReturnTrue() {
-        Departure equalDeparture = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
+        Departure equalDeparture = new Departure(time, "Line1", 1, "Destination", 1, 0);
         assertEquals(departure.hashCode(), equalDeparture.hashCode());
     }
 
     @Test
     void testHashCodeWhenDifferentDepartureThenReturnFalse() {
-        Departure differentDeparture = new Departure("Test", time, "Line1", 1, "Destination", 1, 0);
+        Departure differentDeparture = new Departure(time, "Line1", 1, "Destination", 1, 0);
         differentDeparture.setDelay(10);
         assertNotEquals(departure.hashCode(), differentDeparture.hashCode());
     }
@@ -180,6 +179,4 @@ void testToStringWhenCalledThenReturnStringWithDelay() {
         String expected = "Test, 12:24, Line1, 1, Destination, 1, 10";
         assertEquals(expected, departure.toString());
     }
-
-
 }

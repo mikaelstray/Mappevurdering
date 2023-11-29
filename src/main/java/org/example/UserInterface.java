@@ -26,11 +26,11 @@ public class UserInterface {
     trainDispatch = new TrainDispatch();
     scanner = new Scanner(System.in);
 
-    trainDispatch.registerDeparture(new Departure("Lillestrom", LocalTime.of(17,45), "F4",
+    trainDispatch.registerDeparture(new Departure(LocalTime.of(17,45), "F4",
             123, "Lillestrom", 1, 0));
-    trainDispatch.registerDeparture(new Departure("Oslo S", LocalTime.of(19, 0), "L1",
+    trainDispatch.registerDeparture(new Departure(LocalTime.of(19, 0), "L1",
             456, "Oslo S", 2, 31));
-    trainDispatch.registerDeparture(new Departure("Trondheim", LocalTime.of(16, 12), "E5",
+    trainDispatch.registerDeparture(new Departure(LocalTime.of(16, 12), "E5",
             789, "Trondheim", 0, 0));
   }
 
@@ -341,9 +341,6 @@ public class UserInterface {
 
   private Departure typeInDepartureInfo() { //TODO: null validation and change input method?
 
-    System.out.print("Name: ");
-    String name = ensureNotNullAndGetInput();
-
     LocalTime time = ensureRightTimeFormat();
 
     String line = ensureRightLineFormat();
@@ -359,7 +356,7 @@ public class UserInterface {
     System.out.print("\nDelay, range [0,999]: ");
     int delay = ensureRightTrackAndDelayFormat();
 
-    return new Departure(name, time, line, trainNumber, destination, track, delay);
+    return new Departure(time, line, trainNumber, destination, track, delay);
   }
   /**
    * Starts the application. This is the main loop of the application,

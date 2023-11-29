@@ -13,7 +13,6 @@ import java.util.Objects;
 
 public class Departure {
 
-  private final String name;
   private final LocalTime time;
   private final String line;
   private final int trainNumber;
@@ -24,7 +23,6 @@ public class Departure {
   /**
    * Constructs a Departure object with the specified information.
    *
-   * @param name        Name of the departure.
    * @param time        Time of the departure.
    * @param line        Line or route of the departure.
    * @param trainNumber Train number of the departure.
@@ -36,9 +34,8 @@ public class Departure {
    * @throws NullPointerException     if the input parameters are null.
    */
 
-  public Departure(String name, LocalTime time, String line, int trainNumber, String destination,
+  public Departure(LocalTime time, String line, int trainNumber, String destination,
                    int track, int delay) throws IllegalArgumentException, NullPointerException {
-    checkNull(name, "Name");
     checkNull(line, "Line");
     checkNull(time.toString(), "Time");
     checkNegativeNumbers(trainNumber, "Train number");
@@ -46,7 +43,6 @@ public class Departure {
     checkNegativeNumbers(track, "Track");
     checkNegativeNumbers(delay, "Delay");
 
-    this.name = name.trim();
     this.time = time;
     this.line = line.trim();
     this.trainNumber = trainNumber;
@@ -85,15 +81,6 @@ public class Departure {
     if (parameter == null || parameter.trim().isEmpty()) {
       throw new NullPointerException(parameterName + " cannot be null");
     }
-  }
-
-  /**
-   * Gets the name of the departure.
-   *
-   * @return The name of the departure.
-   */
-  public String getName() {
-    return name;
   }
 
   /**
@@ -196,7 +183,6 @@ public class Departure {
     return getTime() == departure.getTime()
             && getTrainNumber() == departure.getTrainNumber()
             && getTrack() == departure.getTrack()
-            && Objects.equals(getName(), departure.getName())
             && Objects.equals(getLine(), departure.getLine())
             && Objects.equals(getDestination(), departure.getDestination());
   }
@@ -209,7 +195,7 @@ public class Departure {
 
   @Override
   public int hashCode() {
-    return Objects.hash(getName(), getTime(), getLine(), getTrainNumber(), getDestination(), getDelay(), getTrack());
+    return Objects.hash(getTime(), getLine(), getTrainNumber(), getDestination(), getDelay(), getTrack());
   }
 
   /**
