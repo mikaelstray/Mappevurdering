@@ -84,12 +84,12 @@ public class TrainDispatch {
    * @return A list of departures after the current time.
    */
 
-  public List<Departure> departureListAfterCurrentTimeAndDelay() {
+  public Departure[] departureListAfterCurrentTimeAndDelay() {
     departureList.removeIf(departure -> departure.getTime().plusMinutes(departure.getDelay()).isBefore(time));
     numberOfDepartures = departureList.size();
     return departureList.stream()
             .sorted(Comparator.comparing(Departure::getTimePlusDelay))
-            .collect(Collectors.toCollection(ArrayList::new));
+            .toArray(Departure[]::new);
   }
 
   /**
@@ -99,7 +99,7 @@ public class TrainDispatch {
    */
 
   public boolean checkIfListIsEmpty() {
-    return departureListAfterCurrentTimeAndDelay().isEmpty();
+    return departureListAfterCurrentTimeAndDelay().length == 0;
   }
 
   /**
@@ -158,10 +158,10 @@ public class TrainDispatch {
    * @return A list of departures with the specified destination, or an empty list if not found.
    */
 
-  public List<Departure> findDepartureByDestination(String destination) {
+  public Departure[] findDepartureByDestination(String destination) {
     return departureList.stream()
             .filter(d -> d.getDestination().trim().equalsIgnoreCase(destination.trim()))
-            .collect(Collectors.toCollection(ArrayList::new));
+            .toArray(Departure[]::new);
   }
 
   /**

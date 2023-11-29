@@ -1,24 +1,12 @@
 
-h
-java:S1192n"FDefine a constant instead of duplicating this literal "Delay" 3 times.(°Ø…³øÿÿÿÿ8Ãá€ÛÁ1
-i
-java:S1192n"GDefine a constant instead of duplicating this literal "| Time" 3 times.(°Ø…³øÿÿÿÿ8Éá€ÛÁ1
-n
-java:S1192n"LDefine a constant instead of duplicating this literal "Destination" 3 times.(°Ø…³øÿÿÿÿ8Ïá€ÛÁ1
 ˜
-java:S1192Ç"uDefine a constant instead of duplicating this literal "Wrong format. Has to be a number. Please try again: " 3 times.(óğÇÅùÿÿÿÿ8Ôá€ÛÁ1
-o
-java:S1192n"MDefine a constant instead of duplicating this literal "Track      |" 3 times.(°Ø…³øÿÿÿÿ8Ûá€ÛÁ1
-o
-java:S1192n"MDefine a constant instead of duplicating this literal "Train Number" 3 times.(°Ø…³øÿÿÿÿ8Şá€ÛÁ1
+java:S1192Ä"uDefine a constant instead of duplicating this literal "Wrong format. Has to be a number. Please try again: " 3 times.(óğÇÅùÿÿÿÿ8Ôá€ÛÁ1
 u
-java:S1192·"WDefine a constant instead of duplicating this literal "Input cannot be empty." 3 times.(Ìüİ8Şá€ÛÁ1
-
-java:S1192m"eDefine a constant instead of duplicating this literal "%-12s %-7s %-18s %-15s %-12s %-10s%n" 3 times.(œã…k8Şá€ÛÁ1
+java:S1192´"WDefine a constant instead of duplicating this literal "Input cannot be empty." 3 times.(Ìüİ8Şá€ÛÁ1
 U
-java:S1135š"2Complete the task associated to this TODO comment.(şÊ±¨ùÿÿÿÿ8šå€ÛÁ1
+java:S1135—"2Complete the task associated to this TODO comment.(şÊ±¨ùÿÿÿÿ8šå€ÛÁ1
 d
-java:S3457º"AFormat specifiers should be used instead of string concatenation.(öî›âşÿÿÿÿ8›å€ÛÁ1
+java:S3457·"AFormat specifiers should be used instead of string concatenation.(öî›âşÿÿÿÿ8›å€ÛÁ1
 _
-java:S3457Á"AFormat specifiers should be used instead of string concatenation.(Š Â8œå€ÛÁ1
-?	java:S131î""Add a default case to this switch.(¬ Ï§8Ÿå€ÛÁ1
+java:S3457¾"AFormat specifiers should be used instead of string concatenation.(Š Â8œå€ÛÁ1
+?	java:S131ë""Add a default case to this switch.(¬ Ï§8Ÿå€ÛÁ1

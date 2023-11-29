@@ -106,17 +106,14 @@ public class UserInterface {
     if (!trainDispatch.findDuplicateTrainNumber(trainNumber)) {
       System.out.println(TRAIN_NUMBER_NON_EXISTING);
     } else {
-      System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
-                "| Time", "Line", "Train Number", "Destination", "Delay", "Track      |");
-      System.out.println("-".repeat(80));
-      printDepartureInfo(trainDispatch.findDepartureByNumber(trainNumber));
+      printTrainDispatch();
     }
   }
 
   private void findDepartureByDestination() {
     System.out.println("Destination?");
     String destination = scanner.nextLine();
-    if (trainDispatch.findDepartureByDestination(destination).isEmpty()) {
+    if (trainDispatch.findDepartureByDestination(destination).length == 0) {
       System.out.println("Destination does not exist, try again");
     } else {
       System.out.printf("%-12s %-7s %-18s %-15s %-12s %-10s%n",
