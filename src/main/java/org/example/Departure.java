@@ -3,6 +3,8 @@ package org.example;
 import java.time.LocalTime;
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * This class represents a departure.
  *
@@ -35,24 +37,16 @@ public class Departure {
    */
 
   public Departure(LocalTime time, String line, int trainNumber, String destination,
-                   int track, int delay) throws IllegalArgumentException, NullPointerException {
-    checkNull(line, "Line");
-    checkNull(time.toString(), "Time");
+                   int track, int delay) throws IllegalArgumentException {
+
     checkNegativeNumbers(trainNumber, "Train number");
-    checkNull(destination, "Destination");
-    checkNegativeNumbers(track, "Track");
-    checkNegativeNumbers(delay, "Delay");
 
-    this.time = time;
-    this.line = line.trim();
+    this.time = requireNonNull(time, "Time cannot be null");
+    this.line = requireNonNull(line, "Line cannot be null");
     this.trainNumber = trainNumber;
-    this.destination = destination.trim();
-    this.track = track;
-    this.delay = delay;
-
-    if (track == 0) {
-      this.track = -1;
-    }
+    this.destination = requireNonNull(destination, "Destination cannot be null");
+    setTrack(track);
+    setDelay(delay);
   }
 
   /**
@@ -67,20 +61,6 @@ public class Departure {
           throws IllegalArgumentException {
     if (parameter < 0) {
       throw new IllegalArgumentException(parameterName + " cannot be negative");
-    }
-  }
-
-  /**
-   * Checks if the value of the input parameter is null or empty.
-   *
-   * @param parameter    The parameter to check.
-   * @param parameterName The name of the parameter.
-   * @throws NullPointerException if the input parameter is null or empty.
-   */
-
-  private void checkNull(String parameter, String parameterName) throws NullPointerException {
-    if (parameter == null || parameter.trim().isEmpty()) {
-      throw new NullPointerException(parameterName + " cannot be null");
     }
   }
 
@@ -145,6 +125,7 @@ public class Departure {
    * @param delay The new delay (in minutes) for the departure.
    */
   public void setDelay(int delay) {
+    checkNegativeNumbers(delay, "Delay");
     this.delay = delay;
   }
 
@@ -163,7 +144,8 @@ public class Departure {
    * @param track The new track or platform number for the departure.
    */
   public void setTrack(int track) {
-    this.track = track;
+    checkNegativeNumbers(track, "Track");
+    this.track = (track == 0) ? -1 : track;
   }
 
   /**
