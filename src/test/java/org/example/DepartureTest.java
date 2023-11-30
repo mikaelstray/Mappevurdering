@@ -14,9 +14,7 @@ class DepartureTest {
 
     @BeforeEach
     void setUp() {
-        // Common setup code for each test
-        LocalTime time = LocalTime.of(12, 30);
-        departure = new Departure(time, "Line", 123, "Destination", 1, 15);
+        departure = new Departure(LocalTime.of(12,30), "Line", 123, "Destination", 1, 15);
     }
 
     @Test
@@ -24,8 +22,6 @@ class DepartureTest {
     void createValidDepartureWithDelay() {
         // Arrange
         LocalTime time = LocalTime.of(12, 30);
-        Departure departure = new Departure(time, "Line", 123, "Destination", 1, 15);
-
         // Act & Assert
         assertEquals(time, departure.getTime());
         assertEquals("Line", departure.getLine());
