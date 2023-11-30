@@ -1,6 +1,7 @@
 package org.example;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
@@ -8,6 +9,11 @@ import java.time.LocalTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DepartureTest {
+
+     /**
+    *@Test
+    @DisplayName()
+    **/
 
     private Departure departure;
     private LocalTime time = LocalTime.now();
@@ -36,7 +42,7 @@ class DepartureTest {
     void createDepartureWithZeroTrack() {
         // Arrange
         LocalTime time = LocalTime.of(12, 30);
-        Departure departure = new Departure("Name", time, "Line", 123, "Destination", 0, 0);
+        Departure departure = new Departure(time, "Line", 123, "Destination", 0, 0);
 
         // Act & Assert
         assertEquals(-1, departure.getTrack());

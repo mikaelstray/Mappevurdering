@@ -19,3 +19,5 @@ S
 qodana.yaml,8\5\85c3a901608a6b9adf48d245fa84828b66304e51
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+U
+%src/main/java/org/example/diagram.svg,0\5\05283aa83bc93e186c5984c47e8f821eae5390a6

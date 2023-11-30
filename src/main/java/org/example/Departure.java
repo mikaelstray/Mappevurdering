@@ -63,7 +63,8 @@ public class Departure {
    * @throws IllegalArgumentException if the input parameter is negative.
    */
 
-  private void checkNegativeNumbers(int parameter, String parameterName) throws IllegalArgumentException {
+  private void checkNegativeNumbers(int parameter, String parameterName)
+          throws IllegalArgumentException {
     if (parameter < 0) {
       throw new IllegalArgumentException(parameterName + " cannot be negative");
     }
@@ -195,7 +196,8 @@ public class Departure {
 
   @Override
   public int hashCode() {
-    return Objects.hash(getTime(), getLine(), getTrainNumber(), getDestination(), getDelay(), getTrack());
+    return Objects.hash(getTime(), getLine(), getTrainNumber(), getDestination(),
+            getDelay(), getTrack());
   }
 
   /**
