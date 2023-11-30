@@ -71,10 +71,12 @@ public class TrainDispatch {
 
   public void registerDeparture(Departure departure) {
     departureList.add(departure);
+    numberOfDepartures = departureList.size();
   }
 
   public void removeDeparture(Departure departure) {
     departureList.remove(departure);
+    numberOfDepartures = departureList.size();
   }
 
   /**
