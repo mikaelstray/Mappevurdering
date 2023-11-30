@@ -31,9 +31,7 @@ public class Departure {
    * @param destination Destination of the departure.
    * @param track       Track or platform number of the departure.
    * @param delay       Delay (in minutes) of the departure.
-   *
    * @throws IllegalArgumentException if the input parameters are invalid or missing.
-   * @throws NullPointerException     if the input parameters are null.
    */
 
   public Departure(LocalTime time, String line, int trainNumber, String destination,
@@ -52,7 +50,7 @@ public class Departure {
   /**
    * Checks if the value of the input parameter is negative.
    *
-   * @param parameter    The parameter to check.
+   * @param parameter     The parameter to check.
    * @param parameterName The name of the parameter.
    * @throws IllegalArgumentException if the input parameter is negative.
    */
@@ -120,7 +118,7 @@ public class Departure {
   }
 
   /**
-   * Sets the delay (in minutes) of the departure.
+   * Validates and sets the delay (in minutes) of the departure
    *
    * @param delay The new delay (in minutes) for the departure.
    */
@@ -139,7 +137,7 @@ public class Departure {
   }
 
   /**
-   * Sets the track or platform number of the departure.
+   * Validates and sets the track or platform number of the departure.
    *
    * @param track The new track or platform number for the departure.
    */
@@ -180,16 +178,5 @@ public class Departure {
   public int hashCode() {
     return Objects.hash(getTime(), getLine(), getTrainNumber(), getDestination(),
             getDelay(), getTrack());
-  }
-
-  /**
-   * Compares this Departure object with another based on train numbers.
-   *
-   * @param otherDeparture The Departure object to compare with.
-   * @return A negative integer, zero, or a positive integer as this object is less than, equal to,
-   * or greater than the specified object.
-   */
-  public int compareTo(Departure otherDeparture) {
-    return Integer.compare(this.getTrainNumber(), otherDeparture.getTrainNumber());
   }
 }
