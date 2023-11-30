@@ -172,13 +172,16 @@ public class UserInterface {
     System.out.println("\n Time was updated to " + formatter.format(newTime));
   }
 
-  private String ensureNotNullAndGetInput() {
+  private String ensureRightDestinationFormat() {
+    System.out.println("\nDestination: ");
     String input = scanner.nextLine();
     boolean validInput = false;
     while (!validInput) {
       try {
         if (input.isEmpty()) {
           throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+        } else if (!input.matches("[a-zA-Z]+")) {
+          throw new IllegalArgumentException("Destination can only contain letters. ");
         }
         validInput = true;
       } catch (IllegalArgumentException e) {
@@ -223,6 +226,8 @@ public class UserInterface {
           throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
         } else if (line.length() > 5) {
           throw new IllegalArgumentException("Line cannot be longer than 5 characters.");
+        } else if (!line.matches("^[a-zA-Z0-9]+$")) {
+          throw new IllegalArgumentException("Line can only contain letters and numbers.");
         }
         validInput = true;
       } catch (IllegalArgumentException e) {
@@ -304,6 +309,8 @@ public class UserInterface {
       try {
         if (destination.isEmpty()) {
         throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+        } else if (!destination.matches("[a-zA-Z]+")) {
+          throw new IllegalArgumentException("Destination can only contain letters. ");
         } else if (trainDispatch.findDeparturesByDestination(destination).length == 0) {
           throw new IllegalArgumentException("Destination does not exist. ");
         }
@@ -346,8 +353,7 @@ public class UserInterface {
 
     int trainNumber = ensureRightTrainNumberFormat();
 
-    System.out.print("\nDestination: ");
-    String destination = ensureNotNullAndGetInput();
+    String destination = ensureRightDestinationFormat();
 
     System.out.print("\nTrack (type 0 if not existing yet), range [0,999]: ");
     int track = ensureRightTrackAndDelayFormat();
