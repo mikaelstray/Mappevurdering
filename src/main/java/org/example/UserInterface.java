@@ -54,7 +54,7 @@ public class UserInterface {
    */
 
   private static void showMenu() {
-    System.out.println("\n***** Property Register Application v0.1 *****\n");
+    System.out.println("\n******* Train Dispatch Application v0.1 *******\n");
     System.out.println("1. List all departures                   ++      +------");
     System.out.println("2. Add departure                         ||      |+-+ | ");
     System.out.println("3. Remove departure                      ||      || | | ");
@@ -217,7 +217,7 @@ public class UserInterface {
   }
 
   private String ensureRightLineFormat() {
-    System.out.print("\nLine, range [1,99999]: ");
+    System.out.print("\nLine, max 5 digits: ");
     String line = scanner.nextLine();
     boolean validInput = false;
     while (!validInput) {
@@ -239,7 +239,7 @@ public class UserInterface {
   }
 
   private int ensureRightTrainNumberFormat() {
-    System.out.print("\nTrain number, range [1,9999]: ");
+    System.out.print("\nTrain number, max 4 digits: ");
     String trainNumber = scanner.nextLine();
     int trainNumberInt;
     boolean validInput = false;
@@ -250,7 +250,7 @@ public class UserInterface {
         }
         trainNumberInt = Integer.parseInt(trainNumber);
         if (trainNumberInt <= 0 || trainNumberInt > 9999) {
-          throw new IllegalArgumentException("Train number has to be in range [1,9999].");
+          throw new IllegalArgumentException("Train number has to be positive and max 4 digits.");
         } else if (trainDispatch.findDuplicateTrainNumber(trainNumberInt)) {
           throw new IllegalArgumentException("Train number already exists.");
         }
@@ -268,7 +268,7 @@ public class UserInterface {
 
 
   private int ensureRightTrainNumberToFindDeparture() {
-    System.out.print("\nTrain number, range [1,9999]. Press 0 to exit: ");
+    System.out.print("\nTrain number, max 4 digits. Press 0 to exit: ");
     String trainNumber = scanner.nextLine();
     int trainNumberInt;
     boolean validInput = false;
@@ -282,7 +282,7 @@ public class UserInterface {
         }
         trainNumberInt = Integer.parseInt(trainNumber);
         if (trainNumberInt <= 0 || trainNumberInt > 9999) {
-          throw new IllegalArgumentException("Train number has to be in range [1,9999]. ");
+          throw new IllegalArgumentException("Train number has to be positive and max 4 digits. ");
         } else if (!trainDispatch.findDuplicateTrainNumber(trainNumberInt)) {
           throw new IllegalArgumentException("Train number does not exist. ");
         }
@@ -322,27 +322,29 @@ public class UserInterface {
     }
     return destination;
   }
-
   private int ensureRightTrackAndDelayFormat() {
+    String value = scanner.nextLine();
+    int valueInt;
     boolean validInput = false;
-    int value = Integer.parseInt(scanner.nextLine());
     while (!validInput) {
       try {
-        if (value < 0) {
-          throw new IllegalArgumentException("Track or delay cannot be negative.");
-        } else if (value > 999) {
-          throw new IllegalArgumentException("Track or delay cannot be longer than 3 digits.");
+        if (value.isEmpty()) {
+        throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+        }
+        valueInt = Integer.parseInt(value);
+        if (valueInt < 0 || valueInt > 999) {
+          throw new IllegalArgumentException("Number has to be 1 or more and max 3 digits.");
         }
         validInput = true;
       } catch (NumberFormatException e) {
         System.out.print(WRONG_FORMAT);
-        value = Integer.parseInt(scanner.nextLine());
+        value = scanner.nextLine();
       } catch (IllegalArgumentException e) {
         System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
-        value = Integer.parseInt(scanner.nextLine());
+        value = scanner.nextLine();
       }
     }
-    return value;
+    return Integer.parseInt(value);
   }
 
   private Departure typeInDepartureInfo() { //TODO: null validation and change input method?
@@ -355,10 +357,10 @@ public class UserInterface {
 
     String destination = ensureRightDestinationFormat();
 
-    System.out.print("\nTrack (type 0 if not existing yet), range [0,999]: ");
+    System.out.print("\nTrack (type 0 if not existing yet), max 3 digits: ");
     int track = ensureRightTrackAndDelayFormat();
 
-    System.out.print("\nDelay, range [0,999]: ");
+    System.out.print("\nDelay, max 3 digits: ");
     int delay = ensureRightTrackAndDelayFormat();
 
     return new Departure(time, line, trainNumber, destination, track, delay);

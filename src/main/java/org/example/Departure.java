@@ -118,7 +118,7 @@ public class Departure {
   }
 
   /**
-   * Validates and sets the delay (in minutes) of the departure
+   * Validates and sets the delay (in minutes) of the departure.
    *
    * @param delay The new delay (in minutes) for the departure.
    */

@@ -42,15 +42,6 @@ public class TrainDispatch {
   }
 
   /**
-   * Gets the list of train departures.
-   *
-   * @return The list of train departures.
-   */
-  public List<Departure> getDepartureList() {
-    return departureList;
-  }
-
-  /**
    * Gets the number of registered departures.
    *
    * @return The number of registered departures.
