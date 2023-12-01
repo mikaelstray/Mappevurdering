@@ -2,7 +2,6 @@ package org.example;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -230,11 +229,11 @@ public class UserInterface {
 
   private void findDeparturesByDestination() {
     String destination = ensureRightDestinationToFindDeparture();
-    Departure[] departures = trainDispatch.findDeparturesByDestination(destination);
     // if user chose 0 to exit when choosing destination, return to menu
     if (destination == null) {
       return;
     }
+    Departure[] departures = trainDispatch.findDeparturesByDestination(destination);
     // print header and all departures with the specified destination
     printHeader();
     Stream.of(departures)
@@ -459,14 +458,17 @@ public class UserInterface {
    */
 
   private String ensureRightDestinationToFindDeparture() { // TODO: 0 to exit
-    System.out.print("\nDestination: (0 to exit)");
+    System.out.print("\nDestination (0 to exit): ");
     String destination = scanner.nextLine().trim();
     boolean validInput = false;
     while (!validInput) {
+      if (destination.trim().equals("0")) {
+          return null;
+      }
       try {
         if (destination.isEmpty()) {
-        throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
-        } else if (!destination.matches("^[ A-Za-z]+$")) {
+          throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+        } else if (!destination.matches("^[ A-Za-z0]+$")) {
           throw new IllegalArgumentException("Destination can only contain letters. ");
         } else if (trainDispatch.findDeparturesByDestination(destination).length == 0) {
           throw new IllegalArgumentException("Destination does not exist. ");
