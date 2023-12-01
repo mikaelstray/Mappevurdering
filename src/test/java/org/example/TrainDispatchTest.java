@@ -88,9 +88,9 @@ class TrainDispatchTest {
     @Test
     @DisplayName("Test departureListAfterCurrentTimeAndDelay() method")
     void testDepartureListAfterCurrentTimeAndDelayMethod() {
-        Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        Departure departure = new Departure(LocalTime.of(12,01 ), "A", 123, "B", 1, 0);
         trainDispatch.registerDeparture(departure);
-        trainDispatch.setTime(LocalTime.of(12, 01));
+        trainDispatch.setTime(LocalTime.of(12, 02));
         Departure[] filteredDepartureList = trainDispatch.departureListAfterCurrentTimeAndDelay();
         assertEquals(0, filteredDepartureList.length);
     }
@@ -115,14 +115,94 @@ class TrainDispatchTest {
     }
 
     @Test
-    @DisplayName("Negative numberOfDepartures test")
-    void testNegativeNumberOfDepartures() {
+    @DisplayName("Test checkIfListIsEmpty() method")
+    void testCheckIfListIsEmptyMethod() {
+        Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure);
+        trainDispatch.setTime(LocalTime.of(12, 01));
+        assertTrue(trainDispatch.checkIfListIsEmpty());
+    }
+
+    @Test
+    @DisplayName("Negative checkIfListIsEmpty() test")
+    void testNegativeCheckIfListIsEmptyMethod() {
         Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
         trainDispatch.registerDeparture(departure);
         trainDispatch.setTime(LocalTime.of(11, 58));
-        assertNotEquals(0, trainDispatch.getNumberOfDepartures());
+        assertFalse(trainDispatch.checkIfListIsEmpty());
     }
 
+    @Test
+    @DisplayName("Test findDuplicateTrainNumber() method")
+    void testFindDuplicateTrainNumberMethod() {
+        Departure departure1 = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure1);
+        boolean duplicateTrainNumber = trainDispatch.findDuplicateTrainNumber(123);
+        assertTrue(duplicateTrainNumber);
+    }
 
+    @Test
+    @DisplayName("Negative findDuplicateTrainNumber() test")
+    void testNegativeFindDuplicateTrainNumberMethod() {
+        Departure departure1 = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure1);
+        boolean duplicateTrainNumber = trainDispatch.findDuplicateTrainNumber(124);
+        assertFalse(duplicateTrainNumber);
+    }
+
+    @Test
+    @DisplayName("Test findDepartureByNumber method")
+    void testFindDepartureByNumberMethod() {
+        Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure);
+        Departure foundDeparture = trainDispatch.findDepartureByNumber(123);
+        assertEquals(departure, foundDeparture);
+    }
+
+    @Test
+    @DisplayName("Negative findDepartureByNumber method")
+    void testNegativeFindDepartureByNumberMethod() {
+        Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure);
+        Departure foundDeparture = trainDispatch.findDepartureByNumber(124);
+        assertNull(foundDeparture);
+    }
+
+    @Test
+    @DisplayName("Test findDepartureByDestination method")
+    void testFindDepartureByDestinationMethod() {
+        Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure);
+        Departure[] foundDepartures = trainDispatch.findDeparturesByDestination("B");
+        assertEquals(departure, foundDepartures[0]);
+        assertEquals(1, foundDepartures.length);
+    }
+
+    @Test
+    @DisplayName("Negative findDepartureByDestination method")
+    void testNegativeFindDepartureByDestinationMethod() {
+        Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure);
+        Departure[] foundDepartures = trainDispatch.findDeparturesByDestination("C");
+        assertEquals(0, foundDepartures.length);
+    }
+
+    @Test
+    @DisplayName("Test setTrack method")
+    void testSetTrackMethod() {
+        Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure);
+        trainDispatch.setTrack(123, 2);
+        assertEquals(2, departure.getTrack());
+    }
+
+    @Test
+    @DisplayName("Test setDelay method")
+    void testSetDelayMethod() {
+        Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
+        trainDispatch.registerDeparture(departure);
+        trainDispatch.setDelay(123, 2);
+        assertEquals(2, departure.getDelay());
+    }
 
 }

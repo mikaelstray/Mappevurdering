@@ -81,7 +81,7 @@ public class Departure {
   }
 
   /**
-   * Gets the line or route of the departure.
+   * Gets the line of the departure.
    *
    * @return The line or route of the departure.
    */
@@ -128,7 +128,7 @@ public class Departure {
   }
 
   /**
-   * Gets the track or platform number of the departure.
+   * Gets the track of the departure.
    *
    * @return The track or platform number of the departure.
    */
@@ -137,7 +137,7 @@ public class Departure {
   }
 
   /**
-   * Validates and sets the track or platform number of the departure.
+   * Validates and sets the track of the departure.
    *
    * @param track The new track or platform number for the departure.
    */

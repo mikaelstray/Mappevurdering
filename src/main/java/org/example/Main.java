@@ -20,7 +20,7 @@ public class Main {
     // Create an instance of the UserInterface
     UserInterface userInterface = new UserInterface();
     // Initialize the user interface
-    UserInterface.init();
+    userInterface.init();
     // Start the user interface
     userInterface.start();
   }

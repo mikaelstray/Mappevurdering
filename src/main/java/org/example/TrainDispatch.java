@@ -3,12 +3,11 @@ package org.example;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * The TrainDispatch class manages the dispatch of train departures, including registration,
  * retrieval, and modification of departure information. It also keeps count of the number of
- * departures and the current local time.
+ * departures and the current local time. Validations are performed in the UserInterface class.
  *
  * @author Mikael Stray Froeyshov
  * @version 1.0
@@ -29,8 +28,16 @@ public class TrainDispatch {
   /**
    * The current time used for various time-based operations.
    */
-
   private LocalTime time = LocalTime.now();
+
+  /**
+   * Gets the current time used for various time-based operations.
+   *
+   * @return The current time.
+   */
+  public LocalTime getTime() {
+    return time;
+  }
 
   /**
    * Sets the current time used for various time-based operations.
@@ -50,12 +57,9 @@ public class TrainDispatch {
     return numberOfDepartures;
   }
 
-  public LocalTime getTime() {
-    return time;
-  }
-
   /**
-   * Registers a new departure, checking for duplicate train numbers.
+   * Registers a new departure. The departure is added to the list of departures, and the number of
+   * departures is updated. The departure/departure inputs are already validated.
    *
    * @param departure The departure to register.
    */
@@ -65,15 +69,22 @@ public class TrainDispatch {
     numberOfDepartures = departureList.size();
   }
 
+  /**
+   * Removes a departure from the list of departures. The number of departures is updated.
+   *
+   * @param departure The departure to remove.
+   */
+
   public void removeDeparture(Departure departure) {
     departureList.remove(departure);
     numberOfDepartures = departureList.size();
   }
 
   /**
-   * Shows all departures after the current time.
+   * Removes the departures from the departure list that are before the current time, updates the
+   * number of departures and sorts the list by time plus delay.
    *
-   * @return A list of departures after the current time.
+   * @return A new array of departures sorted by time plus delay.
    */
 
   public Departure[] departureListAfterCurrentTimeAndDelay() {
@@ -135,7 +146,7 @@ public class TrainDispatch {
   }
 
   /**
-   * Sets the track or platform number of a departure.
+   * Finds a departure by its train number and sets the track of that departure.
    *
    * @param number The train number of the departure to modify.
    * @param track  The new track or platform number for the departure.
@@ -147,7 +158,7 @@ public class TrainDispatch {
   }
 
   /**
-   * Sets the delay (in minutes) of a departure.
+   * Finds a departure by its train number and sets the delay (in minutes) of that departure.
    *
    * @param number The train number of the departure to modify.
    * @param delay  The new delay (in minutes) for the departure.

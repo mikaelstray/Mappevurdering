@@ -363,8 +363,9 @@ class DepartureTest {
     @Test
     void createDepartureWithNullDestination() {
         // Arrange & Act & Assert
+        LocalTime time = LocalTime.of(12, 30);
         assertThrows(NullPointerException.class, () ->
-                new Departure(LocalTime.of(12, 30), "Line", 123, null, 1, 0)
+                new Departure(time, "Line", 123, null, 1, 0)
         );
     }
 
