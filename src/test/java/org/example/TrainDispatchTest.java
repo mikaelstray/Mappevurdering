@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.time.LocalTime;
-import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 class TrainDispatchTest {
     private TrainDispatch trainDispatch;
@@ -91,7 +91,7 @@ class TrainDispatchTest {
         Departure departure = new Departure(LocalTime.of(12,01 ), "A", 123, "B", 1, 0);
         trainDispatch.registerDeparture(departure);
         trainDispatch.setTime(LocalTime.of(12, 02));
-        Departure[] filteredDepartureList = trainDispatch.departureListAfterCurrentTimeAndDelay();
+        Departure[] filteredDepartureList = trainDispatch.sortedList();
         assertEquals(0, filteredDepartureList.length);
     }
 
@@ -101,7 +101,7 @@ class TrainDispatchTest {
         Departure departure = new Departure(LocalTime.of(11, 59), "A", 123, "B", 1, 0);
         trainDispatch.registerDeparture(departure);
         trainDispatch.setTime(LocalTime.of(12, 01));
-        Departure[] filteredDepartureList = trainDispatch.departureListAfterCurrentTimeAndDelay();
+        Departure[] filteredDepartureList = trainDispatch.sortedList();
         assertNotEquals(1, filteredDepartureList.length);
     }
 

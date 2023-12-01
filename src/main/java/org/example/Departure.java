@@ -1,12 +1,16 @@
 package org.example;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
 /**
+ * <h1>Departure</h1>
+ * <p>
  * This class represents a departure.
+ * </p>
  *
  * @author Mikael Stray Froeyshov
  * @version 1.0
@@ -37,12 +41,14 @@ public class Departure {
   public Departure(LocalTime time, String line, int trainNumber, String destination,
                    int track, int delay) throws IllegalArgumentException {
 
+    // Check that trainNumber is valid
     checkNegativeNumbers(trainNumber, "Train number");
 
     this.time = requireNonNull(time, "Time cannot be null");
     this.line = requireNonNull(line, "Line cannot be null");
     this.trainNumber = trainNumber;
     this.destination = requireNonNull(destination, "Destination cannot be null");
+    // Setters with validation
     setTrack(track);
     setDelay(delay);
   }
@@ -63,7 +69,7 @@ public class Departure {
   }
 
   /**
-   * Gets the time of the departure plus the delay.
+   * Gets the time of the departure plus the delay in minutes.
    *
    * @return The time of the departure plus the delay.
    */
@@ -123,6 +129,7 @@ public class Departure {
    * @param delay The new delay (in minutes) for the departure.
    */
   public void setDelay(int delay) {
+    // validate delay then set
     checkNegativeNumbers(delay, "Delay");
     this.delay = delay;
   }
@@ -142,6 +149,7 @@ public class Departure {
    * @param track The new track or platform number for the departure.
    */
   public void setTrack(int track) {
+    // validate track then set
     checkNegativeNumbers(track, "Track");
     this.track = (track == 0) ? -1 : track;
   }
@@ -178,5 +186,23 @@ public class Departure {
   public int hashCode() {
     return Objects.hash(getTime(), getLine(), getTrainNumber(), getDestination(),
             getDelay(), getTrack());
+  }
+
+  /**
+   * Returns a string representation of this Departure object.
+   *
+   * @return A string representation of this Departure object.
+   */
+
+  @Override
+  public String toString() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+    String delayInfo = (delay == 0) ? "" : Integer.toString(delay);
+    String trackInfo = (track == -1) ? "" : Integer.toString(track);
+
+    return String.format("%-14s %-12s %-15d %-17s %-11s %-4s %-10s",
+              "|  " + formatter.format(time), line, trainNumber,
+              destination, delayInfo, trackInfo, "|");
   }
 }
