@@ -41,15 +41,6 @@ public class TrainDispatch {
    */
   private LocalTime time = LocalTime.now();
 
-  /**
-   * Gets the list of registered departures.
-   * Note: The list is not sorted.
-   *
-   * @return The list of registered departures.
-   */
-  public List<Departure> getDepartureList() {
-    return departureList;
-  }
 
   /**
    * Gets the current time used for various time-based operations.
@@ -119,7 +110,7 @@ public class TrainDispatch {
 
     // Sort the list by time plus delay and return an array
     return departureList.stream()
-            .sorted(Comparator.comparing(Departure::getTimePlusDelay))
+            .sorted(Comparator.comparing(Departure::getScheduledArrival))
             .toList();
   }
 
@@ -210,6 +201,7 @@ public class TrainDispatch {
   public String toString() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     StringBuilder sb = new StringBuilder();
+    // numberOfDepartures string with the correct plural form
     String departureInfo = (numberOfDepartures == 1) ? " departure" : " departures";
 
     sb.append("-".repeat(80)).append("\n");
@@ -220,7 +212,7 @@ public class TrainDispatch {
     sb.append("-".repeat(80)).append("\n");
     sb.append("|  Time   |   Line  |   Train number  |   Destination   |   Delay   |   Track  |\n");
     sb.append("-".repeat(80)).append("\n");
-    // Stream the sorted list and append each departure to the string builder
+    // Append each departure to the string builder from the sorted list
     sortedList().forEach(sb::append);
     sb.append("\n").append("-".repeat(80)).append("\n\n");
 

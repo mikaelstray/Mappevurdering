@@ -41,7 +41,6 @@ public class Departure {
   public Departure(LocalTime time, String line, int trainNumber, String destination,
                    int track, int delay) throws IllegalArgumentException {
 
-    // Check that trainNumber is valid
     checkNegativeNumbers(trainNumber, "Train number");
 
     this.time = requireNonNull(time, "Time cannot be null");
@@ -73,7 +72,7 @@ public class Departure {
    *
    * @return The time of the departure plus the delay.
    */
-  public LocalTime getTimePlusDelay() {
+  public LocalTime getScheduledArrival() {
     return time.plusMinutes(delay);
   }
 
@@ -129,7 +128,6 @@ public class Departure {
    * @param delay The new delay (in minutes) for the departure.
    */
   public void setDelay(int delay) {
-    // validate delay then set
     checkNegativeNumbers(delay, "Delay");
     this.delay = delay;
   }
@@ -149,7 +147,6 @@ public class Departure {
    * @param track The new track or platform number for the departure.
    */
   public void setTrack(int track) {
-    // validate track then set
     checkNegativeNumbers(track, "Track");
     this.track = (track == 0) ? -1 : track;
   }

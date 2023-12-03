@@ -58,8 +58,8 @@ class TrainDispatchTest {
         trainDispatch.registerDeparture(departure2);
 
         assertEquals(2, trainDispatch.getNumberOfDepartures());
-        assertTrue(trainDispatch.getDepartureList().contains(departure1));
-        assertTrue(trainDispatch.getDepartureList().contains(departure2));
+        assertTrue(trainDispatch.sortedList().contains(departure1));
+        assertTrue(trainDispatch.sortedList().contains(departure2));
     }
 
     @Test
@@ -72,8 +72,8 @@ class TrainDispatchTest {
         trainDispatch.removeDeparture(departure1);
 
         assertEquals(1, trainDispatch.getNumberOfDepartures());
-        assertTrue(trainDispatch.getDepartureList().contains(departure2));
-        assertFalse(trainDispatch.getDepartureList().contains(departure1));
+        assertTrue(trainDispatch.sortedList().contains(departure2));
+        assertFalse(trainDispatch.sortedList().contains(departure1));
     }
 
     @Test

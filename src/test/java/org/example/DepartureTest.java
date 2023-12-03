@@ -96,13 +96,13 @@ class DepartureTest {
     @Test
     @DisplayName("Test getTimePlusDelay()")
     void testGetTimePlusDelay() {
-        assertEquals(LocalTime.of(12, 15), departure.getTimePlusDelay());
+        assertEquals(LocalTime.of(12, 15), departure.getScheduledArrival());
     }
 
     @Test
     @DisplayName("Negative test of getTimePlusDelay()")
     void testGetTimePlusDelayNegative() {
-        assertNotEquals(defaultTime, departure.getTimePlusDelay());
+        assertNotEquals(defaultTime, departure.getScheduledArrival());
     }
 
     @Test

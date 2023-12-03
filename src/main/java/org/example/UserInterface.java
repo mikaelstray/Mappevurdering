@@ -2,6 +2,7 @@ package org.example;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,17 +38,6 @@ public class UserInterface {
   private static final String WRONG_FORMAT = "Wrong format, please try again: ";
   private static final String PLEASE_TRY_AGAIN = "Please try again: ";
 
-  // Constants representing the different menu choices
-  private static final int LIST_ALL_DEPARTURES = 1;
-  private static final int ADD_DEPARTURE = 2;
-  private static final int REMOVE_DEPARTURE = 3;
-  private static final int FIND_DEPARTURE_BY_NUMBER = 4;
-  private static final int FIND_DEPARTURE_BY_DESTINATION = 5;
-  private static final int SET_TRACK = 6;
-  private static final int SET_DELAY = 7;
-  private static final int UPDATE_TIME = 8;
-  private static final int EXIT = 9;
-
   /**
    * Initializes the user interface, creates necessary objects and registers.
    */
@@ -57,7 +47,6 @@ public class UserInterface {
     scanner = new Scanner(System.in);
     formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-    // Register some departures
     trainDispatch.registerDeparture(new Departure(LocalTime.of(17, 45), "F4",
             123, "Lillestrom", 1, 0));
     trainDispatch.registerDeparture(new Departure(LocalTime.of(23, 55), "L1",
@@ -67,25 +56,53 @@ public class UserInterface {
   }
 
   /**
-   * Gets the user's choice from the console.
-   *
-   * @return The user's choice as an integer.
+   * Enum representing the different menu choices.
    */
 
-  private int getUserChoice() {
+  private enum MenuChoice {
+    LIST_ALL_DEPARTURES(1),
+    ADD_DEPARTURE(2),
+    REMOVE_DEPARTURE(3),
+    FIND_DEPARTURE_BY_NUMBER(4),
+    FIND_DEPARTURE_BY_DESTINATION(5),
+    SET_TRACK(6),
+    SET_DELAY(7),
+    UPDATE_TIME(8),
+    EXIT(9);
+
+    private final int value;
+
+    MenuChoice(int value) {
+     this.value = value;
+    }
+
+    private int getValue() {
+      return value;
+    }
+  }
+
+  /**
+   * Gets the user's choice from the console.
+   *
+   * @return The user's choice as an enum constant (MenuChoice).
+   */
+
+  private MenuChoice getUserChoice() {
+    System.out.print("Enter your choice (1-9): ");
     while (true) {
       try {
-        System.out.print("Enter your choice (1-9): ");
         int choice = Integer.parseInt(scanner.nextLine());
-        if (choice >= 1 && choice <= 9) {
-          return choice;
-        } else {
-          throw new IllegalArgumentException("Choice must be between 1 and 9.");
-        }
+
+        // Find the corresponding enum constant based on the user's choice, or throw an exception
+        return EnumSet.allOf(MenuChoice.class).stream()
+                .filter(menuChoice -> menuChoice.getValue() == choice)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Number must be between 1 and 9."));
+
       } catch (NumberFormatException e) {
-        System.out.print("Invalid input. Please enter a valid number.\n");
+        System.out.print("Invalid input. Please enter a valid number: ");
       } catch (IllegalArgumentException e) {
-        System.out.print(e.getMessage() + " Please try again.\n");
+        System.out.print(e.getMessage() + " Please try again: ");
       }
     }
   }
@@ -100,7 +117,7 @@ public class UserInterface {
     while (!finished) {
       // Present the menu to the user, and retrieve the user's choice
       showMenu();
-      int menuChoice = this.getUserChoice();
+      MenuChoice menuChoice = getUserChoice();
       switch (menuChoice) {
         case LIST_ALL_DEPARTURES:
           printTrainDispatch();
@@ -219,7 +236,7 @@ public class UserInterface {
    */
 
   private void addDeparture() {
-    // validation methods are in createDepartureFromUserInput(), so no need to validate here
+    // departure is already validated in createDepartureFromUserInput()
     trainDispatch.registerDeparture(createDepartureFromUserInput());
     System.out.print("\nDeparture was successfully added");
   }
@@ -272,7 +289,6 @@ public class UserInterface {
     }
 
     List<Departure> departures = trainDispatch.findDeparturesByDestination(destination);
-    // print header and a list of departures with the specified destination
     printHeader();
     departures.forEach(System.out::println);
   }
@@ -472,6 +488,7 @@ public class UserInterface {
     while (true) {
       String trainNumber = scanner.nextLine();
       try {
+        // return input if input is valid
         return validateTrainNumber(trainNumber);
       } catch (NumberFormatException e) {
         System.out.print(WRONG_FORMAT);
