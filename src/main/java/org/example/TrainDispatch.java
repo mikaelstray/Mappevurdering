@@ -3,12 +3,11 @@ package org.example;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
- * <h1>TrainDispatch</h1>
+ * <h1>TrainDispatch.</h1>
  * <p>
  * The TrainDispatch class manages the dispatch of train departures, including registration,
  * retrieval, and modification of departure information.
@@ -16,6 +15,9 @@ import java.util.stream.Stream;
  * <p>
  * It also keeps count of the number of
  * departures and the current local time. Validations are performed in the UserInterface class.
+ * </p>
+ * <p>
+ * <b>Note:</b> The parameters in each method are assumed to be validated in the UI class.
  * </p>
  *
  * @author Mikael Stray Froeyshov
@@ -38,6 +40,16 @@ public class TrainDispatch {
    * The current time used for various time-based operations.
    */
   private LocalTime time = LocalTime.now();
+
+  /**
+   * Gets the list of registered departures.
+   * Note: The list is not sorted.
+   *
+   * @return The list of registered departures.
+   */
+  public List<Departure> getDepartureList() {
+    return departureList;
+  }
 
   /**
    * Gets the current time used for various time-based operations.
@@ -67,13 +79,11 @@ public class TrainDispatch {
   }
 
   /**
-   * Registers a new departure.
-   * The departure is added to the list, and the count of departures is updated.
+   * Registers the specified departure and updates the number of departures.
    *
    * @param departure The departure to be registered.
    */
   public void registerDeparture(Departure departure) {
-    // Assuming the departure parameter has been validated in the UI class.
     departureList.add(departure);
 
     // Update the count of registered departures
@@ -81,8 +91,7 @@ public class TrainDispatch {
   }
 
   /**
-   * Removes the specified departure from the list of registered departures.
-   * Note: The departure parameter is assumed to be validated in the UI class.
+   * Removes the specified departure and updates the number of departures.
    *
    * @param departure The departure to be removed.
    */
@@ -100,7 +109,7 @@ public class TrainDispatch {
    * @return A new array of departures sorted by time plus delay.
    */
 
-  public Departure[] sortedList() {
+  public List<Departure> sortedList() {
     // Remove the departures that are before the current time
     departureList.removeIf(departure -> departure.getTime().plusMinutes(departure.getDelay())
             .isBefore(time));
@@ -111,57 +120,57 @@ public class TrainDispatch {
     // Sort the list by time plus delay and return an array
     return departureList.stream()
             .sorted(Comparator.comparing(Departure::getTimePlusDelay))
-            .toArray(Departure[]::new);
+            .toList();
   }
 
   /**
-   * Checks if the list of departures after the current time is empty by the length of the array.
+   * Checks if the list of departures after the current time is empty.
    *
    * @return True if the list of departures after the current time is empty, false otherwise.
    */
 
   public boolean checkIfListIsEmpty() {
-    return sortedList().length == 0;
+    return sortedList().isEmpty();
   }
 
   /**
    * Checks if the specified train number is a duplicate.
-   * The train number is assumed to be validated before calling this method in the UI class.
    *
    * @param trainNumber The train number to check for duplication.
    * @return True if the train number is a duplicate, false otherwise.
    */
   public boolean findDuplicateTrainNumber(int trainNumber) {
-    return departureList.stream()
+    return sortedList().stream()
             .anyMatch(d -> d.getTrainNumber() == trainNumber);
   }
 
 
   /**
-   * Finds a departure by its train number. The train number is validated before method call in UI class.
+   * Finds a departure by its train number.
    *
    * @param number The train number to search for.
    * @return The departure with the specified train number, or null if not found.
    */
 
   public Departure findDepartureByNumber(int number) {
-    return departureList.stream()
+    return sortedList().stream()
             .filter(d -> d.getTrainNumber() == number)
             .findFirst()
             .orElse(null);
   }
 
   /**
-   * Finds a departure by its destination. The destination is validated before method call in UI class.
+   * Finds a departure by its destination.
+   * Note: The destination is assumed to be validated before calling this method in the UI class.
    *
    * @param destination The destination to search for.
    * @return A list of departures with the specified destination, or an empty list if not found.
    */
 
-  public Departure[] findDeparturesByDestination(String destination) {
-    return departureList.stream()
+  public List<Departure> findDeparturesByDestination(String destination) {
+    return sortedList().stream()
             .filter(d -> d.getDestination().trim().equalsIgnoreCase(destination.trim()))
-            .toArray(Departure[]::new);
+            .toList();
   }
 
   /**
@@ -180,7 +189,7 @@ public class TrainDispatch {
 
   /**
    * Finds a departure by its train number and sets the delay (in minutes) for that departure.
-   * Both the train number and the delay are assumed to be validated before calling this method in the UI class.
+   * Both the parameters are assumed to be validated before calling this method in the UI class.
    *
    * @param number The train number of the departure to modify.
    * @param delay  The new delay (in minutes) for the departure.
@@ -201,17 +210,18 @@ public class TrainDispatch {
   public String toString() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     StringBuilder sb = new StringBuilder();
+    String departureInfo = (numberOfDepartures == 1) ? " departure" : " departures";
 
     sb.append("-".repeat(80)).append("\n");
     sb.append("|").append(" ".repeat(32)).append("Train Dispatch");
     sb.append(" ".repeat(32)).append("|\n");
-    sb.append("|  ").append(numberOfDepartures).append(" departures");
-    sb.append(" ".repeat(57)).append(formatter.format(time)).append("  |\n");
+    sb.append("|  ").append(numberOfDepartures).append(departureInfo);
+    sb.append(" ".repeat(57)).append(formatter.format(time)).append("   |\n");
     sb.append("-".repeat(80)).append("\n");
     sb.append("|  Time   |   Line  |   Train number  |   Destination   |   Delay   |   Track  |\n");
     sb.append("-".repeat(80)).append("\n");
     // Stream the sorted list and append each departure to the string builder
-    Stream.of(sortedList()).forEach(sb::append);
+    sortedList().forEach(sb::append);
     sb.append("\n").append("-".repeat(80)).append("\n\n");
 
     return sb.toString();

@@ -2,18 +2,18 @@ package org.example;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 /**
- * <h1>UserInterface</h1>
+ * <h1>UserInterface.</h1>
  * <p>
  * The UserInterface class manages the interaction with the user in the Train Dispatch application.
  * It presents a menu, retrieves user input, and calls appropriate methods.
  * </p>
  * <p>
- * This class is responsible for handling user choices such as listing departures, adding or removing departures,
- * and updating departure information with validation of inputs.
+ * This class is responsible for handling user choices such as listing departures,
+ * adding or removing departures, and updating departure information with validation of inputs.
  * It uses the TrainDispatch class to retrieve and manipulate departure data.
  * </p>
  * <p>
@@ -58,12 +58,36 @@ public class UserInterface {
     formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     // Register some departures
-    trainDispatch.registerDeparture(new Departure(LocalTime.of(17,45), "F4",
+    trainDispatch.registerDeparture(new Departure(LocalTime.of(17, 45), "F4",
             123, "Lillestrom", 1, 0));
-    trainDispatch.registerDeparture(new Departure(LocalTime.of(19, 0), "L1",
-            456, "Oslo S", 2, 65));
-    trainDispatch.registerDeparture(new Departure(LocalTime.of(16, 12), "E5",
+    trainDispatch.registerDeparture(new Departure(LocalTime.of(23, 55), "L1",
+            456, "Oslo S", 2, 0));
+    trainDispatch.registerDeparture(new Departure(LocalTime.of(12, 12), "E5",
             789, "Trondheim", 0, 0));
+  }
+
+  /**
+   * Gets the user's choice from the console.
+   *
+   * @return The user's choice as an integer.
+   */
+
+  private int getUserChoice() {
+    while (true) {
+      try {
+        System.out.print("Enter your choice (1-9): ");
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice >= 1 && choice <= 9) {
+          return choice;
+        } else {
+          throw new IllegalArgumentException("Choice must be between 1 and 9.");
+        }
+      } catch (NumberFormatException e) {
+        System.out.print("Invalid input. Please enter a valid number.\n");
+      } catch (IllegalArgumentException e) {
+        System.out.print(e.getMessage() + " Please try again.\n");
+      }
+    }
   }
 
   /**
@@ -76,7 +100,7 @@ public class UserInterface {
     while (!finished) {
       // Present the menu to the user, and retrieve the user's choice
       showMenu();
-      int menuChoice = this.userChoice();
+      int menuChoice = this.getUserChoice();
       switch (menuChoice) {
         case LIST_ALL_DEPARTURES:
           printTrainDispatch();
@@ -106,6 +130,10 @@ public class UserInterface {
           System.out.println("Thank you for using the Properties app!\n");
           finished = true;
           break;
+        // User choice input is validated in userChoice() method,
+        // but default case is added for robustness
+        default:
+          System.out.println("Invalid choice. Please try again.");
       }
     }
   }
@@ -125,30 +153,6 @@ public class UserInterface {
     System.out.println("7. Set delay                       //// \\_/      \\_/  ");
     System.out.println("8. Update time");
     System.out.println("9. Quit");
-    System.out.println("\nPlease enter a number between 1 and 9:");
-  }
-  /**
-   * Presents the menu for the user, and awaits input from the user. The menu
-   * choice selected by the user is being returned.
-   *
-   * @return the menu choice by the user as a positive number starting from 1.
-   * If 0 is returned, the user has entered a wrong value
-   */
-
-  private int userChoice() {
-    if (scanner.hasNextInt()) {
-      int choice = Integer.parseInt(scanner.nextLine());
-      if (choice >= 1 && choice <= 9) {
-        return choice;
-      } else {
-        System.out.print("Has to be a number between 1 and 9");
-        return 0;
-      }
-    } else {
-      System.out.print("Unrecognized input");
-      scanner.nextLine();
-      return 0;
-    }
   }
 
   /**
@@ -157,7 +161,7 @@ public class UserInterface {
    * @return The new departure.
    */
 
-  private Departure createDepartureFromUserInput() { //TODO: null validation and change input method?
+  private Departure createDepartureFromUserInput() {
 
     LocalTime time = validateAndGetTime();
 
@@ -186,6 +190,28 @@ public class UserInterface {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Prints the header of the departure list.
+   */
+
+  private static void printHeader() {
+    System.out.printf("\n%-12s %-7s %-18s %-15s %-12s %-10s%n",
+              "| Time", "Line", "Train Number", "Destination", "Delay", "Track     |");
+    System.out.println("-".repeat(80));
+  }
+
+  /**
+   * Prints the train dispatch.
+   */
+
+  private void printTrainDispatch() {
+    // if list is empty, print message and return to menu
+    if (listIsEmpty()) {
+      return;
+    }
+    System.out.println(trainDispatch);
   }
 
   /**
@@ -245,11 +271,10 @@ public class UserInterface {
       return;
     }
 
-    Departure[] departures = trainDispatch.findDeparturesByDestination(destination);
+    List<Departure> departures = trainDispatch.findDeparturesByDestination(destination);
     // print header and a list of departures with the specified destination
     printHeader();
-    Stream.of(departures)
-            .forEach(System.out::println);
+    departures.forEach(System.out::println);
   }
 
   /**
@@ -271,7 +296,8 @@ public class UserInterface {
     System.out.println("Track?");
     int track = validateAndGetTrackOrDelay();
     trainDispatch.setTrack(trainNumber, track);
-    System.out.println("\n Track for departure with train number " + trainNumber + " was set to " + track);
+    System.out.println("\n Track for departure with train number "
+            + trainNumber + " was set to " + track);
   }
 
   /**
@@ -289,11 +315,12 @@ public class UserInterface {
     if (trainNumber == 0) { // if user wants to exit
       return;
     }
-
     System.out.println("Delay?");
     int delay = validateAndGetTrackOrDelay();
+
     trainDispatch.setDelay(trainNumber, delay);
-    System.out.println("\n Delay for departure with train number " + trainNumber + " was set to " + delay);
+    System.out.println("\n Delay for departure with train number "
+            + trainNumber + " was set to " + delay);
   }
 
   /**
@@ -302,6 +329,7 @@ public class UserInterface {
 
   private void updateTime() {
     LocalTime newTime = validateAndGetTime();
+
     trainDispatch.setTime(newTime);
     System.out.println("\n Time was updated to " + formatter.format(newTime));
   }
@@ -309,289 +337,306 @@ public class UserInterface {
   // Following methods validate user inputs
 
   /**
-   * Method to ensure right destination format when creating a new departure.
-   * Ensures that the destination user input is not empty and only contains letters.
+   * Method to ensure right destination format and getting the input when creating a new departure.
    *
    * @return The user input as a String.
    */
 
   private String validateAndGetDestination() {
     System.out.println("\nDestination: ");
-    String input = scanner.nextLine().trim();
-
-    boolean validInput = false;
-    while (!validInput) {
-      // try-catch block to catch invalid input
+    // asks for right format until user input is valid
+    while (true) {
+      String input = scanner.nextLine().trim();
       try {
-        if (input.isEmpty()) {
-          throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
-        } else if (!input.matches("^[ A-Za-z]+$")) {
-          throw new IllegalArgumentException("Destination can only contain letters. ");
-        }
-        // if input is valid, set validInput to true to exit while loop
-        validInput = true;
-
-        // if input is invalid, print error message and ask user to try again
+        // if input is valid, return input
+        return validateDestination(input);
       } catch (IllegalArgumentException e) {
-        System.out.print(e.getMessage() + (PLEASE_TRY_AGAIN));
-        input = scanner.nextLine().trim();
+        System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
       }
+    }
+  }
+
+  /**
+   * Method to ensure right destination format when creating a new departure.
+   * Ensures that the destination user input is not empty and only contains letters.
+   *
+   * @param input The user input as a String.
+   * @return The user input as a String.
+   * @throws IllegalArgumentException if the input is empty or is not only letters.
+   */
+
+  private String validateDestination(String input) {
+    if (input.isEmpty()) {
+      throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+    } else if (!input.matches("^[ A-Za-z]+$")) {
+      throw new IllegalArgumentException("Destination can only contain letters. ");
     }
     return input;
   }
 
   /**
-   * Method to ensure right time format when creating a new departure.
-   * Ensures that the time user input is not empty or before the current time and is in the format hh:mm.
+   * Method to ensure right time format and getting input when creating a new departure.
    *
    * @return The user input as a LocalTime object.
    */
 
   private LocalTime validateAndGetTime() {
     System.out.println("Time? In format (hh:mm): ");
-    String newTime = scanner.nextLine();
-    LocalTime timeNow = trainDispatch.getTime();
-
-    boolean validInput = false;
-    while (!validInput) {
-      // try-catch block to catch invalid input
+    // asks for right format until user input is valid
+    while (true) {
+      String newTime = scanner.nextLine();
+      LocalTime timeNow = trainDispatch.getTime();
       try {
-        if (newTime.isEmpty()) {
-          throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
-        }
-        if (LocalTime.parse(newTime).isBefore(timeNow)) {
-          throw new IllegalArgumentException("Time cannot be before current time: "
-                  + formatter.format(timeNow) + ". ");
-        }
-        // if input is valid, set validInput to true to exit while loop
-        validInput = true;
-
-        // if input is invalid, print error message and ask user to try again
+        // if input is valid, return new time
+        return validateTimeInput(newTime, timeNow);
       } catch (IllegalArgumentException e) {
         System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
-        newTime = scanner.nextLine();
       } catch (Exception e) {
-        System.out.print("Wrong format. Should be [00-23]:[00-59], please try again: ");
-        newTime = scanner.nextLine();
+        System.out.print("Wrong format. Should be in the format [00-23]:[00-59]."
+                + PLEASE_TRY_AGAIN);
       }
+    }
+  }
+
+  /**
+   * Method to ensure right time format when creating a new departure.
+   * Ensures that the time user input is not empty or before the current time.
+   *
+   * @param newTime The user input as a String.
+   * @param timeNow The current time as a LocalTime object.
+   * @return The user input as a LocalTime object.
+   * @throws IllegalArgumentException if the input is empty or before the current time.
+   */
+
+  private LocalTime validateTimeInput(String newTime, LocalTime timeNow) {
+    if (newTime.isEmpty()) {
+      throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+    }
+    if (LocalTime.parse(newTime).isBefore(timeNow)) {
+      throw new IllegalArgumentException("Time cannot be before the current time: "
+              + formatter.format(timeNow) + ". ");
     }
     return LocalTime.parse(newTime);
   }
 
   /**
-   * Method to ensure right line format when creating a new departure.
-   * Ensures that the line user input is not empty or 0 and only contains letters and numbers.
+   * Method to ensure right line format and getting input when creating a new departure.
    *
    * @return The user input as an integer.
    */
 
   private String validateAndGetLine() {
     System.out.print("\nLine, max 5 digits: ");
-    String line = scanner.nextLine().trim();
-
-    boolean validInput = false;
-    while (!validInput) {
-      // try-catch block to catch invalid input
+    // asks for right format until user input is valid
+    while (true) {
+      String line = scanner.nextLine().trim();
       try {
-        if (line.isEmpty() || line.equals("0")) {
-          throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
-        } else if (line.length() > 5) {
-          throw new IllegalArgumentException("Line cannot be longer than 5 characters.");
-        } else if (!line.matches("^[a-zA-Z0-9]+$")) {
-          throw new IllegalArgumentException("Line can only contain letters and numbers.");
-        }
-        // if input is valid, set validInput to true to exit while loop
-        validInput = true;
-
-        // if input is invalid, print error message and ask user to try again
+        // if input is valid, return input
+        return validateLineInput(line);
       } catch (IllegalArgumentException e) {
-        System.out.print(e.getMessage() + (PLEASE_TRY_AGAIN));
-        line = scanner.nextLine().trim();
+        System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
       }
+    }
+  }
+
+  /**
+   * Method to ensure right line format when creating a new departure.
+   * Ensures that the line user input is not empty, is not longer than 5 characters
+   * and only contains letters and numbers.
+   *
+   * @param line The user input as a String.
+   * @return The user input as a String.
+   * @throws IllegalArgumentException if the input is not valid
+   */
+
+  private String validateLineInput(String line) {
+    if (line.isEmpty() || line.equals("0")) {
+      throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+    } else if (line.length() > 5) {
+      throw new IllegalArgumentException("Line cannot be longer than 5 characters.");
+    } else if (!line.matches("^[a-zA-Z0-9]+$")) {
+      throw new IllegalArgumentException("Line can only contain letters and numbers.");
     }
     return line;
   }
 
   /**
-   * Method to ensure right train number format when creating a new departure.
-   * Ensures that the train number user input is not empty or a duplicate and is a positive number between 1 and 9999.
+   * Method to ensure right train number format and getting input when creating a new departure.
    *
    * @return The user input as an integer.
    */
 
   private int validateAndGetTrainNumber() {
     System.out.print("\nTrain number, max 4 digits: ");
-    String trainNumber = scanner.nextLine();
-
-    int trainNumberInt;
-    boolean validInput = false;
-    while (!validInput) {
-      // try-catch block to catch invalid input
+    // asks for right format until user input is valid
+    while (true) {
+      String trainNumber = scanner.nextLine();
       try {
-        if (trainNumber.isEmpty()) {
-        throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
-        }
-        trainNumberInt = Integer.parseInt(trainNumber);
-        if (trainNumberInt <= 0 || trainNumberInt > 9999) {
-          throw new IllegalArgumentException("Train number has to be positive and max 4 digits.");
-        } else if (trainDispatch.findDuplicateTrainNumber(trainNumberInt)) {
-          throw new IllegalArgumentException("Train number already exists.");
-        }
-        // if input is valid, set validInput to true to exit while loop
-        validInput = true;
-
-        // if input is invalid, print error message and ask user to try again
+        return validateTrainNumber(trainNumber);
       } catch (NumberFormatException e) {
         System.out.print(WRONG_FORMAT);
-        trainNumber = scanner.nextLine();
       } catch (IllegalArgumentException e) {
         System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
-        trainNumber = scanner.nextLine();
       }
     }
-    return Integer.parseInt(trainNumber);
   }
 
   /**
-   * Method to ensure right train number format when finding a departure.
-   * Ensures that the train number user input is not empty, consists and is a positive number between 1 and 9999.
+   * Method to ensure right train number format when creating a new departure.
+   * Ensures that the train number user input is not empty, consists
+   * and is a positive number between 1 and 9999.
+   *
+   * @param trainNumber The user input as a String.
+   * @return The user input as an integer.
+   * @throws IllegalArgumentException if the input is empty, not a number or not between 1 and 9999.
+   */
+
+  private int validateTrainNumber(String trainNumber) {
+    if (trainNumber.isEmpty()) {
+      throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+    }
+    int trainNumberInt = Integer.parseInt(trainNumber);
+    if (trainNumberInt <= 0 || trainNumberInt > 9999) {
+      throw new IllegalArgumentException("Train number has to be positive and max 4 digits.");
+    }
+    if (trainDispatch.findDuplicateTrainNumber(trainNumberInt)) {
+      throw new IllegalArgumentException("Train number already exists.");
+    }
+    return trainNumberInt;
+  }
+
+
+  /**
+   * Method to ensure right train number format and getting input when finding a departure.
    *
    * @return The user input as an integer.
    */
 
   private int ensureRightTrainNumberToFindDeparture() {
     System.out.print("\nTrain number, max 4 digits. Press 0 to exit: ");
-    // gets string input first to check if input is empty
-    String trainNumber = scanner.nextLine();
-    int trainNumberInt;
-
-    boolean validInput = false;
-    while (!validInput) {
-      // if user wants to exit
-      if (trainNumber.equals("0")) {
-        return 0;
-      }
+    // asks for right format until user input is valid
+    while (true) {
+      String trainNumber = scanner.nextLine();
       try {
-        if (trainNumber.isEmpty()) {
-        throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+        // Check if the user wants to exit
+        if (trainNumber.equals("0")) {
+          return 0;
         }
-        // if input is not empty, parse to int
-        trainNumberInt = Integer.parseInt(trainNumber);
-        if (trainNumberInt <= 0 || trainNumberInt > 9999) {
-          throw new IllegalArgumentException("Train number has to be positive and max 4 digits. ");
-        } else if (!trainDispatch.findDuplicateTrainNumber(trainNumberInt)) {
-          throw new IllegalArgumentException("Train number does not exist. ");
-        }
-        // if input is valid, set validInput to true to exit while loop
-        validInput = true;
-
-        // if input is invalid, print error message and ask user to try again
+        // return input if input is valid
+        return validateTrainNumberToFindDeparture(trainNumber);
       } catch (NumberFormatException e) {
         System.out.print(WRONG_FORMAT);
-        trainNumber = scanner.nextLine();
       } catch (IllegalArgumentException e) {
         System.out.print(e.getMessage() + PLEASE_TRY_AGAIN + " (0 to exit): ");
-        trainNumber = scanner.nextLine();
       }
     }
-    return Integer.parseInt(trainNumber);
   }
 
   /**
-   * Method to ensure right destination format when finding a departure.
-   * Ensures that the destination user input is not empty, consists in the list and consists of only letters.
+   * Method to ensure right train number format when finding a departure.
+   * Ensures that the train number user input is not empty, consists
+   * and is a positive number between 1 and 9999.
+   *
+   * @param trainNumber The user input as a String.
+   * @return The user input as an integer.
+   * @throws IllegalArgumentException if the input is empty, not a number or not between 1 and 9999.
+   */
+
+  private int validateTrainNumberToFindDeparture(String trainNumber) {
+    if (trainNumber.isEmpty()) {
+      throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+    }
+    int trainNumberInt = Integer.parseInt(trainNumber);
+    if (trainNumberInt <= 0 || trainNumberInt > 9999) {
+      throw new IllegalArgumentException("Train number has to be positive and max 4 digits. ");
+    }
+    if (!trainDispatch.findDuplicateTrainNumber(trainNumberInt)) {
+      throw new IllegalArgumentException("Train number does not exist. ");
+    }
+    return trainNumberInt;
+  }
+
+  /**
+   * Method to ensure right destination format and getting input when finding a departure.
    *
    * @return The user input as an integer.
    */
 
   private String ensureRightDestinationToFindDeparture() {
     System.out.print("\nDestination (0 to exit): ");
-    String destination = scanner.nextLine().trim();
-
-    boolean validInput = false;
-    while (!validInput) {
-      // if user wants to exit
-      if (destination.trim().equals("0")) {
-          return null;
-      }
-      // try-catch block to catch invalid input
+    // asks for right format until user input is valid
+    while (true) {
+      String destination = scanner.nextLine().trim();
       try {
-        if (destination.isEmpty()) {
-          throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
-        } else if (!destination.matches("^[ A-Za-z0]+$")) {
-          throw new IllegalArgumentException("Destination can only contain letters. ");
-        } else if (trainDispatch.findDeparturesByDestination(destination).length == 0) {
-          throw new IllegalArgumentException("Destination does not exist. ");
+        // Check if the user wants to exit
+        if (destination.equals("0")) {
+          return null;
         }
-        // if input is valid, set validInput to true to exit while loop
-        validInput = true;
-
-        // if input is invalid, print error message and ask user to try again
+        return validateDestinationToFindDeparture(destination);
       } catch (IllegalArgumentException e) {
         System.out.print(e.getMessage() + PLEASE_TRY_AGAIN + " (0 to exit): ");
-        destination = scanner.nextLine().trim();
       }
+    }
+  }
+
+  /**
+   * Method to ensure right destination format when finding a departure.
+   * Ensures that the destination user input is not empty, consists in the list
+   * and consists of only letters.
+   *
+   * @param destination The user input as a String.
+   * @return The user input as a String.
+   * @throws IllegalArgumentException if the input is not valid
+   */
+
+  private String validateDestinationToFindDeparture(String destination) {
+    if (destination.isEmpty()) {
+      throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
+    } else if (!destination.matches("^[ A-Za-z0]+$")) {
+      throw new IllegalArgumentException("Destination can only contain letters and numbers. ");
+    } else if (trainDispatch.findDeparturesByDestination(destination).isEmpty()) {
+      throw new IllegalArgumentException("Destination does not exist. ");
     }
     return destination;
   }
 
+
   /**
-   * Method to ensure right track or delay format when creating a new departure.
-   * Ensures that the track or delay user input is not empty and a positive number between 0 and 999.
+   * Method to ensure right track or delay format and getting input when setting track or delay.
    *
    * @return The user input as an integer.
    */
 
   private int validateAndGetTrackOrDelay() {
-    // gets string input first to check if input is empty
-    String value = scanner.nextLine();
-    int valueInt;
-
-    boolean validInput = false;
-    while (!validInput) {
+    while (true) {
+      String value = scanner.nextLine();
       try {
-        if (value.isEmpty()) {
-        throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
-        }
-        // if input is not empty, parse to int
-        valueInt = Integer.parseInt(value);
-        if (valueInt < 0 || valueInt > 999) {
-          throw new IllegalArgumentException("Number has to be positive and max 3 digits.");
-        }
-        // if input is valid, set validInput to true to exit while loop
-        validInput = true;
-
-        // if input is invalid, print error message and ask user to try again
+        return validateNumericInput(value);
       } catch (NumberFormatException e) {
         System.out.print(WRONG_FORMAT);
-        value = scanner.nextLine();
       } catch (IllegalArgumentException e) {
         System.out.print(e.getMessage() + PLEASE_TRY_AGAIN);
-        value = scanner.nextLine();
       }
     }
-    return Integer.parseInt(value);
   }
 
   /**
-   * Prints the header of the departure list.
+   * Method to ensure right track or delay format when setting track or delay.
+   * Ensures that the user input is not empty, consists and is a positive number between 1 and 999.
+   *
+   * @param value The user input as a String.
+   * @return The user input as an integer.
+   * @throws IllegalArgumentException if the input is empty, not a number or not between 1 and 999.
    */
 
-  private static void printHeader() {
-    System.out.printf("\n%-12s %-7s %-18s %-15s %-12s %-10s%n",
-              "| Time", "Line", "Train Number", "Destination", "Delay", "Track     |");
-    System.out.println("-".repeat(80));
-  }
-
-  /**
-   * Prints the train dispatch.
-   */
-
-  private void printTrainDispatch() {
-    // if list is empty, print message and return to menu
-    if (listIsEmpty()) {
-      return;
+  private int validateNumericInput(String value) {
+    if (value.isEmpty()) {
+      throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
     }
-    System.out.println(trainDispatch);
+    int valueInt = Integer.parseInt(value);
+    if (valueInt < 0 || valueInt > 999) {
+      throw new IllegalArgumentException("Number has to be positive and max 3 digits.");
+    }
+    return valueInt;
   }
 }

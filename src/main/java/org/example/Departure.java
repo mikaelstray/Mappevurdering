@@ -1,13 +1,13 @@
 package org.example;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * <h1>Departure</h1>
+ * <h1>Departure.</h1>
  * <p>
  * This class represents a departure.
  * </p>
@@ -198,6 +198,7 @@ public class Departure {
   public String toString() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
+    // If delay is 0 or track is -1, don't show them
     String delayInfo = (delay == 0) ? "" : Integer.toString(delay);
     String trackInfo = (track == -1) ? "" : Integer.toString(track);
 
