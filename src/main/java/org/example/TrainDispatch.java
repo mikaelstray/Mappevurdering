@@ -21,7 +21,7 @@ import java.util.List;
  * </p>
  *
  * @author Mikael Stray Froeyshov
- * @version 1.0
+ * @version 1.2
  * @since 2023-11-02
  */
 public class TrainDispatch {
@@ -39,8 +39,19 @@ public class TrainDispatch {
   /**
    * The current time used for various time-based operations.
    */
-  private LocalTime time = LocalTime.now();
+  private LocalTime time;
 
+  /**
+   * Constructs a TrainDispatch object with the current time.
+   */
+
+  public TrainDispatch() {
+    this.time = LocalTime.now();
+  }
+
+  public TrainDispatch(LocalTime time) {
+    this.time = time;
+  }
 
   /**
    * Gets the current time used for various time-based operations.
@@ -94,6 +105,14 @@ public class TrainDispatch {
   }
 
   /**
+   * Removes the departures from the departure list that are before the current time.
+   */
+
+  private void removeDepartureIfBeforeCurrentTime() {
+    departureList.removeIf(d -> d.getTime().plusMinutes(d.getDelay()).isBefore(time));
+  }
+
+  /**
    * Removes the departures from the departure list that are before the current time, updates the
    * number of departures and sorts the list by time plus delay.
    *
@@ -102,8 +121,7 @@ public class TrainDispatch {
 
   public List<Departure> sortedList() {
     // Remove the departures that are before the current time
-    departureList.removeIf(departure -> departure.getTime().plusMinutes(departure.getDelay())
-            .isBefore(time));
+    removeDepartureIfBeforeCurrentTime();
 
     // Update the number of departures
     numberOfDepartures = departureList.size();
@@ -208,13 +226,13 @@ public class TrainDispatch {
     sb.append("|").append(" ".repeat(32)).append("Train Dispatch");
     sb.append(" ".repeat(32)).append("|\n");
     sb.append("|  ").append(numberOfDepartures).append(departureInfo);
-    sb.append(" ".repeat(57)).append(formatter.format(time)).append("   |\n");
+    sb.append(" ".repeat(57)).append(formatter.format(time)).append("  |\n");
     sb.append("-".repeat(80)).append("\n");
     sb.append("|  Time   |   Line  |   Train number  |   Destination   |   Delay   |   Track  |\n");
     sb.append("-".repeat(80)).append("\n");
     // Append each departure to the string builder from the sorted list
     sortedList().forEach(sb::append);
-    sb.append("\n").append("-".repeat(80)).append("\n\n");
+    sb.append("-".repeat(80)).append("\n\n");
 
     return sb.toString();
   }
