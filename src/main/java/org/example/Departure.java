@@ -13,7 +13,7 @@ import java.util.Objects;
  * </p>
  *
  * @author Mikael Stray Froeyshov
- * @version 1.0
+ * @version 1.1
  * @since 2023-11-02
  */
 
@@ -199,8 +199,8 @@ public class Departure {
     String delayInfo = (delay == 0) ? "" : Integer.toString(delay);
     String trackInfo = (track == -1) ? "" : Integer.toString(track);
 
-    return String.format("%-14s %-12s %-15d %-17s %-11s %-4s %-10s",
+    return String.format("%-14s %-12s %-15d %-17s %-11s %-4s %-1s",
               "|  " + formatter.format(time), line, trainNumber,
-              destination, delayInfo, trackInfo, "|");
+              destination, delayInfo, trackInfo, "|\n");
   }
 }
