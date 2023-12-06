@@ -9,7 +9,7 @@ package org.example;
  * @since 2023-11-02
  */
 
-public class Main {
+public class TrainDispatchApp {
 
   /**
    * The main method initializes and starts the user interface.

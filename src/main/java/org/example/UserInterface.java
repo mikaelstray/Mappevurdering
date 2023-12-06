@@ -14,12 +14,9 @@ import java.util.Scanner;
  * </p>
  * <p>
  * This class is responsible for handling user choices such as listing departures,
- * adding or removing departures, and updating departure information with validation of inputs.
+ * adding or removing departures, printing the dispatch, and updating departure information.
  * It uses the TrainDispatch class to retrieve and manipulate departure data, and the
  * UserInputHandler class to get and validate user input.
- * </p>
- * <p>
- * The class also has methods for printing the train dispatch and the departures.
  * </p>
  *
  * @author Mikael Stray Froeyshov
@@ -29,7 +26,6 @@ import java.util.Scanner;
 
 public class UserInterface {
 
-  // Instance variables
   private TrainDispatch trainDispatch;
   private UserInputHandler userInputHandler;
   private Scanner scanner;
@@ -85,8 +81,9 @@ public class UserInterface {
    * @return The user's choice as an enum constant (MenuChoice).
    */
 
-  private MenuChoice getUserChoice() {
+  private MenuChoice getUserChoice() throws IllegalArgumentException {
     System.out.print("Enter your choice (1-9): ");
+    // The while-loop will run as long as the user has not entered a valid number
     while (true) {
       try {
         int choice = Integer.parseInt(scanner.nextLine());
@@ -172,6 +169,8 @@ public class UserInterface {
 
   /**
    * Creates a new departure from user input. Validates every input.
+   * <b>Note:</b> trainDispatch instance is passed as parameter to use methods from TrainDispatch
+   * class to validate input.
    *
    * @return The new departure.
    */
@@ -183,6 +182,7 @@ public class UserInterface {
   /**
    * Method to ensure right train number format and getting input when finding a departure.
    * <b>Note:</b> Made to avoid code duplication.
+   *
    * @return The user input as an integer.
    */
 
@@ -191,7 +191,9 @@ public class UserInterface {
   }
 
   /**
-   * Checks if the list is empty.
+   * Checks if the list is empty and prints a message if it is.
+   *
+   * @return true if the list is empty, false otherwise.
    */
 
   private boolean listIsEmpty() {
@@ -226,10 +228,10 @@ public class UserInterface {
 
   /**
    * Adds a departure to the list.
+   * <b>Note:</b> departure is already validated in createDepartureFromUserInput().
    */
 
   private void addDeparture() {
-    // departure is already validated in createDepartureFromUserInput()
     trainDispatch.registerDeparture(createDepartureFromUserInput());
     System.out.print("\nDeparture was successfully added");
   }
@@ -303,7 +305,7 @@ public class UserInterface {
     }
 
     System.out.println("Track?");
-    int track = userInputHandler.validateNumericInput();
+    int track = userInputHandler.validateAndGetNumericInput();
     trainDispatch.setTrack(trainNumber, track);
     System.out.println("\n Track for departure with train number "
             + trainNumber + " was set to " + track);
@@ -321,11 +323,11 @@ public class UserInterface {
     int trainNumber = validateAndGetTrainNumberToFindDeparture();
 
     // if user wants to exit
-    if (trainNumber == 0) { // if user wants to exit
+    if (trainNumber == 0) {
       return;
     }
     System.out.println("Delay?");
-    int delay = userInputHandler.validateNumericInput();
+    int delay = userInputHandler.validateAndGetNumericInput();
 
     trainDispatch.setDelay(trainNumber, delay);
     System.out.println("\n Delay for departure with train number "
@@ -337,7 +339,9 @@ public class UserInterface {
    */
 
   private void updateTime() {
-    LocalTime newTime = userInputHandler.validateAndGetTime(trainDispatch);
+    LocalTime timeNow = trainDispatch.getTime();
+    // The timeNow variable is used to ensure that the user can only update the time to a later time
+    LocalTime newTime = userInputHandler.validateAndGetTime(timeNow);
 
     trainDispatch.setTime(newTime);
     System.out.println("\n Time was updated to " + formatter.format(newTime));
