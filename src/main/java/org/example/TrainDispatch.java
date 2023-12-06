@@ -13,11 +13,11 @@ import java.util.List;
  * retrieval, and modification of departure information.
  * </p>
  * <p>
- * It also keeps count of the number of
- * departures and the current local time. Validations are performed in the UserInterface class.
+ * It also keeps count of the number of departures and the current local time.
  * </p>
  * <p>
- * <b>Note:</b> The parameters in each method are assumed to be validated in the UI class.
+ * <b>Note:</b> Validations are performed in the UserInterface class and parameters in each method
+ * are assumed to be validated before use.
  * </p>
  *
  * @author Mikael Stray Froeyshov
@@ -29,7 +29,7 @@ public class TrainDispatch {
   /**
    * List of train departures.
    */
-  private final ArrayList<Departure> departureList = new ArrayList<>();
+  private final List<Departure> departureList = new ArrayList<>();
 
   /**
    * Number of registered departures.
@@ -48,6 +48,13 @@ public class TrainDispatch {
   public TrainDispatch() {
     this.time = LocalTime.now();
   }
+
+  /**
+   * Constructs a TrainDispatch object with a specified time, in case the user wants to
+   * start the application with a specific time.
+   *
+   * @param time The current time.
+   */
 
   public TrainDispatch(LocalTime time) {
     this.time = time;
@@ -116,7 +123,7 @@ public class TrainDispatch {
    * Removes the departures from the departure list that are before the current time, updates the
    * number of departures and sorts the list by time plus delay.
    *
-   * @return A new array of departures sorted by time plus delay.
+   * @return A new list of departures sorted by time plus delay.
    */
 
   public List<Departure> sortedList() {
@@ -126,7 +133,7 @@ public class TrainDispatch {
     // Update the number of departures
     numberOfDepartures = departureList.size();
 
-    // Sort the list by time plus delay and return an array
+    // Sort the list by time plus delay and return a list
     return departureList.stream()
             .sorted(Comparator.comparing(Departure::getScheduledArrival))
             .toList();

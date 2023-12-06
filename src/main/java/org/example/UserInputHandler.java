@@ -6,8 +6,8 @@ import java.util.Scanner;
 /**
  * <h1>UserInputHandler.</h1>
  * <p>
- * This class handles user input, creates a Departure object after using the InputValidator class
- * to validate the input.
+ * This class handles user input by cooperating with the InputValidator class to return the input
+ * when it is valid. It also handles the creation of a new Departure object.
  * </p>
  *
  * @author Mikael Stray Froeyshov
@@ -22,7 +22,7 @@ public class UserInputHandler {
 
   // String constants
   private static final String PLEASE_TRY_AGAIN = " Please try again: ";
-  private static final String WRONG_FORMAT = "Wrong format. ";
+  private static final String WRONG_FORMAT = "Wrong format. Please try again: ";
 
   /**
    * Method that uses the class methods to validate and get user input
@@ -33,7 +33,9 @@ public class UserInputHandler {
 
   public Departure createDepartureFromUserInput(TrainDispatch trainDispatch) {
 
-    LocalTime time = validateAndGetTime(trainDispatch);
+    // The timeNow variable is used to ensure that the user can only update the time to a later time
+    LocalTime timeNow = trainDispatch.getTime();
+    LocalTime time = validateAndGetTime(timeNow);
 
     String line = validateAndGetLine();
 
@@ -56,12 +58,11 @@ public class UserInputHandler {
    * @return The user input as a LocalTime object.
    */
 
-  public LocalTime validateAndGetTime(TrainDispatch trainDispatch) {
+  public LocalTime validateAndGetTime(LocalTime timeNow) {
     System.out.println("Time? In format (hh:mm): ");
     // asks for right format until user input is valid
     while (true) {
       String newTime = scanner.nextLine();
-      LocalTime timeNow = trainDispatch.getTime();
       try {
         // if input is valid (validation method does not throw exception), return new time
         return InputValidator.validateTimeInput(newTime, timeNow);
@@ -77,7 +78,7 @@ public class UserInputHandler {
   /**
    * Method to ensure right line format and getting input when creating a new departure.
    *
-   * @return The user input as an integer.
+   * @return The user input as a String.
    */
 
   private String validateAndGetLine() {
@@ -97,7 +98,7 @@ public class UserInputHandler {
   /**
    * Method to ensure right train number format and getting input when creating a new departure.
    *
-   * @return The user input as an integer.
+   * @return The user input as an Integer.
    */
 
   private int validateAndGetTrainNumber(TrainDispatch trainDispatch) {
@@ -139,7 +140,7 @@ public class UserInputHandler {
   /**
    * Method to ensure right train number format and getting input when finding a departure.
    *
-   * @return The user input as an integer.
+   * @return The user input as an Integer.
    */
 
   public int validateTrainNumberToFindDeparture(TrainDispatch trainDispatch) {
@@ -165,7 +166,7 @@ public class UserInputHandler {
   /**
    * Method to ensure right destination format and getting input when finding a departure.
    *
-   * @return The user input as an integer.
+   * @return The user input as an Integer.
    */
 
   public String validateDestinationToFindDeparture(TrainDispatch trainDispatch) {
@@ -189,7 +190,7 @@ public class UserInputHandler {
   /**
    * Method to ensure right track or delay format and getting input when setting track or delay.
    *
-   * @return The user input as an integer.
+   * @return The user input as an Integer.
    */
 
   public int validateNumericInput() {

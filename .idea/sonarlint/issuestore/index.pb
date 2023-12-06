@@ -5,8 +5,6 @@ X
 (src/main/java/org/example/Departure.java,6\e\6e852f5d86696011130a983775a0027cc87692ba
 \
 ,src/main/java/org/example/UserInterface.java,8\f\8fa41e63b64d85c8e568fd2f74558b626e4dac3e
-S
-#src/main/java/org/example/Main.java,0\b\0ba1b9c7a4878802f938e331cc2d8a042087ec6b
 \
 ,src/main/java/org/example/TrainDispatch.java,3\2\325ffe23477b4ef3ec307ee2c9a601449780b02a
 S
@@ -25,3 +23,7 @@ U
 -src/main/java/org/example/InputValidator.java,2\3\23704076c2f594af808828119a5a824b9274329a
 _
 /src/main/java/org/example/UserInputHandler.java,0\b\0b6094a80e20ee11db302b98af2540dc0505c1e5
+_
+/src/main/java/org/example/TrainDispatchApp.java,a\a\aa8cd7df2cc37c1b4556ad64fc7a46a102237ac1
+a
+1src/test/java/org/example/InputValidatorTest.java,1\0\10cd7b5a21740344c20bfd9a113339f57877730c

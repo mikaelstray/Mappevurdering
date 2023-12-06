@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
  * <h1>InputValidator.</h1>
  * <p>
  * This class contains all the methods that validates user input, throwing exceptions
- * if the input is not valid.
+ * if the input is not valid. Methods are used in the UserInputHandler class.
  * </p>
  *
  * @author Mikael Stray Froeyshov
@@ -23,13 +23,14 @@ public class InputValidator {
    * Method to ensure right time format when creating a new departure.
    * Ensures that the time user input is not empty or before the current time.
    *
-   * @param newTime The user input as a String.
+   * @param newTime The new time as a String.
    * @param timeNow The current time as a LocalTime object.
    * @return The user input as a LocalTime object.
    * @throws IllegalArgumentException if the input is empty or before the current time.
    */
 
-  public static LocalTime validateTimeInput(String newTime, LocalTime timeNow) {
+  public static LocalTime validateTimeInput(String newTime, LocalTime timeNow)
+          throws IllegalArgumentException {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     if (newTime.isEmpty()) {
       throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
@@ -51,7 +52,7 @@ public class InputValidator {
    * @throws IllegalArgumentException if the input is not valid
    */
 
-  public static String validateLineInput(String line) {
+  public static String validateLineInput(String line) throws IllegalArgumentException {
     if (line.isEmpty() || line.equals("0")) {
       throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
     } else if (line.length() > 5) {
@@ -68,11 +69,13 @@ public class InputValidator {
    * and is a positive number between 1 and 9999.
    *
    * @param trainNumber The user input as a String.
+   * @param trainDispatch The TrainDispatch instance.
    * @return The user input as an integer.
-   * @throws IllegalArgumentException if the input is empty, not a number or not between 1 and 9999.
+   * @throws IllegalArgumentException if the input is empty, a duplicate or not between 1 and 9999.
    */
 
-  public int validateTrainNumber(String trainNumber, TrainDispatch trainDispatch) {
+  public int validateTrainNumber(String trainNumber, TrainDispatch trainDispatch)
+          throws IllegalArgumentException {
     if (trainNumber.isEmpty()) {
       throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
     }
@@ -90,18 +93,18 @@ public class InputValidator {
    * Method to ensure right destination format when creating a new departure.
    * Ensures that the destination user input is not empty and only contains letters.
    *
-   * @param input The user input as a String.
+   * @param destination The user input as a String.
    * @return The user input as a String.
-   * @throws IllegalArgumentException if the input is empty or is not only letters.
+   * @throws IllegalArgumentException if the input is empty or contains anything else than letters.
    */
 
-  public static String validateDestination(String input) {
-    if (input.isEmpty()) {
+  public static String validateDestination(String destination) throws IllegalArgumentException {
+    if (destination.isEmpty()) {
       throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
-    } else if (!input.matches("^[ A-Za-z]+$")) {
+    } else if (!destination.matches("^[ A-Za-z]+$")) {
       throw new IllegalArgumentException("Destination can only contain letters. ");
     }
-    return input;
+    return destination;
   }
 
   /**
@@ -110,11 +113,13 @@ public class InputValidator {
    * and is a positive number between 1 and 9999.
    *
    * @param trainNumber The user input as a String.
+   * @param trainDispatch The TrainDispatch instance.
    * @return The user input as an integer.
    * @throws IllegalArgumentException if the input is empty, not a number or not between 1 and 9999.
    */
 
-  public int validateTrainNumberToFind(String trainNumber, TrainDispatch trainDispatch) {
+  public int validateTrainNumberToFind(String trainNumber, TrainDispatch trainDispatch)
+          throws IllegalArgumentException {
     if (trainNumber.isEmpty()) {
       throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
     }
@@ -134,11 +139,13 @@ public class InputValidator {
    * and consists of only letters.
    *
    * @param destination The user input as a String.
+   * @param trainDispatch The TrainDispatch instance.
    * @return The user input as a String.
    * @throws IllegalArgumentException if the input is not valid
    */
 
-  public String validateDestinationToFind(String destination, TrainDispatch trainDispatch) {
+  public String validateDestinationToFind(String destination, TrainDispatch trainDispatch)
+          throws IllegalArgumentException {
     if (destination.isEmpty()) {
       throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
     } else if (!destination.matches("^[ A-Za-z0]+$")) {
@@ -158,7 +165,7 @@ public class InputValidator {
    * @throws IllegalArgumentException if the input is empty, not a number or not between 1 and 999.
    */
 
-  public static int validateNumericInput(String value) {
+  public static int validateNumericInput(String value) throws IllegalArgumentException {
     if (value.isEmpty()) {
       throw new IllegalArgumentException(INPUT_CANNOT_BE_EMPTY);
     }
