@@ -21,8 +21,8 @@ public class UserInputHandler {
   private final Scanner scanner = new Scanner(System.in);
 
   // String constants
-  private static final String PLEASE_TRY_AGAIN = " Please try again. ";
-  private static final String WRONG_FORMAT = "Wrong format. Please try again: ";
+  private static final String PLEASE_TRY_AGAIN = " Please try again: ";
+  private static final String WRONG_FORMAT = "Wrong format. ";
 
   /**
    * Method that uses the class methods to validate and get user input
