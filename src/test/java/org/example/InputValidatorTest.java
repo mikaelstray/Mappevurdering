@@ -122,6 +122,7 @@ class InputValidatorTest {
     trainDispatch.setTime(LocalTime.of(12, 0));
     Departure departure = new Departure(LocalTime.of(12, 1), "A", 1234, "Bergen", 1, 0);
     trainDispatch.registerDeparture(departure);
+    trainDispatch.setTime(LocalTime.of(12, 0));
     assertThrows(IllegalArgumentException.class, () -> inputValidator.validateDestinationToFind("Oslo", trainDispatch));
     assertDoesNotThrow(() -> inputValidator.validateDestinationToFind("Bergen", trainDispatch));
   }
