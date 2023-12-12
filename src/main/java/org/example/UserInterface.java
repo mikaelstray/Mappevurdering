@@ -139,7 +139,7 @@ public class UserInterface {
           updateTime();
           break;
         case EXIT:
-          System.out.println("Thank you for using the Properties app!\n");
+          System.out.println("Thank you for using the Train Dispatch!\n");
           finished = true;
           break;
         // User choice input is validated in userChoice() method,
@@ -261,6 +261,9 @@ public class UserInterface {
    */
 
   private void findDepartureByNumber() {
+    if (listIsEmpty()) {
+      return;
+    }
     int trainNumber = validateAndGetTrainNumberToFindDeparture();
 
     // if user chose 0 to exit when choosing train number, return to menu
@@ -276,6 +279,9 @@ public class UserInterface {
    */
 
   private void findDeparturesByDestination() {
+    if (listIsEmpty()) {
+      return;
+    }
     String destination = userInputHandler.validateDestinationToFindDeparture(trainDispatch);
 
     // if user chose 0 to exit when choosing destination, return to menu
