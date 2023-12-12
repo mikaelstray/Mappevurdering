@@ -88,6 +88,7 @@ class InputValidatorTest {
   void validateTrainNumber_duplicateNumber_throwsException() {
     Departure departure = new Departure(LocalTime.of(12, 1), "A", 1234, "B", 1, 0);
     trainDispatch.registerDeparture(departure);
+    trainDispatch.setTime(LocalTime.of(12, 0));
     assertThrows(IllegalArgumentException.class, () -> inputValidator.validateTrainNumber("1234", trainDispatch));
   }
 
@@ -95,6 +96,7 @@ class InputValidatorTest {
   void validateTrainNumberToFind_nonDuplicateNumber_throwsException() {
     Departure departure = new Departure(LocalTime.of(12, 1), "A", 1234, "B", 1, 0);
     trainDispatch.registerDeparture(departure);
+    trainDispatch.setTime(LocalTime.of(12, 0));
     assertThrows(IllegalArgumentException.class, () -> inputValidator.validateTrainNumberToFind("123", trainDispatch));
     assertDoesNotThrow(() -> inputValidator.validateTrainNumberToFind("1234", trainDispatch));
   }
@@ -119,6 +121,7 @@ class InputValidatorTest {
   void validateDestinationToFind_nonDuplicateDestination_throwsException() {
     Departure departure = new Departure(LocalTime.of(12, 1), "A", 1234, "Bergen", 1, 0);
     trainDispatch.registerDeparture(departure);
+    trainDispatch.setTime(LocalTime.of(12, 0));
     assertThrows(IllegalArgumentException.class, () -> inputValidator.validateDestinationToFind("Oslo", trainDispatch));
     assertDoesNotThrow(() -> inputValidator.validateDestinationToFind("Bergen", trainDispatch));
   }
